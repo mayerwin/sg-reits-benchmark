@@ -20,9 +20,9 @@
       "icr_note": "Adjusted ICR per MAS revised Code on Collective Investment Schemes (28 Nov 2025) basis",
       "wace_pct": 3.2,
       "wace_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
-      "pct_fixed_debt": 74.0,
+      "pct_fixed_debt": 74,
       "pct_fixed_debt_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
-      "wadm_years": 4.0,
+      "wadm_years": 4,
       "wadm_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
       "dpu_ttm_cents": 11.58,
       "dpu_ttm_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
@@ -35,7 +35,7 @@
       "occupancy_pct": 96.9,
       "occupancy_note": "Portfolio committed occupancy 96.9% as at 31 Dec 2025 per FY 2025 results slide 5 (down 0.3 ppts QoQ). Prior v1 estimate of 96.4% was a weighted segment estimate; replaced with the manager-disclosed blended figure.",
       "occupancy_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
-      "wale_years": 3.0,
+      "wale_years": 3,
       "wale_basis": "GRI",
       "wale_note": "Portfolio WALE 3.0 years (down 0.2 ppts QoQ) disclosed at the blended portfolio level on FY 2025 results slide 5. Segment WALEs: Retail 1.9y, Office 3.2y, Integrated 4.3y.",
       "wale_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
@@ -45,9 +45,13 @@
       "aum_total": "S$27.4B",
       "aum_total_value_sgd_billions": 27.4,
       "aum_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
-      "top10_tenant_pct": 16.0,
+      "top10_tenant_pct": 16,
       "top10_tenant_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
-      "geographic_split": { "Singapore": 95, "Australia": 3, "Germany": 2 },
+      "geographic_split": {
+        "Singapore": 95,
+        "Australia": 3,
+        "Germany": 2
+      },
       "geographic_split_basis": "% of investment property valuation",
       "geographic_split_source": "https://investor.cict.com.sg/newsroom/1c_CICT_Slides_FY_2025_Financial_Results_Final.pdf",
       "property_yield_pct": 4.34,
@@ -68,7 +72,7 @@
       "report_date": "2026-02-05",
       "report_date_source": "https://www.capitaland.com/content/dam/capitaland-newsroom/International/2026/february/clar-fy2025-results/3.%20Presentation%20Slides%20CLAR%202025%20Financial%20Results_5Feb2026.pdf",
       "report_url": "https://www.capitaland.com/content/dam/capitaland-newsroom/International/2026/february/clar-fy2025-results/3.%20Presentation%20Slides%20CLAR%202025%20Financial%20Results_5Feb2026.pdf",
-      "gearing_pct": 39.0,
+      "gearing_pct": 39,
       "gearing_source": "https://www.capitaland.com/content/dam/capitaland-newsroom/International/2026/february/clar-fy2025-results/3.%20Presentation%20Slides%20CLAR%202025%20Financial%20Results_5Feb2026.pdf",
       "icr_x": 3.6,
       "icr_source": "https://www.capitaland.com/content/dam/capitaland-newsroom/International/2026/february/clar-fy2025-results/3.%20Presentation%20Slides%20CLAR%202025%20Financial%20Results_5Feb2026.pdf",
@@ -101,7 +105,12 @@
       "top10_tenant_pct": 16.3,
       "top10_tenant_note": "Top 10 customers contribute 16.3% by gross revenue; total 1,731 tenants",
       "top10_tenant_source": "https://www.capitaland.com/content/dam/capitaland-newsroom/International/2026/february/clar-fy2025-results/3.%20Presentation%20Slides%20CLAR%202025%20Financial%20Results_5Feb2026.pdf",
-      "geographic_split": { "Singapore": 68, "Australia": 12, "United States": 11, "United Kingdom/Europe": 9 },
+      "geographic_split": {
+        "Singapore": 68,
+        "Australia": 12,
+        "United States": 11,
+        "United Kingdom/Europe": 9
+      },
       "geographic_split_basis": "% of AUM (investment property value)",
       "geographic_split_source": "https://www.capitaland.com/content/dam/capitaland-newsroom/International/2026/february/clar-fy2025-results/3.%20Presentation%20Slides%20CLAR%202025%20Financial%20Results_5Feb2026.pdf",
       "property_yield_pct": 5.87,
@@ -112,7 +121,9 @@
       "perpetual_securities_note": "CLAR has S$302.4M of Green Perpetual Securities outstanding as at 31 Dec 2025 (S$300M issued Sep 2020 at 3.0% + accretion). The S$300M Series 002 Green Perpetuals issued in 3Q 2025 at 3.18% are also included. Headline gearing of 39.0% excludes perpetuals (per MAS Property Funds Guidelines treatment of perpetuals as equity). Gearing including perpetuals = (gross borrowings + perpetuals) / total assets. Estimated as (gross debt ~S$7.74B + S$0.302B perps) / total assets S$19.85B ~= 40.5%. The Manager additionally states 'aggregate leverage rose to 42.0% at 31 Mar 2026 (1Q FY2026)' after recent acquisitions, expected to drop to ~37.3% after S$903.5M equity fundraising.",
       "forward_dpu_guidance": "Manager emphasizes selective and proactive capital deployment in developed markets with robust fundamentals; no explicit numeric DPU guidance. Note that aggregate leverage rose to 42.0% at 31 Mar 2026 (1Q FY2026) after recent acquisitions, expected to drop to ~37.3% after S$903.5M equity fundraising completed.",
       "forward_dpu_guidance_source": "https://www.capitaland.com/content/dam/capitaland-newsroom/International/2026/february/clar-fy2025-results/3.%20Presentation%20Slides%20CLAR%202025%20Financial%20Results_5Feb2026.pdf",
-      "_missing": ["dpu_last_period_cents"],
+      "_missing": [
+        "dpu_last_period_cents"
+      ],
       "_notes": "v2 fixes: (i) geographic_split_source replaced (thesingaporeaninvestor.sg -> CLAR FY2025 slide deck p. 24 'Asset Value S$18.2B 68% SG / 11% US / 12% AUS / 9% UK-EU'); (ii) property_yield_pct added (5.87%); (iii) gearing_pct_incl_perps added (~40.5%) with note on S$302M green perpetuals."
     },
     "HMN": {
@@ -124,12 +135,12 @@
       "report_url": "https://investor.capitalandascotttrust.com/newsroom/20260129_193948_HMN_SGAL896UEOH9JR5Q.4.pdf",
       "gearing_pct": 37.7,
       "gearing_source": "https://investor.capitalandascotttrust.com/newsroom/20260129_193948_HMN_SGAL896UEOH9JR5Q.4.pdf",
-      "icr_x": 3.0,
+      "icr_x": 3,
       "icr_source": "https://investor.capitalandascotttrust.com/newsroom/20260129_193948_HMN_SGAL896UEOH9JR5Q.4.pdf",
       "icr_note": "MAS-adjusted interest cover as at 31 Dec 2025",
       "wace_pct": 2.9,
       "wace_source": "https://investor.capitalandascotttrust.com/newsroom/20260129_193948_HMN_SGAL896UEOH9JR5Q.4.pdf",
-      "pct_fixed_debt": 78.0,
+      "pct_fixed_debt": 78,
       "pct_fixed_debt_source": "https://investor.capitalandascotttrust.com/newsroom/20260129_193948_HMN_SGAL896UEOH9JR5Q.4.pdf",
       "wadm_years": 3.4,
       "wadm_source": "https://investor.capitalandascotttrust.com/newsroom/20260129_193948_HMN_SGAL896UEOH9JR5Q.4.pdf",
@@ -170,7 +181,12 @@
       "perpetual_securities_note": "CLAS has S$407.2M of perpetual securities outstanding as at 31 Dec 2025 (S$150M @ 4.60% issued 7 Aug 2024 + S$260M @ 4.20% issued 28 May 2025 - issue costs). Headline gearing of 37.7% excludes perpetuals. Total assets S$8,947.4M. Gross borrowings approximately (37.7% * 8,947.4) = S$3,373M; including perpetuals: (3,373 + 407.2) / 8,947.4 = 42.3%.",
       "forward_dpu_guidance": "Manager commits to delivering 'stable distributions' (DPS held flat at 6.10 S cents YoY); plans target allocation of 25-30% to Living Sector and 70-75% to hospitality; five planned AEIs through 2027. No explicit numeric DPS guidance.",
       "forward_dpu_guidance_source": "https://investor.capitalandascotttrust.com/newsroom/20260129_193948_HMN_SGAL896UEOH9JR5Q.2.pdf",
-      "_missing": ["wale_years", "wale_basis", "top10_tenant_pct", "geographic_split"],
+      "_missing": [
+        "wale_years",
+        "wale_basis",
+        "top10_tenant_pct",
+        "geographic_split"
+      ],
       "_notes": "v2 fixes: (i) forward_dpu_guidance_source moved from capitaland.com press release to the primary SGXNet PDF (.2.pdf); (ii) property_yield_pct added (4.96%); (iii) gearing_pct_incl_perps added (42.3%) with S$407M perpetuals note; (iv) replaced capitaland.com press release URL with primary SGXNet PDF for forward_dpu_guidance_source."
     },
     "M44U": {
@@ -188,7 +204,7 @@
       "wace_pct": 2.6,
       "wace_note": "Weighted average borrowing cost for 4Q FY25/26 maintained at 2.6% p.a.",
       "wace_source": "https://investor.mapletreelogisticstrust.com/newsroom/20260430_172457_M44U_TXH8JYF5PSXPHTKX.2.pdf",
-      "pct_fixed_debt": 83.0,
+      "pct_fixed_debt": 83,
       "pct_fixed_debt_note": "~83% of total debt hedged into fixed rates; ~75% of next-12-months income hedged into SGD",
       "pct_fixed_debt_source": "https://investor.mapletreelogisticstrust.com/newsroom/20260430_172457_M44U_TXH8JYF5PSXPHTKX.2.pdf",
       "wadm_years": 3.6,
@@ -228,7 +244,10 @@
       "perpetual_securities_note": "MLT has S$180M of 5.2074% fixed-rate perpetual securities outstanding (issued via SGD-MTN programme, classified as equity). Headline aggregate leverage 40.6% (per MAS Property Funds Guidelines) excludes perpetuals from numerator; the slide footnote discloses 'total debt (including perpetual securities) to net asset value ratio 85.9% as at 31 March 2026'. Computing perps-included aggregate leverage: gross debt approx (40.6% * total assets S$13,695M) = S$5,560M; (5,560 + 180) / 13,695 = 41.9%.",
       "forward_dpu_guidance": "Manager remains vigilant amid Middle East conflict & supply chain uncertainty; immediate priorities: tenant retention, prudent cost & active lease management. Higher borrowing costs and currency volatility expected to weigh on financial performance. No numeric guidance.",
       "forward_dpu_guidance_source": "https://investor.mapletreelogisticstrust.com/newsroom/20260430_172457_M44U_TXH8JYF5PSXPHTKX.2.pdf",
-      "_missing": ["top10_tenant_pct", "geographic_split"],
+      "_missing": [
+        "top10_tenant_pct",
+        "geographic_split"
+      ],
       "_notes": "v2 fixes: (i) nav_per_unit populated S$1.26 from full slide deck (previously null); (ii) icr_x populated 3.6x from full slide deck (previously null); (iii) report_url upgraded to full slide deck .3.pdf which is more comprehensive than press-release .2.pdf; (iv) property_yield_pct added (4.67%); (v) gearing_pct_incl_perps added (~41.9%) with S$180M perpetuals note; (vi) geographic and top10 sources upgraded from .2.pdf press release to .3.pdf full slide deck."
     },
     "ME8U": {
@@ -238,10 +257,10 @@
       "report_date": "2026-04-28",
       "report_date_source": "https://investor.mapletreeindustrialtrust.com/newsroom/20260428_201404_ME8U_B5K5LXJU7I2F5UP8.2.pdf",
       "report_url": "https://investor.mapletreeindustrialtrust.com/newsroom/20260428_201404_ME8U_B5K5LXJU7I2F5UP8.3.pdf",
-      "gearing_pct": 34.0,
+      "gearing_pct": 34,
       "gearing_note": "Aggregate leverage 34.0% as at 31 Mar 2026; expected to rise to ~37.5% after redemption of existing S$300M Series 002 perpetuals (May 2026) using drawn debt",
       "gearing_source": "https://investor.mapletreeindustrialtrust.com/newsroom/20260428_201404_ME8U_B5K5LXJU7I2F5UP8.2.pdf",
-      "icr_x": 4.0,
+      "icr_x": 4,
       "icr_source": "https://investor.mapletreeindustrialtrust.com/newsroom/20260428_201404_ME8U_B5K5LXJU7I2F5UP8.3.pdf",
       "wace_pct": 3.2,
       "wace_note": "Average borrowing cost rose from 3.1% (3Q) to 3.2% (4Q FY25/26) on swap expiries",
@@ -277,7 +296,11 @@
       "top10_tenant_pct": 30.6,
       "top10_tenant_note": "Top 10 tenants ~30.6% of GRI; largest tenant 6.5% of portfolio GRI; >2,000 tenants",
       "top10_tenant_source": "https://investor.mapletreeindustrialtrust.com/newsroom/20260428_201404_ME8U_B5K5LXJU7I2F5UP8.3.pdf",
-      "geographic_split": { "North America": 46.5, "Singapore": 46.3, "Japan": 7.2 },
+      "geographic_split": {
+        "North America": 46.5,
+        "Singapore": 46.3,
+        "Japan": 7.2
+      },
       "geographic_split_basis": "% of AUM by geography",
       "geographic_split_source": "https://investor.mapletreeindustrialtrust.com/newsroom/20260428_201404_ME8U_B5K5LXJU7I2F5UP8.3.pdf",
       "property_yield_pct": 6.03,
@@ -308,13 +331,13 @@
       "pct_fixed_debt": 75.1,
       "pct_fixed_debt_note": "% of Fixed Rate Debt 75.1% (vs 71.8% prior quarter); 75% of total debt hedged into fixed; ~95% of distributable income in SGD or hedged",
       "pct_fixed_debt_source": "https://links.sgx.com/FileOpen/20260428_MPACT%204Q%20FY2526%20Results%20Presentation.ashx?App=Announcement&FileID=886205",
-      "wadm_years": 3.0,
+      "wadm_years": 3,
       "wadm_note": "Average term to maturity of debt 3.0 years (prior 3.3y)",
       "wadm_source": "https://links.sgx.com/FileOpen/20260428_MPACT%204Q%20FY2526%20Results%20Presentation.ashx?App=Announcement&FileID=886205",
       "dpu_ttm_cents": 7.97,
       "dpu_ttm_note": "FY25/26 DPU 7.97 cents (vs 8.02 prior); underlying 8.11 cents excluding one-off tax on Festival Walk Tower divestment (+1.1% YoY)",
       "dpu_ttm_source": "https://links.sgx.com/FileOpen/20260428_MPACT%204Q%20FY2526%20Results%20Presentation.ashx?App=Announcement&FileID=886205",
-      "dpu_last_period_cents": 1.90,
+      "dpu_last_period_cents": 1.9,
       "dpu_last_period_note": "4Q FY25/26 DPU",
       "dpu_last_period_source": "https://links.sgx.com/FileOpen/20260428_MPACT%204Q%20FY2526%20Results%20Presentation.ashx?App=Announcement&FileID=886205",
       "dpu_currency": "SGD",
@@ -338,7 +361,10 @@
       "top10_tenant_pct": 21.4,
       "top10_tenant_note": "Overall top 10 tenants contribute 21.4% of GRI (as at 31 March 2026)",
       "top10_tenant_source": "https://links.sgx.com/FileOpen/20260428_MPACT%204Q%20FY2526%20Results%20Presentation.ashx?App=Announcement&FileID=886205",
-      "geographic_split": { "Singapore": 61, "Hong Kong + China + Japan + South Korea (overseas)": 39 },
+      "geographic_split": {
+        "Singapore": 61,
+        "Hong Kong + China + Japan + South Korea (overseas)": 39
+      },
       "geographic_split_basis": "% of investment property valuation",
       "geographic_split_note": "Singapore S$9,291M / 61% (incl. VivoCity, MBC, mTower, Festival Walk SG); Overseas S$5,920M / 39% (Festival Walk HK, Gateway Plaza Beijing, Sandhill Plaza Shanghai, Japan portfolio incl. Makuhari, Pinnacle Gangnam Korea).",
       "geographic_split_source": "https://links.sgx.com/FileOpen/20260428_MPACT%204Q%20FY2526%20Results%20Presentation.ashx?App=Announcement&FileID=886205",
@@ -369,7 +395,7 @@
       "wace_pct": 3.16,
       "wace_note": "Weighted average cost of debt 3.16% p.a. for 1Q 2026; 3.27% excluding equity bridge loans (repaid 20 Jan 2026)",
       "wace_source": "https://www.keppel.com/file/media/2026/apr/21-apr-kreit/1-kreit-1q-2026-financial-highlights.pdf",
-      "pct_fixed_debt": 62.0,
+      "pct_fixed_debt": 62,
       "pct_fixed_debt_note": "62% of total borrowings on fixed rates (incl. share of external borrowings at JV level)",
       "pct_fixed_debt_source": "https://www.keppel.com/file/media/2026/apr/21-apr-kreit/1-kreit-1q-2026-financial-highlights.pdf",
       "wadm_years": 2.6,
@@ -400,18 +426,26 @@
       "top10_tenant_pct": null,
       "top10_tenant_note": "Top 10 tenants' WALE 8.0 years disclosed; % of GRI not in business update",
       "top10_tenant_source": null,
-      "geographic_split": { "Singapore": 78.9, "Australia": 18.1, "South Korea": 2.3, "Japan": 0.7 },
+      "geographic_split": {
+        "Singapore": 78.9,
+        "Australia": 18.1,
+        "South Korea": 2.3,
+        "Japan": 0.7
+      },
       "geographic_split_basis": "% of portfolio value",
       "geographic_split_source": "https://www.keppel.com/file/media/2026/apr/21-apr-kreit/1-kreit-1q-2026-financial-highlights.pdf",
       "property_yield_pct": 3.87,
       "property_yield_note": "Computed as FY2025 NPI S$215.9M (directly-held properties only, excluding JV share which is recognised as 'share of associates and JVs') / directly-held investment properties S$5,573M (balance-sheet IP at 31 Dec 2025) = 3.87%. Not directly comparable to portfolio AUM of S$11.8B because that includes JV-held assets at 100% value while NPI excludes JV NPI. NPI Attributable to Unitholders FY2025 was S$196.8M; on the wider S$11.8B AUM basis the implied attributable NPI yield is closer to 4.5-5% but cannot be computed cleanly without manager-disclosed JV NPI in the same period.",
       "property_yield_source": "https://www.keppel.com/file/media/2026/02-feb/20260204-kreit-fy-2025/kreit-fy-2025-unaudited-results.pdf",
-      "gearing_pct_incl_perps": 44.2,
+      "gearing_pct_incl_perps": 45.3,
       "gearing_pct_incl_perps_source": "https://www.keppel.com/file/media/2026/02-feb/20260204-kreit-fy-2025/kreit-fy-2025-unaudited-results.pdf",
-      "perpetual_securities_note": "Keppel REIT has S$402.8M of perpetual securities outstanding as at 31 Dec 2025: S$300M 3.78% issued 11 Aug 2025 + S$100M 3.28% issued 27 Nov 2025; both classified as equity. Note: a prior S$300M perpetual was redeemed on 11 Sep 2025. Headline gearing 40.2% (1Q 2026, post equity-bridge-loan repayment) excludes perpetuals. Gross borrowings approximately (40.2% * 11,800M AUM-proxy denominator) = S$4,744M; including perpetuals: (4,744 + 402.8) / 11,800 = 43.6%. Using the FY2025 audited deposited-property base instead (total assets S$9,979M directly held + JV share): with gross debt of S$3,757M (per FY2025 statements) + S$402.8M perpetuals over S$9,979M total assets = 41.7%; using the proportionate-consolidation AUM base of S$11.8B (which matches the way MAS allows aggregate leverage to be computed with proportionate JV inclusion) and proportionately-included gross debt S$4.74B + perps S$0.40B / S$11.8B = 43.6%. Conservative estimate: 44.2% (uses the higher end of MAS proportionate methodology including S$402.8M perpetuals). Manager does not publish a perpetuals-inclusive aggregate leverage figure directly.",
+      "perpetual_securities_note": "Keppel REIT has S$402.8M of perpetual securities outstanding as at 31 Dec 2025: S$300M 3.78% issued 11 Aug 2025 + S$100M 3.28% issued 27 Nov 2025; both classified as equity. Note: a prior S$300M perpetual was redeemed on 11 Sep 2025. Headline gearing 40.2% (1Q 2026, post equity-bridge-loan repayment) excludes perpetuals. Gross borrowings approximately (40.2% * 11,800M AUM-proxy denominator) = S$4,744M; including perpetuals: (4,744 + 402.8) / 11,800 = 43.6%. Using the FY2025 audited deposited-property base instead (total assets S$9,979M directly held + JV share): with gross debt of S$3,757M (per FY2025 statements) + S$402.8M perpetuals over S$9,979M total assets = 41.7%; using the proportionate-consolidation AUM base of S$11.8B (which matches the way MAS allows aggregate leverage to be computed with proportionate JV inclusion) and proportionately-included gross debt S$4.74B + perps S$0.40B / S$11.8B = 43.6%. Conservative estimate: 44.2% (uses the higher end of MAS proportionate methodology including S$402.8M perpetuals). Manager does not publish a perpetuals-inclusive aggregate leverage figure directly. Incl-perps gearing = 40.2% + S$402.8M perps / S$7,853M deposited property = 45.3%. (FY2025 reported leverage of 47.9% included a transitory equity bridge loan repaid 20 Jan 2026.)",
       "forward_dpu_guidance": "Manager (Chua Hsien Yang): Keppel REIT anchored by robust underlying performance & favourable market fundamentals (Singapore CBD Grade A average signing rent S$13.26 psf pm vs S$11.98 expiring in FY2026 = positive reversion runway). No numeric DPU guidance. Sell-side analysts (DBS, UOB) trimmed FY2026 DPU estimates by 3-5% on cost headwinds; all-in cost of debt rose from 3.2% to 3.8% YoY.",
       "forward_dpu_guidance_source": "https://www.keppel.com/file/media/2026/apr/21-apr-kreit/1-kreit-1q-2026-financial-highlights.pdf",
-      "_missing": ["num_properties", "top10_tenant_pct"],
+      "_missing": [
+        "num_properties",
+        "top10_tenant_pct"
+      ],
       "_notes": "v2 fixes: (i) dpu_ttm_cents populated 5.23 cents from FY2025 unaudited results (previously null); (ii) nav_per_unit populated S$1.28 from FY2025 unaudited results (previously null - was incorrectly marked unavailable; the 1Q 2026 update doesn't refresh NAV but the FY2025 results announcement does); (iii) property_yield_pct added (3.87% on directly-held basis, with caveat about JV-included calculation); (iv) gearing_pct_incl_perps added (~44.2% conservative) with S$402.8M perpetuals note covering both Aug 2025 and Nov 2025 issuances."
     },
     "AJBU": {
@@ -461,7 +495,17 @@
       "top10_tenant_pct": null,
       "top10_tenant_note": "Top 10 clients are predominantly Fortune Global 500 hyperscalers. Hyperscaler share of rental income rose to 69.3% as at 31 Dec 2025 (vs 61.1% a year earlier). Specific top-10 concentration % not explicitly stated in the 1Q 2026 update PDF or FY2025 press release - the slide deck shows the chart but no extractable %.",
       "top10_tenant_source": "https://www.keppel.com/file/media/2026/apr/16-apr-kdcreit/mrel-kdcr-1q-2026-operational-updates.pdf",
-      "geographic_split": { "Singapore": 62.7, "Japan": 13.6, "Ireland": 5.4, "Australia": 4.4, "The Netherlands": 4.0, "China": 3.7, "Germany": 2.8, "Italy": 1.0, "Other Europe/Asia": 2.4 },
+      "geographic_split": {
+        "Singapore": 62.7,
+        "Japan": 13.6,
+        "Ireland": 5.4,
+        "Australia": 4.4,
+        "The Netherlands": 4,
+        "China": 3.7,
+        "Germany": 2.8,
+        "Italy": 1,
+        "Other Europe/Asia": 2.4
+      },
       "geographic_split_basis": "% of portfolio by Asia Pacific 84.7% / Europe 15.3% with country-level breakdowns; based on FY2025 rental income unless otherwise stated",
       "geographic_split_source": "https://www.keppel.com/file/media/2026/apr/16-apr-kdcreit/mrel-kdcr-1q-2026-operational-updates.pdf",
       "property_yield_pct": 6.25,
@@ -472,7 +516,9 @@
       "perpetual_securities_note": "Keppel DC REIT has NO perpetual securities outstanding as at 31 Dec 2025. The FY2025 unaudited results note explicitly references that the ICR formula divides EBITDA by 'interest expense, borrowing-related fees and distributions on hybrid securities' but no hybrid securities are disclosed on the balance sheet. (The 'Perpetual (Asia) Limited' references in the document are to the trustee company name, not perpetual securities.) Headline gearing of 35.1% therefore needs no adjustment.",
       "forward_dpu_guidance": "Manager emphasises 'disciplined growth' in hyperscale data centres and asset optimisation. Active strategic expansion: completed acquisition of remaining interests in Keppel DC Singapore 3 & 4 on 12 Feb 2026 (now 100%), Tokyo Data Centre 3 driving NPI growth. Rental reversion +50.3% in 1Q 2026. Currency hedge maintained at ~71% for overseas portfolio. No explicit numeric DPU guidance.",
       "forward_dpu_guidance_source": "https://www.keppel.com/file/media/2026/apr/16-apr-kdcreit/mrel-kdcr-1q-2026-operational-updates.pdf",
-      "_missing": ["top10_tenant_pct"],
+      "_missing": [
+        "top10_tenant_pct"
+      ],
       "_notes": "v2 fixes: (i) aum_source replaced (minichart.com.sg -> KDC FY2025 unaudited results which discloses investment properties S$6,133.4M at 31 Dec 2025); (ii) nav_per_unit populated S$1.71 from FY2025 unaudited results (previously null - was incorrectly marked as semi-annual-only; the FY2025 results released 30 Jan 2026 do disclose NAV per Unit at 31 Dec 2025); (iii) dpu_ttm_cents populated 10.381 cents from FY2025 results (previously null); (iv) property_yield_pct added (6.25%, the highest in this group reflecting data-centre sector premium); (v) gearing_pct_incl_perps confirmed null (KDC has no perpetuals); (vi) payout_ratio (per the task brief) not added because the manager does not publish a 'payout ratio' figure - distributions are computed as 100% of distributable income after setting aside Capex Reserves and ULP Reserves, which is structurally not a % of accounting net income (Yahoo's payout ratio was based on net income inflated by fair-value gains, which is why it returned an unreliable value)."
     }
   }

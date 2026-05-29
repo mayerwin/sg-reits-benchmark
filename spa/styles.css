@@ -203,6 +203,10 @@ legend { padding: 0; display: block; width: 100%; }
 .meta-label { color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
 .meta-val { color: var(--text-1); text-align: right; margin: 0; font-variant-numeric: tabular-nums; }
 
+/* Mobile rail scrim (behind the slide-in filter panel). Only ever visible on mobile —
+   see the @media block below; on desktop the rail is docked and needs no scrim. */
+.rail-scrim { position: fixed; inset: 0; background: rgba(8, 8, 12, 0.6); z-index: 55; display: none; }
+
 /* Mobile rail toggle */
 .rail-toggle {
   display: none;
@@ -1096,7 +1100,9 @@ legend { padding: 0; display: block; width: 100%; }
   border-bottom: none;
   cursor: pointer;
 }
-.ctx-item:hover, .ctx-item:hover a { background: var(--acc-deeper); color: var(--text-0); }
+.ctx-item:hover, .ctx-item:hover a,
+.ctx-item:focus, .ctx-item:focus a { background: var(--acc-deeper); color: var(--text-0); outline: none; }
+.ctx-item:focus-visible { outline: 2px solid var(--acc); outline-offset: -2px; }
 .ctx-item a:hover { color: var(--acc-bright); }
 .ctx-item.is-disabled { color: var(--text-4); font-style: italic; cursor: default; }
 .ctx-item.is-disabled:hover { background: transparent; }
@@ -1149,6 +1155,7 @@ legend { padding: 0; display: block; width: 100%; }
     box-shadow: 24px 0 64px rgba(0,0,0,0.55);
   }
   .rail.is-open { transform: translateX(0); }
+  .rail-scrim:not([hidden]) { display: block; }
   .rail-toggle { display: inline-flex; }
   .masthead {
     grid-template-columns: 1fr;

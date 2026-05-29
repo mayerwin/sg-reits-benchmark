@@ -8,12 +8,16 @@ on:
     branches: [main]
     paths:
       - 'spa/**'
+      - 'data/data.json'      # daily-refresh commits this → triggers a redeploy
       - 'docs/**'
       - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
-  workflow_run:
-    workflows: ['Daily market data refresh']
-    types: [completed]
+
+# Note: we deliberately do NOT use a workflow_run trigger on the daily refresh.
+# The daily-refresh job commits spa/data.json + data/data.json, and that push
+# triggers this workflow via the paths filter above — so deploys happen exactly
+# once per data change, with no double-fire. If the refresh makes no change it
+# commits nothing, so no needless deploy.
 
 permissions:
   contents: read
@@ -26,7 +30,6 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

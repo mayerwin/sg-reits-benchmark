@@ -14,10 +14,16 @@
  * Each merged record carries per-field provenance (source URL + when it was fetched).
  *
  * The merger DERIVES some metrics:
- *   - distribution_yield_ttm (computed from DPU/price OR taken from Yahoo if facts missing)
- *   - cash_earnings_yield = distributable_income / market_cap   (when DI is reported)
- *   - composite quality score (per METHODOLOGY.md weighting)
+ *   - distribution_yield_ttm (computed from manager DPU/price, OR Yahoo's headline if facts missing)
+ *   - yield_gap_yahoo_vs_manager (Yahoo headline minus manager-DPU yield — flags capital top-ups)
+ *   - p_nav (manager NAV preferred, Yahoo price-to-book fallback) + p_nav_source
+ *   - gearing_pct_incl_perps passthrough (perpetual-securities-inclusive leverage)
+ *   - composite quality score (per docs/METHODOLOGY.md §7 weighting)
  *   - "passes_user_screen" boolean: gearing < 40% AND market_cap >= 200M trading-currency
+ *
+ * NOTE: there is intentionally NO "cash_earnings_yield" field. (dpu_ttm × shares / mcap)
+ * is algebraically identical to (dpu_ttm / price) = distribution_yield_ttm, so emitting it
+ * separately would mislead. See the long comment in the record-building map below.
  *
  * Re-run after either Yahoo or facts files refresh.
  */
@@ -214,7 +220,7 @@ function scoreOperations({ occupancy_pct, wale_years, sector }) {
 /**
  * Distribution score.
  *
- * IMPORTANT: high yield is NOT high quality. Yields above ~8% in S-REITs are almost always
+ * IMPORTANT: high yield is NOT high quality. Yields above ~9% in S-REITs are almost always
  * a signal of distress (gearing/refi risk, falling DPU, value trap) rather than opportunity.
  * The score peaks in the 5.5–7% band and decays both above and below.
  */

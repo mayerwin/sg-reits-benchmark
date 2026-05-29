@@ -134,6 +134,7 @@ const STATE = {
   columns: new Set(DEFAULT_COLUMNS),
   hiddenReits: new Set(),
   lastFocusBeforeDrawer: null,
+  lastModalTrigger: null,
 };
 
 function savePrefs() {
@@ -147,7 +148,8 @@ function savePrefs() {
       yieldMin: STATE.yieldMin, yieldMax: STATE.yieldMax,
       mcapMin: STATE.mcapMin, mcapMax: STATE.mcapMax,
       userScreen: STATE.userScreen,
-      columns: [...STATE.columns],
+      // Never persist an empty column set — fall back to default so a reload can't load blank.
+      columns: STATE.columns.size ? [...STATE.columns] : [...DEFAULT_COLUMNS],
       hiddenReits: [...STATE.hiddenReits],
     };
     localStorage.setItem(LS_KEY, JSON.stringify(p));
@@ -159,15 +161,23 @@ function loadPrefs() {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) return;
     const p = JSON.parse(raw);
-    if (p.sort) STATE.sort = p.sort;
+    // Validate sort.key against known columns + 'quality'; ignore a stale/garbage key.
+    const validSortKeys = new Set([...ALL_COLUMNS.map(c => c.key), 'quality']);
+    if (p.sort && typeof p.sort === 'object' && validSortKeys.has(p.sort.key)) {
+      STATE.sort = { key: p.sort.key, asc: !!p.sort.asc };
+    }
     if (typeof p.search === 'string') STATE.search = p.search;
     if (Array.isArray(p.sectors)) STATE.sectors = new Set(p.sectors);
     if (Array.isArray(p.currencies)) STATE.currencies = new Set(p.currencies);
     for (const k of ['gearingMin','gearingMax','yieldMin','yieldMax','mcapMin','mcapMax']) {
-      if (typeof p[k] === 'number') STATE[k] = p[k];
+      if (typeof p[k] === 'number' && Number.isFinite(p[k])) STATE[k] = p[k];
     }
     if (typeof p.userScreen === 'boolean') STATE.userScreen = p.userScreen;
-    if (Array.isArray(p.columns) && p.columns.length) STATE.columns = new Set(p.columns);
+    // Only restore columns that still exist in ALL_COLUMNS; ignore empty/garbage.
+    if (Array.isArray(p.columns)) {
+      const valid = p.columns.filter(c => ALL_COLUMNS.some(ac => ac.key === c));
+      if (valid.length) STATE.columns = new Set(valid);
+    }
     if (Array.isArray(p.hiddenReits)) STATE.hiddenReits = new Set(p.hiddenReits);
   } catch {}
 }
@@ -280,39 +290,51 @@ function init() {
   tbody.addEventListener('touchend', () => { if (touchTimer) clearTimeout(touchTimer); });
   tbody.addEventListener('touchmove', () => { if (touchTimer) clearTimeout(touchTimer); });
 
-  // Drawer close + focus trap
-  $$('[data-close]').forEach(el => el.addEventListener('click', closeAllOverlays));
+  // Overlay close. Each [data-close] closes only ITS overlay (drawer scrim/× closes drawer;
+  // modal scrim/× closes modal). Escape closes only the topmost overlay (modal > drawer).
+  $$('#drawer [data-close]').forEach(el => el.addEventListener('click', closeDrawer));
+  $$('#modal [data-close]').forEach(el => el.addEventListener('click', closeModal));
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeAllOverlays();
+    if (e.key !== 'Escape') return;
+    if (!$('#ctx-menu').hidden) { hideContextMenu(); return; }
+    if (!$('#modal').hidden) { closeModal(); return; }       // modal is above the drawer
+    if (!$('#drawer').hidden) { closeDrawer(); return; }
+    if ($('#rail').classList.contains('is-open')) { closeRail(); return; }
   });
   $('#drawer').addEventListener('keydown', trapFocus($('#drawer .drawer__panel')));
   $('#modal').addEventListener('keydown', trapFocus($('#modal .modal__panel')));
 
-  // Action buttons
-  $('#columns-btn').addEventListener('click', openColumnsModal);
-  $('#hidden-btn').addEventListener('click', openHiddenModal);
-  $('#help-btn').addEventListener('click', openHelpModal);
+  // Action buttons (each records its trigger so focus returns there on close)
+  $('#columns-btn').addEventListener('click', (e) => openColumnsModal(e.currentTarget));
+  $('#hidden-btn').addEventListener('click', (e) => openHiddenModal(e.currentTarget));
+  $('#help-btn').addEventListener('click', (e) => openHelpModal(e.currentTarget));
   $('#open-methodology').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(); });
   $('#open-methodology-foot').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(); });
   $('#open-playbook-foot').addEventListener('click', (e) => { e.preventDefault(); openPlaybookModal(); });
 
-  // Mobile rail toggle
+  // Mobile rail toggle + scrim
   $('#rail-toggle').addEventListener('click', () => {
     const rail = $('#rail');
-    const open = rail.classList.toggle('is-open');
-    $('#rail-toggle').setAttribute('aria-expanded', String(open));
+    rail.classList.contains('is-open') ? closeRail() : openRail();
   });
+  $('#rail-scrim').addEventListener('click', closeRail);
 
-  // Close context menu on outside click
+  // Close context menu on outside click; hide menu+tooltip on any scroll or resize
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#ctx-menu')) hideContextMenu();
   });
+  const dismissFloaters = () => { hideContextMenu(); $('#tooltip').hidden = true; };
+  window.addEventListener('scroll', dismissFloaters, true); // capture: catches inner .table-scroll
+  window.addEventListener('resize', dismissFloaters);
 
   // Tooltip system (hover/focus on [data-tip])
   document.addEventListener('mouseover', showTipFromEvent);
   document.addEventListener('mouseout', hideTipFromEvent);
   document.addEventListener('focusin', showTipFromEvent);
   document.addEventListener('focusout', hideTipFromEvent);
+
+  // Modal content handlers (bound once)
+  initModalDelegation();
 
   // Restore active chips
   for (const s of STATE.sectors) $(`#sector-filter .chip[data-sector="${cssEscape(s)}"]`)?.classList.add('is-on');
@@ -516,14 +538,35 @@ function openDrawer(ticker) {
   setTimeout(() => $('.drawer__panel', drawer)?.focus(), 30);
 }
 
-function closeAllOverlays() {
-  if (!$('#drawer').hidden) {
-    $('#drawer').hidden = true;
-    $$('#reit-rows tr').forEach(t => t.classList.remove('is-active'));
-    if (STATE.lastFocusBeforeDrawer) { STATE.lastFocusBeforeDrawer.focus(); STATE.lastFocusBeforeDrawer = null; }
+function closeDrawer() {
+  const drawer = $('#drawer');
+  if (drawer.hidden) return;
+  drawer.hidden = true;
+  $$('#reit-rows tr').forEach(t => t.classList.remove('is-active'));
+  if (STATE.lastFocusBeforeDrawer) { STATE.lastFocusBeforeDrawer.focus(); STATE.lastFocusBeforeDrawer = null; }
+}
+
+function closeModal() {
+  const m = $('#modal');
+  if (m.hidden) return;
+  m.hidden = true;
+  // Reset the trigger's aria-expanded and return focus to it.
+  if (STATE.lastModalTrigger) {
+    STATE.lastModalTrigger.setAttribute?.('aria-expanded', 'false');
+    STATE.lastModalTrigger.focus?.();
+    STATE.lastModalTrigger = null;
   }
-  if (!$('#modal').hidden) { $('#modal').hidden = true; }
-  hideContextMenu();
+}
+
+function openRail() {
+  $('#rail').classList.add('is-open');
+  $('#rail-scrim').hidden = false;
+  $('#rail-toggle').setAttribute('aria-expanded', 'true');
+}
+function closeRail() {
+  $('#rail').classList.remove('is-open');
+  $('#rail-scrim').hidden = true;
+  $('#rail-toggle').setAttribute('aria-expanded', 'false');
 }
 
 function trapFocus(panel) {
@@ -736,9 +779,9 @@ function showContextMenu(x, y, ticker, col) {
   const menu = $('#ctx-menu');
   menu.innerHTML = items.map((it, i) => {
     if (it.sep) return `<li class="ctx-sep" role="separator"></li>`;
-    if (it.href) return `<li class="ctx-item" role="menuitem"><a href="${esc(it.href)}" target="_blank" rel="noopener">${esc(it.label)}</a></li>`;
-    if (it.disabled) return `<li class="ctx-item is-disabled" role="menuitem">${esc(it.label)}</li>`;
-    return `<li class="ctx-item" role="menuitem" data-i="${i}">${esc(it.label)}</li>`;
+    if (it.href) return `<li class="ctx-item" role="menuitem" tabindex="-1"><a href="${esc(it.href)}" target="_blank" rel="noopener" tabindex="-1">${esc(it.label)}</a></li>`;
+    if (it.disabled) return `<li class="ctx-item is-disabled" role="menuitem" aria-disabled="true">${esc(it.label)}</li>`;
+    return `<li class="ctx-item" role="menuitem" tabindex="-1" data-i="${i}">${esc(it.label)}</li>`;
   }).join('');
   menu.hidden = false;
   // Position, clamp to viewport
@@ -748,26 +791,68 @@ function showContextMenu(x, y, ticker, col) {
   const py = Math.min(y, window.innerHeight - h - 6);
   menu.style.left = px + 'px'; menu.style.top = py + 'px';
 
+  // Remember the cell that opened the menu so Escape can return focus there.
+  CTX.originCell = document.activeElement && document.activeElement.closest?.('td[data-col]') || null;
+
+  const activate = (li) => {
+    if (!li) return;
+    const a = li.querySelector('a');
+    if (a) { window.open(a.href, '_blank', 'noopener'); hideContextMenu(); return; }
+    const fn = items[Number(li.dataset.i)]?.action;
+    if (fn) fn();
+    hideContextMenu();
+  };
+  // Action items (no anchor) activate via JS.
   menu.querySelectorAll('.ctx-item[data-i]').forEach(li => {
-    li.addEventListener('click', () => {
-      const fn = items[Number(li.dataset.i)]?.action;
-      if (fn) fn();
-      hideContextMenu();
-    });
+    li.addEventListener('click', () => activate(li));
   });
+  // Anchor items navigate natively; just close the menu after the click.
+  menu.querySelectorAll('.ctx-item a').forEach(a => {
+    a.addEventListener('click', () => hideContextMenu());
+  });
+
+  // Keyboard: focus first actionable item; arrows to move; Enter/Space to activate; Esc to close.
+  const focusables = [...menu.querySelectorAll('.ctx-item:not(.is-disabled)')];
+  setTimeout(() => focusables[0]?.focus(), 0);
+  menu.onkeydown = (e) => {
+    const idx = focusables.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); focusables[(idx + 1) % focusables.length]?.focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); focusables[(idx - 1 + focusables.length) % focusables.length]?.focus(); }
+    else if (e.key === 'Home') { e.preventDefault(); focusables[0]?.focus(); }
+    else if (e.key === 'End') { e.preventDefault(); focusables[focusables.length - 1]?.focus(); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(document.activeElement); }
+    else if (e.key === 'Escape') { e.preventDefault(); hideContextMenu(); }
+  };
 }
-function hideContextMenu() { const m = $('#ctx-menu'); if (m) m.hidden = true; }
+const CTX = { originCell: null };
+function hideContextMenu() {
+  const m = $('#ctx-menu');
+  if (!m || m.hidden) return;
+  m.hidden = true;
+  m.onkeydown = null;
+  if (CTX.originCell) { CTX.originCell.focus?.(); CTX.originCell = null; }
+}
 
 /* =====================  MODALS  ===================== */
 
-function openModal(title, html) {
+function openModal(title, html, trigger = null) {
   const m = $('#modal');
-  $('#modal-content').innerHTML = `<h2 class="modal__title" id="modal-title">${title}</h2>${html}`;
+  const wasHidden = m.hidden;
+  // `title` is always a static string literal from the callers; escape defensively anyway.
+  // `html` is built by the callers with esc() applied to any dynamic content.
+  $('#modal-content').innerHTML = `<h2 class="modal__title" id="modal-title">${esc(title)}</h2>${html}`;
+  // Only capture the trigger on the FIRST open — preserve it across in-modal re-renders
+  // (e.g. Columns "reset to default" or Hidden "unhide" which re-call the open function).
+  if (wasHidden) {
+    STATE.lastModalTrigger = trigger || document.activeElement;
+    trigger?.setAttribute?.('aria-expanded', 'true');
+  }
   m.hidden = false;
+  $('.modal__panel', m).scrollTop = 0;
   setTimeout(() => $('.modal__panel', m)?.focus(), 30);
 }
 
-function openColumnsModal() {
+function openColumnsModal(trigger) {
   const items = ALL_COLUMNS.map(c => `<label class="col-toggle">
     <input type="checkbox" data-col="${esc(c.key)}" ${STATE.columns.has(c.key) ? 'checked' : ''} />
     <span>${esc(c.label)}</span>
@@ -777,22 +862,15 @@ function openColumnsModal() {
     <div class="col-toggle-list">${items}</div>
     <div class="modal__actions">
       <button type="button" id="cols-reset">Reset to default</button>
-    </div>`);
-  $('#modal-content').addEventListener('change', (e) => {
-    const cb = e.target.closest('input[data-col]'); if (!cb) return;
-    if (cb.checked) STATE.columns.add(cb.dataset.col); else STATE.columns.delete(cb.dataset.col);
-    savePrefs(); render();
-  });
-  $('#cols-reset').addEventListener('click', () => {
-    STATE.columns = new Set(DEFAULT_COLUMNS);
-    savePrefs(); openColumnsModal(); render();
-  });
+    </div>`, trigger);
+  // Handlers are bound ONCE at init via delegation (see initModalDelegation) — not here,
+  // to avoid stacking listeners on the persistent #modal-content node across re-opens.
 }
 
-function openHiddenModal() {
+function openHiddenModal(trigger) {
   if (STATE.hiddenReits.size === 0) {
     openModal('Hidden REITs', `<p class="modal__lead">You haven't hidden any REITs.</p>
-      <p>To hide a REIT, right-click any cell in its row, or open its detail drawer and click "hide this REIT".</p>`);
+      <p>To hide a REIT, right-click any cell in its row, or open its detail drawer and click "hide this REIT".</p>`, trigger);
     return;
   }
   const items = [...STATE.hiddenReits].map(t => {
@@ -804,13 +882,36 @@ function openHiddenModal() {
     <ul class="hidden-list">${items}</ul>
     <div class="modal__actions">
       <button type="button" id="unhide-all">Unhide all</button>
-    </div>`);
-  $('#modal-content').addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-unhide]');
-    if (btn) { toggleHidden(btn.dataset.unhide); openHiddenModal(); }
+    </div>`, trigger);
+}
+
+/** Single delegated handler set, bound once at init. Avoids listener accumulation on the
+ *  persistent #modal-content node across repeated modal opens. */
+function initModalDelegation() {
+  const content = $('#modal-content');
+  content.addEventListener('change', (e) => {
+    const cb = e.target.closest('input[data-col]'); if (!cb) return;
+    if (cb.checked) {
+      STATE.columns.add(cb.dataset.col);
+    } else {
+      if (STATE.columns.size <= 1) { cb.checked = true; return; } // keep >=1 column
+      STATE.columns.delete(cb.dataset.col);
+    }
+    savePrefs(); render();
   });
-  $('#unhide-all').addEventListener('click', () => {
-    STATE.hiddenReits.clear(); savePrefs(); render(); openHiddenModal();
+  content.addEventListener('click', (e) => {
+    if (e.target.closest('#cols-reset')) {
+      STATE.columns = new Set(DEFAULT_COLUMNS);
+      savePrefs(); render(); openColumnsModal();
+      return;
+    }
+    const unhide = e.target.closest('[data-unhide]');
+    if (unhide) { toggleHidden(unhide.dataset.unhide); openHiddenModal(); return; }
+    if (e.target.closest('#unhide-all')) {
+      STATE.hiddenReits.clear(); savePrefs(); render(); openHiddenModal();
+      return;
+    }
+    if (e.target.closest('#open-help-from-method')) { openHelpModal(); return; }
   });
 }
 
@@ -852,7 +953,7 @@ function openMethodologyModal() {
     <p><a href="https://github.com/${esc(window.GITHUB_REPO || 'your-user/sg-reits')}/blob/main/docs/METHODOLOGY.md" target="_blank" rel="noopener">Read METHODOLOGY.md on GitHub →</a></p>
     <p>Or view the Help page for a per-metric breakdown (click any metric definition for the same info).</p>
     <div class="modal__actions"><button type="button" id="open-help-from-method">Open Help instead</button></div>`);
-  $('#open-help-from-method').addEventListener('click', openHelpModal);
+  // #open-help-from-method handled by initModalDelegation
 }
 
 function openPlaybookModal() {
@@ -870,7 +971,8 @@ function toggleHidden(ticker) {
   if (STATE.hiddenReits.has(ticker)) STATE.hiddenReits.delete(ticker);
   else STATE.hiddenReits.add(ticker);
   savePrefs(); render();
-  if (!$('#drawer').hidden) closeAllOverlays();
+  // If the just-hidden REIT's drawer is open, close it (it's no longer in the table).
+  if (!$('#drawer').hidden && STATE.hiddenReits.has(ticker)) closeDrawer();
 }
 
 // Hook the "hide this REIT" button inside the drawer

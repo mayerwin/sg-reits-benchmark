@@ -35,25 +35,43 @@ const OUTPUT_PATH = path.join(DATA_DIR, 'yahoo.json');
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 /** Get a {cookie, crumb} pair to authorize quoteSummary calls. */
-async function getAuth() {
+async function getAuthOnce() {
   // Trigger fc.yahoo.com to set the A1/A3 cookies
   const seed = await fetch('https://fc.yahoo.com/', {
     headers: { 'User-Agent': UA, 'Accept': '*/*' },
     redirect: 'manual',
   });
   const setCookie = seed.headers.getSetCookie?.() ?? [];
-  // Build a Cookie header from the Set-Cookie values
   const cookie = setCookie.map(s => s.split(';')[0]).join('; ');
-  // Get the crumb
   const crumbRes = await fetch('https://query2.finance.yahoo.com/v1/test/getcrumb', {
     headers: { 'User-Agent': UA, 'Cookie': cookie, 'Accept': 'text/plain' },
   });
   if (!crumbRes.ok) throw new Error(`crumb endpoint ${crumbRes.status}`);
   const crumb = (await crumbRes.text()).trim();
-  if (!crumb || crumb.includes('Unauthorized')) {
-    throw new Error(`No crumb returned (cookies may have failed). Got: "${crumb}"`);
+  // A valid crumb is a short alphanumeric token. Yahoo returns an HTML/error page when it
+  // blocks the request (common from cloud/CI egress IPs).
+  if (!crumb || crumb.length > 32 || !/^[A-Za-z0-9._\-]+$/.test(crumb)) {
+    throw new Error(`No valid crumb returned (cookies/IP may be blocked). Got: "${crumb.slice(0, 40)}"`);
   }
   return { cookie, crumb };
+}
+
+/**
+ * Acquire auth with a few retries. If it ultimately fails (e.g. Yahoo blocks the CI runner's
+ * IP from the crumb endpoint), returns null so the run degrades to CHART-ONLY data — the
+ * v8 chart API needs no auth, so prices/52w/sparkline still refresh. quoteSummary fields
+ * (market cap, TTM yield, P/B) will be null for that run; the merger handles nulls gracefully.
+ */
+async function getAuth(retries = 3) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await getAuthOnce();
+    } catch (e) {
+      console.warn(`  auth attempt ${attempt}/${retries} failed: ${e.message}`);
+      if (attempt < retries) await new Promise(r => setTimeout(r, 1500 * attempt));
+    }
+  }
+  return null;
 }
 
 async function fetchChart(ticker) {
@@ -163,7 +181,7 @@ function downsamplePriceSeries(timestamps, closes, points = 60) {
   return out;
 }
 
-async function processOne(reit, auth) {
+async function processOne(reit, auth, priorByTicker) {
   const ticker = reit.ticker;
   const record = {
     ticker,
@@ -197,11 +215,26 @@ async function processOne(reit, auth) {
   } catch (e) {
     record.errors.push(`chart: ${e.message}`);
   }
-  try {
-    const qs = await fetchQuoteSummary(ticker, auth);
-    record.summary = extractSummary(qs);
-  } catch (e) {
-    record.errors.push(`summary: ${e.message}`);
+  if (auth) {
+    try {
+      const qs = await fetchQuoteSummary(ticker, auth);
+      record.summary = extractSummary(qs);
+    } catch (e) {
+      record.errors.push(`summary: ${e.message}`);
+    }
+  }
+  // If we have no fresh summary (chart-only run, or quoteSummary failed) carry forward the
+  // previous run's summary so a transient auth/crumb outage doesn't wipe market-cap/yield/P-B.
+  if (!record.summary) {
+    const prior = priorByTicker?.[ticker];
+    if (prior?.summary) {
+      record.summary = prior.summary;
+      record.summary_stale = true;
+      record.summary_stale_since = prior.fetched_at || prior.summary_stale_since || null;
+      record.errors.push('summary: carried forward from prior run (no fresh auth/quoteSummary)');
+    } else {
+      record.errors.push('summary: unavailable (no auth and no prior data to carry forward)');
+    }
   }
   return record;
 }
@@ -211,10 +244,21 @@ async function main() {
   const master = JSON.parse(masterRaw);
   const reits = master.reits;
 
+  // Read prior output (if any) so a chart-only run can carry forward summary fields.
+  let priorByTicker = {};
+  try {
+    const prior = JSON.parse(await fs.readFile(OUTPUT_PATH, 'utf8'));
+    priorByTicker = Object.fromEntries((prior.data || []).map(d => [d.ticker, d]));
+  } catch { /* first run — no prior */ }
+
   console.log('Acquiring Yahoo Finance auth (cookie + crumb)...');
   const auth = await getAuth();
-  console.log(`  cookie: ${auth.cookie ? auth.cookie.slice(0, 30) + '…' : '(none)'}`);
-  console.log(`  crumb: ${auth.crumb}`);
+  if (auth) {
+    console.log(`  cookie: ${auth.cookie ? auth.cookie.slice(0, 30) + '…' : '(none)'}`);
+    console.log(`  crumb: ${auth.crumb}`);
+  } else {
+    console.warn('  ⚠ No auth — running CHART-ONLY (prices/52w/sparkline refresh; market-cap/yield/P-B unavailable this run).');
+  }
 
   console.log(`Fetching Yahoo data for ${reits.length} REITs (concurrency=4)...`);
 
@@ -223,6 +267,7 @@ async function main() {
       generated_at: new Date().toISOString(),
       source: 'Yahoo Finance v8 chart + v10 quoteSummary',
       master_validated: master._meta.last_validated,
+      auth_mode: auth ? 'full' : 'chart-only',
     },
     data: [],
   };
@@ -232,7 +277,7 @@ async function main() {
     while (i < reits.length) {
       const my = i++;
       const r = reits[my];
-      const result = await processOne(r, auth);
+      const result = await processOne(r, auth, priorByTicker);
       out.data.push(result);
       const status = result.errors.length ? `ERR ${result.errors.join('; ')}` : `ok ($${result.chart?.regularMarketPrice} ${result.chart?.currency}, mcap=${result.summary?.marketCap})`;
       console.log(`[${my + 1}/${reits.length}] ${r.ticker} ${status}`);

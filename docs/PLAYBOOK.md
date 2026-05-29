@@ -240,15 +240,15 @@ Reads `data/reits_master.json`, `data/yahoo.json`, and any `data/reit_facts_grou
 
 For each REIT it:
 
-- Carries over the manager-disclosed fields verbatim
+- Carries over the manager-disclosed fields verbatim (gearing, gearing-incl-perps, ICR, WACE, property yield, DPU, NAV, WALE, occupancy, etc.)
 - Computes `distribution_yield_ttm`: prefers `dpu_ttm_cents / price` when fact-file DPU is present (excludes capital distributions); otherwise falls back to Yahoo's `dividendYield`
-- Computes `cash_earnings_yield = dpu_ttm_cents × shares_outstanding / market_cap` when both available (the "true profits" lens the user asked for)
-- Computes `p_nav` from manager NAV when present, else falls back to Yahoo's `priceToBook`
-- Scores each REIT on:
-  - **Leverage** (gearing, ICR, % fixed, debt maturity) — see METHODOLOGY.md thresholds
-  - **Distribution** (yield, payout sustainability)
+- Computes `yield_gap_yahoo_vs_manager` = Yahoo headline yield − manager-DPU yield. A positive gap flags that Yahoo's headline includes capital top-ups / income support the recurring DPU can't sustain. (There is intentionally NO separate `cash_earnings_yield` field — `dpu_ttm × shares / mcap` is algebraically identical to `dpu_ttm / price`, so it would duplicate the distribution yield under a misleading name.)
+- Computes `p_nav` from manager NAV when present, else falls back to Yahoo's `priceToBook` (tagged via `p_nav_source`)
+- Scores each REIT on (see `docs/METHODOLOGY.md` §7):
+  - **Leverage** (gearing, ICR, % fixed, debt maturity) — sector-aware thresholds
+  - **Distribution** (yield, sustainability — high yields >9% penalised as trap risk)
   - **Operations** (occupancy, WALE — sector-aware thresholds)
-  - **Composite** = weighted average (0.35 leverage + 0.30 distribution + 0.25 operations + 0.10 valuation)
+  - **Composite** = weighted average (**0.40 leverage + 0.30 distribution + 0.30 operations**; the valuation bucket is null for all REITs and re-normalised away)
 - Sets `passes_user_screen = true` if gearing < 40% AND market_cap ≥ 200M trading-currency
 
 ### Validation
