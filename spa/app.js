@@ -495,7 +495,8 @@ function resetFilters() {
   updateRangeLabels(); savePrefs(); render();
 }
 
-function passesFilters(r) {
+/** Categorical filters: hidden / search / sector / currency. */
+function passesCategorical(r) {
   if (STATE.hiddenReits.has(r.ticker)) return false;
   if (STATE.search) {
     const s = (r.ticker + ' ' + r.name + ' ' + (r.sponsor || '') + ' ' + (r.geography || '')).toLowerCase();
@@ -503,19 +504,26 @@ function passesFilters(r) {
   }
   if (STATE.sectors.size && !STATE.sectors.has(r.sector)) return false;
   if (STATE.currencies.size && !STATE.currencies.has(r.trading_currency)) return false;
-  if (STATE.gearingMin > 0 || STATE.gearingMax < 60) {
-    if (r.gearing_pct == null) return false;
-    if (r.gearing_pct < STATE.gearingMin || r.gearing_pct > STATE.gearingMax) return false;
-  }
-  if (STATE.yieldMin > 0 || STATE.yieldMax < 20) {
-    const y = r.distribution_yield_ttm == null ? null : r.distribution_yield_ttm * 100;
-    if (y == null) return false;
-    if (y < STATE.yieldMin || y > STATE.yieldMax) return false;
-  }
-  if (STATE.mcapMin > 0 || STATE.mcapMax < 20000) {
-    const mc = r.market_cap == null ? null : r.market_cap / 1e6;
-    if (mc == null) return false;
-    if (mc < STATE.mcapMin || mc > STATE.mcapMax) return false;
+  return true;
+}
+
+/** The numeric range filters that are currently narrowed from their full extent. */
+function activeRangeFilters() {
+  const a = [];
+  if (STATE.gearingMin > 0 || STATE.gearingMax < 60)
+    a.push({ label: 'gearing', value: r => r.gearing_pct, min: STATE.gearingMin, max: STATE.gearingMax });
+  if (STATE.yieldMin > 0 || STATE.yieldMax < 20)
+    a.push({ label: 'distribution yield', value: r => r.distribution_yield_ttm == null ? null : r.distribution_yield_ttm * 100, min: STATE.yieldMin, max: STATE.yieldMax });
+  if (STATE.mcapMin > 0 || STATE.mcapMax < 20000)
+    a.push({ label: 'market cap', value: r => r.market_cap == null ? null : r.market_cap / 1e6, min: STATE.mcapMin, max: STATE.mcapMax });
+  return a;
+}
+
+function passesFilters(r) {
+  if (!passesCategorical(r)) return false;
+  for (const f of activeRangeFilters()) {
+    const v = f.value(r);
+    if (v == null || v < f.min || v > f.max) return false;
   }
   return true;
 }
@@ -563,9 +571,32 @@ function render() {
   $('#visible-count').textContent = rows.length;
   updateHiddenCount();
 
+  // Note when a range filter has dropped REITs *because they don't report that metric*
+  // (you can't range-match a blank). Count only REITs that clear the categorical filters
+  // and fall within every range they DO report, but are missing a value for an active range.
   const noteEl = $('#filter-note');
-  const numericFiltered = STATE.gearingMin > 0 || STATE.gearingMax < 60 || STATE.yieldMin > 0 || STATE.yieldMax < 20 || STATE.mcapMin > 0 || STATE.mcapMax < 20000;
-  noteEl.textContent = numericFiltered ? '· filters exclude REITs without that disclosed value' : (STATE.hiddenReits.size ? `· ${STATE.hiddenReits.size} hidden` : '');
+  const ranges = activeRangeFilters();
+  let note = '';
+  if (ranges.length) {
+    const droppedForMissing = DATA.reits.filter(r => {
+      if (!passesCategorical(r)) return false;
+      let missing = false;
+      for (const f of ranges) {
+        const v = f.value(r);
+        if (v == null) missing = true;          // not reported
+        else if (v < f.min || v > f.max) return false; // genuinely out of range, not a coverage gap
+      }
+      return missing;
+    }).length;
+    if (droppedForMissing) {
+      const metrics = ranges.map(f => f.label).join(' / ');
+      const one = droppedForMissing === 1;
+      note = `· ${droppedForMissing} REIT${one ? '' : 's'} not shown — ${one ? "doesn't" : "don't"} report ${metrics}, so the range filter can't include ${one ? 'it' : 'them'}`;
+    }
+  } else if (STATE.hiddenReits.size) {
+    note = `· ${STATE.hiddenReits.size} hidden`;
+  }
+  noteEl.textContent = note;
 
   const tbody = $('#reit-rows');
   if (!rows.length) {
