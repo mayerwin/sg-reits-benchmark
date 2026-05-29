@@ -267,10 +267,12 @@ function buildFilterDefs() {
   }
 }
 
-/** Range filters currently narrowed from their full bounds. */
+/** Range filters that are narrowed AND whose column is currently visible.
+ *  A hidden column's range is preserved in STATE.ranges but neither shown nor applied,
+ *  so re-showing the column restores its filter (no invisible filtering). */
 function activeRangeFilters() {
   return FILTER_DEFS
-    .filter(d => STATE.ranges[d.key])
+    .filter(d => STATE.ranges[d.key] && STATE.columns.has(d.key))
     .map(d => {
       const [lo, hi] = STATE.ranges[d.key];
       return { label: d.label, value: d.value, min: lo, max: hi };
@@ -280,7 +282,9 @@ function activeRangeFilters() {
 function buildRangeFilters() {
   const wrap = $('#range-filters');
   if (!wrap) return;
-  wrap.innerHTML = FILTER_DEFS.map(d => {
+  // Only show a slider for columns currently visible in the table.
+  const defs = FILTER_DEFS.filter(d => STATE.columns.has(d.key));
+  wrap.innerHTML = defs.map(d => {
     const cur = STATE.ranges[d.key] || d.bound;
     const narrowed = !!STATE.ranges[d.key];
     const valTxt = narrowed ? `${d.fmt(cur[0])}–${d.fmt(cur[1])}` : 'any';
@@ -296,7 +300,7 @@ function buildRangeFilters() {
       </div>
     </div>`;
   }).join('');
-  FILTER_DEFS.forEach(d => updateDualUI(d.key));
+  defs.forEach(d => updateDualUI(d.key));
 }
 
 function updateDualUI(key) {
@@ -1153,11 +1157,13 @@ function initModalDelegation() {
       if (STATE.columns.size <= 1) { cb.checked = true; return; } // keep >=1 column
       STATE.columns.delete(cb.dataset.col);
     }
+    buildRangeFilters();   // show/hide the matching range filter with its column
     savePrefs(); render();
   });
   content.addEventListener('click', (e) => {
     if (e.target.closest('#cols-reset')) {
       STATE.columns = new Set(DEFAULT_COLUMNS);
+      buildRangeFilters();
       savePrefs(); render(); openColumnsModal();
       return;
     }
