@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>S-REIT Benchmark — Singapore REIT Screener</title>
   <meta name="description" content="Authoritative Singapore REIT screener. Live market data from Yahoo Finance, REIT-specific metrics from manager IR filings only. Built for sophisticated investors." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="mask-icon" href="favicon.svg" color="#4FD3B8" />
+  <meta name="theme-color" content="#0F1014" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -121,9 +124,15 @@
         <div class="hint" id="table-hint">Click a row for detail · right-click any value for source &amp; actions</div>
       </div>
 
-      <!-- Synced horizontal scrollbar that sticks just below the column headers, so it's
-           always reachable without scrolling to the bottom of a tall table. -->
+      <!-- Synced horizontal scrollbar, pinned to the viewport top so it's always reachable. -->
       <div class="hbar" id="hbar" aria-hidden="true"><div class="hbar__inner" id="hbar-inner"></div></div>
+
+      <!-- Floating header clone: a JS-synced copy of the column headers that appears, pinned
+           to the top, once the real header row scrolls out of view (since the whole page
+           scrolls). aria-hidden — the real <thead> remains the accessible one. -->
+      <div class="float-head" id="float-head" aria-hidden="true" hidden>
+        <table class="reit-table" id="float-head-table"><thead id="float-head-thead"></thead></table>
+      </div>
 
       <div class="table-scroll" id="table-scroll">
         <table class="reit-table" id="reit-table">
@@ -172,6 +181,7 @@
 
   <script>window.GITHUB_REPO = 'mayerwin/sg-reits-benchmark';</script>
   <script src="metrics-doc.js" defer></script>
+  <script src="md.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>

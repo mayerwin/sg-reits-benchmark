@@ -180,13 +180,13 @@ This is a **regulatory-safety + recurring-yield triage tool**, not a buy signal.
 
 A buy-side decision must layer these on top of the composite. The composite filters the universe down to "not obviously broken" — it does not pick winners.
 
-## 8. The User Screen
+## 8. Filtering & the Reference Screen
 
-The dashboard surfaces a `passes_user_screen` boolean per REIT, true when:
-- `gearing_pct < 40%` AND
-- `market_cap >= 200_000_000` (in trading currency)
+Filtering is done interactively in the dashboard's left rail — sector, currency, and slider ranges for gearing, distribution yield, and market cap. Your filter and column choices persist in the browser.
 
-The 200M floor is applied in the REIT's *trading currency*, not SGD. So a USD-quoted REIT at USD 200M passes; a SGD-quoted REIT at SGD 200M passes. Rough SGD-equivalents: USD 200M ≈ SGD 270M; GBP 200M ≈ SGD 340M; EUR 200M ≈ SGD 290M (as of May 2026). The dashboard does not perform automatic FX conversion — this is intentional, since most decision-relevant ratios are currency-independent and converting absolute market cap introduces FX-volatility noise.
+A common starting screen is **gearing < 40% AND market cap ≥ 200M** (trading currency). The dataset still carries a convenience `passes_user_screen` boolean computed on exactly those two conditions, but it is no longer a toggle in the UI — use the gearing and market-cap range sliders to reproduce or adjust it.
+
+The 200M floor, when applied, is in the REIT's *trading currency*, not SGD. So a USD-quoted REIT at USD 200M and a SGD-quoted REIT at SGD 200M both clear it. Rough SGD-equivalents: USD 200M ≈ SGD 270M; GBP 200M ≈ SGD 340M; EUR 200M ≈ SGD 290M (as of 2026). The dashboard does not perform automatic FX conversion — intentional, since most decision-relevant ratios are currency-independent and converting absolute market cap introduces FX-volatility noise.
 
 ## 9. Sources Used
 
@@ -203,7 +203,7 @@ The 200M floor is applied in the REIT's *trading currency*, not SGD. So a USD-qu
 ## 10. Data Quality — Known Limitations (as of 2026-05-27)
 
 1. **Secondary sources used for some REITs.** A small subset of REITs (notably Manulife US REIT) have source URLs pointing to aggregator articles (minichart, drwealth, thesingaporeaninvestor) rather than the manager's primary SGXNet PDF — this happened because the IR-data agents couldn't directly parse certain binary PDF responses. Numbers were cross-checked against multiple secondary sources, but the audit trail is weaker for these REITs. Re-running the IR-data agents with the included `pipeline/extract_pdf.cjs` helper improves coverage.
-2. **Three REITs have no fact data yet** (Landmark REIT D5IU, BHG Retail REIT BMGU, Acrophyte Hospitality Trust XZL) — their quarterly results PDFs returned as binary streams that the agent couldn't decode. These show as "n/d" in the screener and don't pass the user screen.
+2. **Coverage:** all 39 REITs now carry manager-disclosed fact data (gearing, ICR, DPU, NAV, occupancy, WALE, property yield, perpetual-inclusive gearing). Any individual metric a manager does not disclose shows as "n/d" in the screener rather than being estimated.
 3. **Some REITs missing `report_period`/`report_date`/`report_url`** even though numerics are present (Sasseur, Centurion Accommodation). Easy fix: re-run those groups with the prompt updated to require these metadata fields.
 4. **Forward-looking DPU yield not computed.** Manager qualitative guidance is captured in `forward_dpu_guidance` but no numeric forward yield is produced. A quantitative forward yield needs either (a) sell-side consensus, or (b) reliable annualisation of the most recent quarterly DPU — both are doable extensions.
 5. **No 5-year history** of DPU, NAV, or gearing — only point-in-time snapshots. A buy-side decision typically wants trend lines; this is a future enhancement.

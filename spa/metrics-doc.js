@@ -17,7 +17,7 @@ window.METRICS = {
     label: 'Market cap',
     abbr: 'Mkt cap',
     what: 'Total equity value (units outstanding × price), in trading currency.',
-    why: 'Determines liquidity, index inclusion, and whether a position size is feasible. The user screen requires ≥ 200M trading-currency to filter out micro-caps where you can\'t exit a meaningful position.',
+    why: 'Determines liquidity, index inclusion, and whether a position size is feasible. Use the market-cap filter in the left rail to screen out micro-caps where you can\'t exit a meaningful position (a ~S$200M floor is a common cut-off).',
     formula: 'shares_outstanding × price',
     sources: 'Yahoo Finance.',
   },

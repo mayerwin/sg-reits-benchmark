@@ -193,6 +193,60 @@ function syncHbar() {
   inner.style.width = table.scrollWidth + 'px';
 }
 
+/* ===================== FLOATING (sticky-on-page-scroll) HEADER CLONE =====================
+   The whole page scrolls, so the real <thead> scrolls away. This clones the header row into
+   a fixed bar that appears once the real header passes the top, mirrors column widths, and
+   syncs horizontal position with the table. The real <thead> stays the accessible one. */
+function applySort(key) {
+  if (STATE.sort.key === key) STATE.sort.asc = !STATE.sort.asc;
+  else { STATE.sort.key = key; STATE.sort.asc = false; }
+  savePrefs(); render();
+}
+
+function buildFloatHead() {
+  const realThead = $('#reit-thead'), ft = $('#float-head-thead'), table = $('#reit-table'), ftable = $('#float-head-table');
+  if (!realThead || !ft || !table || !ftable) return;
+  ft.innerHTML = realThead.innerHTML;
+  // Clones must not be focusable (the bar is aria-hidden; real header carries a11y).
+  $$('#float-head-thead th').forEach(th => th.setAttribute('tabindex', '-1'));
+  // Mirror each column's rendered width so the clone aligns pixel-for-pixel with the table.
+  const realThs = $$('#reit-thead th'), cloneThs = $$('#float-head-thead th');
+  realThs.forEach((th, i) => {
+    const w = th.getBoundingClientRect().width;
+    const c = cloneThs[i];
+    if (c) { c.style.width = c.style.minWidth = c.style.maxWidth = w + 'px'; }
+  });
+  ftable.style.width = table.offsetWidth + 'px';
+  ftable.style.tableLayout = 'fixed';
+}
+
+function syncFloatHeadX() {
+  const scroll = $('#table-scroll'), ftable = $('#float-head-table');
+  if (!scroll || !ftable || $('#float-head').hidden) return;
+  const sl = scroll.scrollLeft;
+  ftable.style.transform = `translateX(${-sl}px)`;
+  // Keep the sticky Name column pinned at the left within the floating header too.
+  $$('#float-head-thead th.is-sticky').forEach(th => { th.style.transform = `translateX(${sl}px)`; });
+}
+
+function updateFloatHead() {
+  const fh = $('#float-head'), scroll = $('#table-scroll'), thead = $('#reit-thead');
+  if (!fh || !scroll || !thead) return;
+  const sRect = scroll.getBoundingClientRect();
+  const headH = thead.getBoundingClientRect().height || 38;
+  const hbar = $('#hbar');
+  const floatTop = (hbar && !hbar.classList.contains('is-hidden')) ? hbar.getBoundingClientRect().height : 0;
+  // Show once the real header has scrolled above the float anchor, while the table still spans it.
+  const show = sRect.top < floatTop - 0.5 && sRect.bottom > floatTop + headH;
+  if (!show) { if (!fh.hidden) fh.hidden = true; return; }
+  fh.hidden = false;
+  fh.style.top = floatTop + 'px';
+  fh.style.left = sRect.left + 'px';
+  fh.style.width = scroll.clientWidth + 'px';
+  fh.style.height = headH + 'px';
+  syncFloatHeadX();
+}
+
 async function load() {
   try {
     const res = await fetch('data.json', { cache: 'no-store' });
@@ -254,20 +308,24 @@ function init() {
   }
   $('#reset-filters').addEventListener('click', resetFilters);
 
-  // Sort delegation
-  $('#reit-thead').addEventListener('click', (e) => {
+  // Sort delegation (real header + floating header clone)
+  const onHeadClick = (e) => {
     const th = e.target.closest('th[data-sort]');
     if (!th) return;
-    const key = th.dataset.sort;
-    if (STATE.sort.key === key) STATE.sort.asc = !STATE.sort.asc;
-    else { STATE.sort.key = key; STATE.sort.asc = false; }
-    savePrefs(); render();
-  });
+    applySort(th.dataset.sort);
+  };
+  $('#reit-thead').addEventListener('click', onHeadClick);
+  $('#float-head').addEventListener('click', onHeadClick);
   $('#reit-thead').addEventListener('keydown', (e) => {
     const th = e.target.closest('th[data-sort]');
     if (!th) return;
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); th.click(); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applySort(th.dataset.sort); }
   });
+
+  // Floating header: keep it positioned/synced on scroll + resize.
+  window.addEventListener('scroll', updateFloatHead, { passive: true });
+  window.addEventListener('resize', () => { buildFloatHead(); updateFloatHead(); });
+  $('#table-scroll').addEventListener('scroll', () => { syncFloatHeadX(); }, { passive: true });
 
   // Row open + right-click context menu (event delegation on tbody)
   const tbody = $('#reit-rows');
@@ -321,9 +379,9 @@ function init() {
   $('#columns-btn').addEventListener('click', (e) => openColumnsModal(e.currentTarget));
   $('#hidden-btn').addEventListener('click', (e) => openHiddenModal(e.currentTarget));
   $('#help-btn').addEventListener('click', (e) => openHelpModal(e.currentTarget));
-  $('#open-methodology').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(); });
-  $('#open-methodology-foot').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(); });
-  $('#open-playbook-foot').addEventListener('click', (e) => { e.preventDefault(); openPlaybookModal(); });
+  $('#open-methodology').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(e.currentTarget); });
+  $('#open-methodology-foot').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(e.currentTarget); });
+  $('#open-playbook-foot').addEventListener('click', (e) => { e.preventDefault(); openPlaybookModal(e.currentTarget); });
 
   // Mobile rail toggle + scrim
   $('#rail-toggle').addEventListener('click', () => {
@@ -513,11 +571,13 @@ function render() {
   if (!rows.length) {
     const cols = ALL_COLUMNS.filter(c => STATE.columns.has(c.key)).length;
     tbody.innerHTML = `<tr><td colspan="${cols}" class="empty">no REITs match these filters</td></tr>`;
-    syncHbar();
+    syncHbar(); buildFloatHead(); updateFloatHead();
     return;
   }
   tbody.innerHTML = rows.map(r => rowHTML(r)).join('');
+  // Defer header-clone measurement to next frame so column widths are final.
   syncHbar();
+  requestAnimationFrame(() => { buildFloatHead(); updateFloatHead(); });
 }
 
 const CELL_RENDERERS = {
@@ -987,23 +1047,34 @@ function openHelpModal() {
   openModal('Help — terminology & analysis', html);
 }
 
-function openMethodologyModal() {
-  openModal('Methodology', `<p class="modal__lead">Full data dictionary, scoring thresholds, MAS regulatory references, and "true profits" framing.</p>
-    <p><a href="https://github.com/${esc(window.GITHUB_REPO || 'your-user/sg-reits')}/blob/main/docs/METHODOLOGY.md" target="_blank" rel="noopener">Read METHODOLOGY.md on GitHub →</a></p>
-    <p>Or view the Help page for a per-metric breakdown (click any metric definition for the same info).</p>
-    <div class="modal__actions"><button type="button" id="open-help-from-method">Open Help instead</button></div>`);
-  // #open-help-from-method handled by initModalDelegation
+const _docCache = {};
+/** Load a project markdown doc and render it inline with consistent styling. */
+async function openDocModal(title, lead, path, trigger) {
+  openModal(title, `<p class="modal__lead">${esc(lead)}</p><div class="md-body" id="md-body"><p class="md-loading">Loading…</p></div>`, trigger);
+  const target = $('#md-body');
+  try {
+    if (!_docCache[path]) {
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      _docCache[path] = await res.text();
+    }
+    // Guard against a stale modal (user may have navigated away while fetching)
+    if (!$('#md-body')) return;
+    $('#md-body').innerHTML = window.renderMarkdown(_docCache[path]);
+  } catch (e) {
+    if ($('#md-body')) {
+      $('#md-body').innerHTML = `<p class="md-loading">Couldn't load ${esc(path)} (${esc(e.message)}). `
+        + `It's also in the <a href="https://github.com/${esc(window.GITHUB_REPO || '')}/blob/main/${esc(path)}" target="_blank" rel="noopener">repository</a>.</p>`;
+    }
+  }
 }
 
-function openPlaybookModal() {
-  openModal('Re-run Playbook', `<p class="modal__lead">Step-by-step instructions for refreshing the dataset (operator-grade).</p>
-    <p><a href="https://github.com/${esc(window.GITHUB_REPO || 'your-user/sg-reits')}/blob/main/docs/PLAYBOOK.md" target="_blank" rel="noopener">Read PLAYBOOK.md on GitHub →</a></p>
-    <pre class="cli">cd pipeline
-npm install
-node fetch_yahoo.mjs   # ~30s
-node merge.mjs         # &lt;1s
-cd ../spa
-node serve.mjs         # → http://localhost:8765</pre>`);
+function openMethodologyModal(trigger) {
+  openDocModal('Methodology', 'Full data dictionary, scoring thresholds, MAS regulatory references, and the "true profits" framing. For a quick per-metric breakdown, see the Help page.', 'docs/METHODOLOGY.md', trigger);
+}
+
+function openPlaybookModal(trigger) {
+  openDocModal('Re-run Playbook', 'The complete, replicable procedure for refreshing this dataset — for operators and agents.', 'docs/PLAYBOOK.md', trigger);
 }
 
 function toggleHidden(ticker) {

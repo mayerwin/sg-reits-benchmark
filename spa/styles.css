@@ -251,9 +251,12 @@ legend { padding: 0; display: block; width: 100%; }
   padding: 22px 22px 40px;
   max-height: 100vh;
   overflow-y: auto;
-  scrollbar-width: thin;                 /* only appears when content exceeds the viewport */
+  overflow-x: hidden;                    /* NEVER a horizontal scrollbar on the rail */
+  scrollbar-width: thin;                 /* vertical bar only appears when content exceeds viewport */
   scrollbar-color: var(--line-2) transparent;
 }
+/* Range inputs can report an intrinsic width slightly wider than their box; keep them clamped. */
+.rail__inner input[type=range] { max-width: 100%; }
 .rail__inner::-webkit-scrollbar { width: 8px; }
 .rail__inner::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
 .rail__inner::-webkit-scrollbar-track { background: transparent; }
@@ -312,8 +315,10 @@ legend { padding: 0; display: block; width: 100%; }
 .chip:hover { color: var(--text-0); border-color: var(--line-2); }
 .chip.is-on { background: var(--acc-deeper); border-color: var(--acc); color: var(--acc-bright); }
 
-.range-row { display: flex; gap: 8px; }
-.range-row input[type=range] { flex: 1; -webkit-appearance: none; appearance: none; background: transparent; height: 18px; }
+.range-row { display: flex; gap: 8px; min-width: 0; }
+/* min-width:0 lets the two sliders shrink below their intrinsic width so the pair never
+   overflows the 280px rail (which previously forced a horizontal scrollbar). */
+.range-row input[type=range] { flex: 1 1 0; min-width: 0; -webkit-appearance: none; appearance: none; background: transparent; height: 18px; }
 .range-row input[type=range]::-webkit-slider-runnable-track { height: 2px; background: var(--line-2); }
 .range-row input[type=range]::-moz-range-track { height: 2px; background: var(--line-2); }
 .range-row input[type=range]::-webkit-slider-thumb {
@@ -484,6 +489,21 @@ legend { padding: 0; display: block; width: 100%; }
   scrollbar-width: none;
 }
 .table-scroll::-webkit-scrollbar { display: none; }
+
+/* Floating header clone — fixed bar shown once the real header scrolls off-screen. */
+.float-head {
+  position: fixed;
+  overflow: hidden;
+  z-index: 26;
+  background: var(--ink-2);
+  border-bottom: 1px solid var(--line-2);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+  pointer-events: auto;
+}
+.float-head[hidden] { display: none; }
+.float-head table { border-collapse: separate; border-spacing: 0; margin: 0; will-change: transform; }
+.float-head thead th { position: static; }           /* not sticky inside the clone */
+.float-head thead th.is-sticky { z-index: 2; position: relative; background: var(--ink-2); box-shadow: 1px 0 0 var(--line); }
 
 .reit-table {
   width: 100%;
@@ -1018,6 +1038,30 @@ legend { padding: 0; display: block; width: 100%; }
   font-size: 22px;
   color: var(--text-3);
 }
+
+/* =====================  RENDERED MARKDOWN (Methodology / Playbook)  ===================== */
+.md-body { font-family: var(--font-sans); font-size: 13px; color: var(--text-1); line-height: 1.6; }
+.md-loading { color: var(--text-3); font-style: italic; }
+.md-h { font-family: var(--font-display); color: var(--text-0); letter-spacing: -0.01em; line-height: 1.15; }
+.md-h1 { font-size: 26px; margin: 8px 0 12px; }
+.md-h2 { font-size: 21px; color: var(--acc); margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.md-h3 { font-size: 16px; margin: 18px 0 8px; }
+.md-h4 { font-size: 14px; margin: 14px 0 6px; color: var(--text-1); }
+.md-body p { margin: 8px 0; }
+.md-body strong { color: var(--text-0); font-weight: 600; }
+.md-body a { color: var(--acc); }
+.md-body code { font-family: var(--font-mono); font-size: 11.5px; background: var(--ink-3); border: 1px solid var(--line); padding: 1px 5px; border-radius: 2px; color: var(--text-0); }
+.md-pre { background: var(--ink-2); border: 1px solid var(--line); padding: 12px 14px; overflow-x: auto; border-radius: 3px; }
+.md-pre code { background: none; border: none; padding: 0; font-size: 11.5px; line-height: 1.5; color: var(--text-1); }
+.md-list { margin: 8px 0 8px 4px; padding-left: 20px; }
+.md-list li { margin: 4px 0; }
+.md-quote { border-left: 2px solid var(--acc); background: rgba(79,211,184,0.05); margin: 10px 0; padding: 8px 14px; color: var(--text-2); }
+.md-hr { border: none; border-top: 1px dashed var(--line); margin: 20px 0; }
+.md-table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 12px; font-variant-numeric: tabular-nums; display: block; overflow-x: auto; }
+.md-table th, .md-table td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+.md-table th { background: var(--ink-2); color: var(--text-1); font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+.md-table td { color: var(--text-1); }
+.md-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
 
 /* =====================  HELP MODAL CONTENT  ===================== */
 .help-section {
