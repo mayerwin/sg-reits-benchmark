@@ -11,8 +11,10 @@ A re-runnable Singapore REIT screener and data pipeline. Built for investors mak
 - **A single-page web UI** with sortable filterable table, sticky-headed dense layout, sparklines, right-click context menu to jump to source, full Help page with terminology + analysis guidance, column show/hide + filter persistence + hide-REITs in localStorage.
 - **Two perspective gearing metrics:** the manager-disclosed gearing (which usually excludes perpetual securities) AND a gearing-incl-perpetuals view for real leverage.
 - **Property yield** (NPI / portfolio fair value) as an additional indicator — useful for spotting REITs with old leases that may reset down on renewal.
+- **Forward-looking indicators** for expected future yield: a run-rate forward yield (latest period annualised), a guided forward yield (from manager/IPO DPU forecasts), DPU YoY growth, rental reversion, the near-term refinancing wall (% debt due ≤ 12 months), and the MAS-mandated DPU sensitivity to +100bps.
 - **Authoritative-source enforcement:** the merger flags any source URL that's not from SGX / Yahoo / issuer IR / an explicitly whitelisted host. The SPA shows a ⚠ warning next to non-authoritative sources.
-- **GitHub Actions** that refresh market data daily and auto-deploy the SPA to GitHub Pages.
+- **Critical-review audit** (`pipeline/validate.mjs`) that runs on every refresh — cross-checks arithmetic consistency, metric-basis comparability (e.g. ICR adjusted-for-perpetuals), range sanity, source authority and freshness, and fails the refresh on a severe inconsistency. Paired with a judgement-review agent prompt (`agent_prompts/critical-review.md`).
+- **GitHub Actions** that refresh market data daily (running the audit) and auto-deploy the SPA to GitHub Pages.
 
 ## Quick start (local)
 

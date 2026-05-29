@@ -19,6 +19,9 @@ const priceFmt = (v, ref = v) => {
   return Number(v).toFixed(4);
 };
 
+/** Signed number with an explicit + for positives (for YoY / reversion / sensitivity). */
+const signed = (v, dp = 1) => v == null ? '—' : (v > 0 ? '+' : '') + Number(v).toFixed(dp);
+
 const fmt = {
   pct: (v, dp = 2) => v == null ? '—' : `${(v * 100).toFixed(dp)}<span class="muted">%</span>`,
   pctRaw: (v, dp = 1) => v == null ? '—' : `${Number(v).toFixed(dp)}<span class="muted">%</span>`,
@@ -89,7 +92,7 @@ function thresholdBadge(kind, value) {
 /* =====================  STATE & PERSISTENCE  ===================== */
 
 const LS_KEY = 'sreit-terminal-v2';
-const DEFAULT_COLUMNS = ['ticker', 'name', 'sector', 'geography', 'price', 'market_cap', 'distribution_yield_ttm', 'gearing_pct', 'gearing_pct_incl_perps', 'icr_x', 'wale_years', 'occupancy_pct', 'property_yield_pct', 'p_nav', 'quality', 'report_date'];
+const DEFAULT_COLUMNS = ['ticker', 'name', 'sector', 'geography', 'price', 'market_cap', 'distribution_yield_ttm', 'forward_yield_run_rate', 'gearing_pct', 'gearing_pct_incl_perps', 'icr_x', 'wale_years', 'occupancy_pct', 'property_yield_pct', 'p_nav', 'quality', 'report_date'];
 const ALL_COLUMNS = [
   { key: 'ticker', label: 'Ticker', num: true, metric: null },
   { key: 'name', label: 'Name', num: false, metric: null, sticky: true },
@@ -98,9 +101,15 @@ const ALL_COLUMNS = [
   { key: 'price', label: 'Price', num: true, metric: 'price' },
   { key: 'market_cap', label: 'Mkt cap', num: true, metric: 'market_cap' },
   { key: 'distribution_yield_ttm', label: 'Yield TTM', num: true, metric: 'distribution_yield_ttm' },
+  { key: 'forward_yield_run_rate', label: 'Fwd Yield', num: true, metric: 'forward_yield_run_rate' },
+  { key: 'forward_yield_guidance', label: 'Fwd Yield (guided)', num: true, metric: 'forward_yield_guidance' },
+  { key: 'dpu_yoy_pct', label: 'DPU YoY', num: true, metric: 'dpu_yoy_pct' },
+  { key: 'rental_reversion_pct', label: 'Reversion', num: true, metric: 'rental_reversion_pct' },
   { key: 'gearing_pct', label: 'Gearing', num: true, metric: 'gearing_pct' },
   { key: 'gearing_pct_incl_perps', label: 'Gear+Perps', num: true, metric: 'gearing_pct_incl_perps' },
   { key: 'icr_x', label: 'ICR', num: true, metric: 'icr_x' },
+  { key: 'pct_debt_due_12m', label: 'Debt ≤1y', num: true, metric: 'pct_debt_due_12m' },
+  { key: 'dpu_change_per_100bps_pct', label: 'ΔDPU/+100bp', num: true, metric: 'dpu_change_per_100bps_pct' },
   { key: 'wace_pct', label: 'WACE', num: true, metric: 'wace_pct' },
   { key: 'pct_fixed_debt', label: '% Fixed', num: true, metric: 'pct_fixed_debt' },
   { key: 'wadm_years', label: 'WADM', num: true, metric: 'wadm_years' },
@@ -199,6 +208,12 @@ const FILTER_META = {
   p_nav:                  { unit: 'x',     accessor: r => r.p_nav },
   trailing_pe:            { unit: 'pe',    accessor: r => r.trailing_pe },
   quality:                { unit: 'int',   accessor: r => r.scores?.composite ?? null },
+  forward_yield_run_rate: { unit: 'pct',   accessor: r => r.forward_yield_run_rate == null ? null : r.forward_yield_run_rate * 100 },
+  forward_yield_guidance: { unit: 'pct',   accessor: r => r.forward_yield_guidance == null ? null : r.forward_yield_guidance * 100 },
+  dpu_yoy_pct:            { unit: 'pct',   accessor: r => r.dpu_yoy_pct },
+  rental_reversion_pct:   { unit: 'pct',   accessor: r => r.rental_reversion_pct },
+  pct_debt_due_12m:       { unit: 'pct',   accessor: r => r.pct_debt_due_12m },
+  dpu_change_per_100bps_pct: { unit: 'pct', accessor: r => r.dpu_change_per_100bps_pct },
 };
 
 function fmtFilter(unit, v) {
@@ -750,6 +765,12 @@ const CELL_RENDERERS = {
   price: r => `<td class="num" data-col="price">${priceFmt(r.price)}${ccyBadge(r.trading_currency)}</td>`,
   market_cap: r => `<td class="num" data-col="market_cap">${fmt.money(r.market_cap)}${ccyBadge(r.trading_currency)}</td>`,
   distribution_yield_ttm: r => `<td class="num" data-col="distribution_yield_ttm">${r.distribution_yield_ttm != null ? (r.distribution_yield_ttm * 100).toFixed(2) + '%' : '<span class="miss">n/d</span>'}</td>`,
+  forward_yield_run_rate: r => `<td class="num" data-col="forward_yield_run_rate">${r.forward_yield_run_rate != null ? (r.forward_yield_run_rate * 100).toFixed(2) + '%' : '<span class="miss">n/d</span>'}</td>`,
+  forward_yield_guidance: r => `<td class="num" data-col="forward_yield_guidance">${r.forward_yield_guidance != null ? (r.forward_yield_guidance * 100).toFixed(2) + '%' : '<span class="miss">n/d</span>'}</td>`,
+  dpu_yoy_pct: r => `<td class="num" data-col="dpu_yoy_pct">${r.dpu_yoy_pct != null ? signed(r.dpu_yoy_pct) + '%' : '<span class="miss">n/d</span>'}</td>`,
+  rental_reversion_pct: r => `<td class="num" data-col="rental_reversion_pct">${r.rental_reversion_pct != null ? signed(r.rental_reversion_pct) + '%' : '<span class="miss">n/d</span>'}</td>`,
+  pct_debt_due_12m: r => `<td class="num" data-col="pct_debt_due_12m">${r.pct_debt_due_12m != null ? r.pct_debt_due_12m.toFixed(0) + '%' : '<span class="miss">n/d</span>'}</td>`,
+  dpu_change_per_100bps_pct: r => `<td class="num" data-col="dpu_change_per_100bps_pct">${r.dpu_change_per_100bps_pct != null ? signed(r.dpu_change_per_100bps_pct, 1) + '%' : '<span class="miss">n/d</span>'}</td>`,
   gearing_pct: r => `<td class="num" data-col="gearing_pct">${r.gearing_pct != null ? r.gearing_pct.toFixed(1) + '%' : '<span class="miss">n/d</span>'}</td>`,
   gearing_pct_incl_perps: r => `<td class="num" data-col="gearing_pct_incl_perps">${r.gearing_pct_incl_perps != null ? r.gearing_pct_incl_perps.toFixed(1) + '%' : '<span class="miss">n/d</span>'}</td>`,
   icr_x: r => `<td class="num" data-col="icr_x">${r.icr_x != null ? r.icr_x.toFixed(2) + 'x' : '<span class="miss">n/d</span>'}</td>`,
@@ -944,6 +965,17 @@ function drawerHTML(r) {
       ${r.forward_dpu_guidance ? `<div class="metric metric--wide"><span class="metric__label">Forward DPU guidance</span><div class="metric__val metric__val--prose">${esc(r.forward_dpu_guidance)}</div></div>` : ''}
     </div>
 
+    <div class="d-section">Forward-looking · expected future yield</div>
+    <div class="metrics">
+      ${metric('Forward yield (run-rate)', r.forward_yield_run_rate != null ? (r.forward_yield_run_rate * 100).toFixed(2) + '%' : null, { note: r.forward_yield_run_rate != null && r.distribution_yield_ttm != null ? (r.forward_yield_run_rate > r.distribution_yield_ttm * 1.02 ? 'above TTM — DPU run-rate rising' : r.forward_yield_run_rate < r.distribution_yield_ttm * 0.98 ? 'below TTM — DPU run-rate falling' : '') : '', metricKey: 'forward_yield_run_rate' })}
+      ${metric('Forward yield (guided)', r.forward_yield_guidance != null ? (r.forward_yield_guidance * 100).toFixed(2) + '%' : null, { source: sources.forecast_dpu, note: r.forecast_dpu_basis || '', metricKey: 'forward_yield_guidance' })}
+      ${metric('DPU growth (YoY)', r.dpu_yoy_pct != null ? signed(r.dpu_yoy_pct) + '%' : null, { source: sources.dpu_yoy, metricKey: 'dpu_yoy_pct' })}
+      ${metric('Rental reversion', r.rental_reversion_pct != null ? signed(r.rental_reversion_pct) + '%' : null, { source: sources.rental_reversion, metricKey: 'rental_reversion_pct' })}
+      ${metric('Debt due ≤ 12 months', r.pct_debt_due_12m != null ? r.pct_debt_due_12m.toFixed(0) + '%' : null, { source: sources.debt_maturity, metricKey: 'pct_debt_due_12m' })}
+      ${metric('DPU sensitivity to +100bps', r.dpu_change_per_100bps_pct != null ? signed(r.dpu_change_per_100bps_pct) + '%' : null, { source: sources.rate_sensitivity, metricKey: 'dpu_change_per_100bps_pct' })}
+      ${metric('Distribution frequency', r.distribution_frequency != null ? (r.distribution_frequency === 4 ? 'Quarterly' : r.distribution_frequency === 2 ? 'Semi-annual' : `${r.distribution_frequency}×/yr`) : null, { source: sources.distribution_frequency })}
+    </div>
+
     <div class="d-section">Capital management</div>
     <div class="metrics">
       ${metric('Gearing (aggregate leverage)', gearVal, { unit: '%', threshold: thresholdBadge('gearing', r.gearing_pct), source: sources.gearing, metricKey: 'gearing_pct' })}
@@ -1011,6 +1043,9 @@ function showContextMenu(x, y, ticker, col) {
     wale_years: sources.wale,
     num_properties: sources.properties,
     property_yield_pct: sources.property_yield,
+    forward_yield_run_rate: sources.dpu, forward_yield_guidance: sources.forecast_dpu,
+    dpu_yoy_pct: sources.dpu_yoy, rental_reversion_pct: sources.rental_reversion,
+    pct_debt_due_12m: sources.debt_maturity, dpu_change_per_100bps_pct: sources.rate_sensitivity,
     price: sources.chart, market_cap: sources.summary,
   };
   const src = colToSource[col];
@@ -1181,6 +1216,7 @@ function initModalDelegation() {
 function openHelpModal() {
   const sections = {
     'Distribution & yield': ['distribution_yield_ttm', 'dpu_ttm_cents', 'yahoo_dividend_yield', 'payout_ratio', 'five_year_avg_div_yield'],
+    'Forward-looking (expected future yield)': ['forward_yield_run_rate', 'forward_yield_guidance', 'dpu_yoy_pct', 'rental_reversion_pct', 'pct_debt_due_12m', 'dpu_change_per_100bps_pct'],
     'Leverage & capital management': ['gearing_pct', 'gearing_pct_incl_perps', 'icr_x', 'wace_pct', 'pct_fixed_debt', 'wadm_years', 'property_yield_pct'],
     'Operations': ['occupancy_pct', 'wale_years', 'num_properties', 'top10_tenant_pct'],
     'Valuation': ['nav_per_unit', 'p_nav', 'trailing_pe'],

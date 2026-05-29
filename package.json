@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "pdf-parse-fork": "^1.2.0"
+  }
+}

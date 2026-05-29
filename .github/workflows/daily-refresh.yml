@@ -45,6 +45,15 @@ jobs:
           echo "==> merge.mjs"
           node merge.mjs
 
+      # Automated critical-review audit (PLAYBOOK §5b Part 1). Non-blocking on a daily PRICE
+      # refresh — the report is logged for review, but a transient MEDIUM (e.g. a quote-driven
+      # range flag) shouldn't block committing fresh prices. Severe data-basis issues come from
+      # the quarterly IR-fact step, which is reviewed when those agents run.
+      - name: Consistency audit
+        working-directory: ./pipeline
+        continue-on-error: true
+        run: node validate.mjs
+
       - name: Commit refreshed data
         id: commit
         run: |

@@ -10,7 +10,10 @@
   "scripts": {
     "fetch:yahoo": "node fetch_yahoo.mjs",
     "merge": "node merge.mjs",
-    "all": "npm run fetch:yahoo && npm run merge"
+    "validate": "node validate.mjs",
+    "all": "npm run fetch:yahoo && npm run merge && npm run validate"
   },
-  "dependencies": {}
+  "dependencies": {
+    "pdf-parse-fork": "^1.2.0"
+  }
 }

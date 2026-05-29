@@ -222,6 +222,56 @@ window.METRICS = {
     why: 'Many SG REIT managers issue perpetuals and exclude them from headline gearing. This understates real leverage. The "Gearing incl. perps" column adds them back.',
   },
 
+  // === Forward-looking (expected future yield) ===
+  forward_yield_run_rate: {
+    label: 'Forward Yield (run-rate)',
+    abbr: 'Fwd Yield',
+    what: 'The most recent declared DPU annualised (period DPU × distributions-per-year) divided by price. A run-rate estimate of next-12-month yield assuming the latest period repeats.',
+    why: 'Better than trailing yield when something just changed — a recent acquisition, divestment, rights issue, or refinancing — because TTM still averages in the old run-rate. Compare it to the TTM yield: forward > TTM suggests DPU is rising; forward < TTM suggests it\'s falling. It assumes no further change, so pair it with the reversion / refinancing / rate-sensitivity indicators below.',
+    formula: 'latest-period DPU × distributions per year ÷ price',
+    healthy: 'Read alongside TTM yield and the leading indicators — direction matters more than level.',
+    sources: 'Latest period DPU + distribution frequency from issuer results; price from Yahoo.',
+  },
+  forward_yield_guidance: {
+    label: 'Forward Yield (guided)',
+    abbr: 'Fwd Yield (guided)',
+    what: 'A forward yield built from a manager- or prospectus-disclosed NUMERIC DPU forecast (÷ price), where one exists. Most common for recent IPOs and the occasional explicit guidance.',
+    why: 'When a manager publishes a forecast DPU it is the most direct read on expected future yield — but it reflects the manager\'s assumptions (occupancy, rates, FX), so treat it as guidance, not a promise. Blank for the many REITs that give no numeric forecast.',
+    formula: 'forecast DPU ÷ price',
+    sources: 'Manager guidance / IPO prospectus forecast.',
+  },
+  dpu_yoy_pct: {
+    label: 'DPU growth (YoY)',
+    abbr: 'DPU YoY',
+    what: 'The latest reported period\'s DPU versus the same period a year earlier, in %.',
+    why: 'Organic momentum. Sustained positive DPU growth is the clearest sign of a healthy, growing income stream; persistent declines flag structural pressure (refinancing drag, falling occupancy, dilution from placements). One period can be noisy — look for a trend.',
+    sources: 'Issuer results (current vs prior-year period).',
+  },
+  rental_reversion_pct: {
+    label: 'Rental reversion',
+    abbr: 'Reversion',
+    what: 'The % change in rent on leases signed/renewed in the latest period versus the expiring rent (e.g. +8% means new leases are 8% above the old ones).',
+    why: 'A leading indicator of FUTURE rental income — and therefore future DPU. Strongly positive reversions (common recently in Singapore retail/industrial) mean the income base is still re-pricing upward as leases roll. Negative reversions warn that income will step down as leases renew. Not meaningful for hospitality (nightly rates).',
+    healthy: 'Positive is good; > +5% is strong. Negative is a forward warning.',
+    sources: 'Issuer leasing update.',
+  },
+  pct_debt_due_12m: {
+    label: 'Debt due ≤ 12 months',
+    abbr: 'Debt ≤1y',
+    what: 'Share of total borrowings maturing within the next 12 months (the near-term slice of the debt-maturity profile).',
+    why: 'The single best leading indicator of a DPU cut in a high-rate environment: debt maturing soon must be refinanced at today\'s rates. A large near-term wall + a low % fixed + a rising cost of debt is the classic setup for falling DPU. Lower is safer; managers aim to keep any single year well under ~20-25%.',
+    healthy: 'Strong: < 15%. Caution: 20-30%. Stress: > 30% with low cash/headroom.',
+    sources: 'Issuer debt-maturity profile.',
+  },
+  dpu_change_per_100bps_pct: {
+    label: 'DPU sensitivity to +100bps',
+    abbr: 'ΔDPU/+100bp',
+    what: 'The MAS-mandated disclosure: estimated % change in DPU (or distributable income) if interest rates rise 100 basis points, given current hedging. Usually negative.',
+    why: 'Quantifies forward rate risk directly. A REIT showing -1% is well-hedged; one showing -6% will see its distribution fall materially if rates rise. Read together with % fixed-rate debt and the near-term refinancing wall.',
+    healthy: 'Closer to 0 is safer. More negative than ~-5% is meaningful exposure.',
+    sources: 'Issuer sensitivity disclosure (MAS-required since Mar 2025).',
+  },
+
   // === Data-freshness labels (masthead tooltips) ===
   market_data_freshness: {
     label: 'Market data',

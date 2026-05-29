@@ -39,7 +39,11 @@ SG-Reits/
 ├── pipeline/
 │   ├── package.json
 │   ├── fetch_yahoo.mjs            ← Step 3
-│   └── merge.mjs                  ← Step 5
+│   ├── merge.mjs                  ← Step 5
+│   ├── validate.mjs              ← Step 5b (automated consistency audit)
+│   └── agent_prompts/
+│       ├── group{1..5}.md         ← IR-fact gathering prompts
+│       └── critical-review.md     ← Step 5b judgement review prompt
 ├── spa/
 │   ├── index.html, styles.css, app.js
 │   ├── data.json                  ← Auto-written by step 5
@@ -266,6 +270,35 @@ The missing-tickers line tells you exactly which REITs to refresh — match them
 
 ---
 
+## 5b · Critical review & consistency audit (REQUIRED every refresh)
+
+A screener that mixes metric definitions across REITs is worse than no screener — it produces confident, wrong comparisons. So every refresh MUST pass a two-part critical review before publishing.
+
+### Part 1 — automated audit (always run)
+
+```bash
+cd pipeline
+node validate.mjs        # or: npm run validate
+```
+
+`validate.mjs` deterministically cross-checks the merged dataset:
+- **Arithmetic consistency**: `market_cap ≈ price×shares`, `p_nav ≈ price/NAV`, `dist_yield ≈ DPU/price`, and the impossible-but-real `gearing_incl_perps ≥ gearing`.
+- **Range sanity**: gearing 0–60% (flags > 50% MAS cap), occupancy ≤ 100%, ICR/property-yield/yield plausibility, % fixed 0–100%.
+- **Comparability traps**: flags every REIT with perpetuals to confirm its ICR is on the MAS *adjusted* basis; flags WALE with no NLA/GRI basis recorded.
+- **Source authority**: any non-authoritative source URL.
+- **Freshness**: fact data older than ~7 months (a likely missed quarterly).
+- **ICR spread spotlight**: prints the lowest/highest ICRs with their gearing+WACE so you can see whether a wide spread is genuine (cost-of-debt driven) or a red flag (similar gearing+WACE, very different ICR ⇒ basis or EBITDA error).
+
+It **exits non-zero on any SEVERE finding** — fix the underlying data (re-run the relevant group agent or correct the fact file) and re-merge until the audit is clean. MEDIUM/LOW findings are reviewed and either fixed or explicitly accepted (e.g. BTOU genuinely > 50% gearing because it is distressed).
+
+> Worked example the audit answers: *"Why is Keppel DC's ICR ~7x while CapitaLand India Trust's is ~2.8x — is the data wrong?"* It isn't: Keppel DC borrows at ~2.6% with 35% gearing (very high cover); CLINT is a business trust with costlier INR-linked debt (lower cover). The ICR-spread spotlight makes this visible. A genuine red flag would be two REITs with *similar* gearing AND WACE but very different ICR.
+
+### Part 2 — judgement review (run each refresh)
+
+Spawn one agent with `pipeline/agent_prompts/critical-review.md`. It audits the things a machine can't fully judge — metric-basis comparability (ICR adjusted vs simple, occupancy committed vs physical, WALE NLA vs GRI, DPU TTM vs annualised, distribution-currency mismatches), misleading-by-construction metrics, outliers that smell like errors, and forward-indicator coherence. It reports a ranked punch list; the operator applies fixes, re-merges, and re-runs Part 1 until clean.
+
+---
+
 ## 6 · Preview locally
 
 ```bash
@@ -368,7 +401,9 @@ Per-REIT fetch timestamps live on `yahoo_fetched_at` (from the Yahoo fetcher) an
 
 ```bash
 cd pipeline
-node fetch_yahoo.mjs && node merge.mjs
+npm run all          # fetch_yahoo → merge → validate (the audit gates a clean refresh)
 ```
 
-That's it. Open `http://localhost:8765` to preview. Commit `data/data.json` if you want the dataset versioned.
+`npm run all` runs the fetch, the merge, and the automated critical-review audit (§5b Part 1). If the audit reports SEVERE issues it exits non-zero — fix and re-run. After a *quarterly results* refresh (not just a price refresh) also run §5b Part 2 (the judgement review via `agent_prompts/critical-review.md`).
+
+Open `http://localhost:8765` to preview. Commit `data/data.json` if you want the dataset versioned.

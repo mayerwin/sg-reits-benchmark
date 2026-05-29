@@ -414,6 +414,25 @@ async function main() {
         ? (yahooYield - distYield)
         : null,
 
+      // === Forward-looking (expected future yield) ===
+      // Run-rate forward yield: annualise the latest declared period DPU (period × freq) / price.
+      // Captures a recent acquisition/divestment that the trailing-12M yield hasn't caught up to.
+      forward_yield_run_rate: (f.dpu_last_period_cents != null && f.distribution_frequency && price != null && price > 0)
+        ? (f.dpu_last_period_cents / 100 * f.distribution_frequency) / price
+        : null,
+      // Guided forward yield: from a manager/prospectus numeric DPU forecast (mostly IPOs/guidance).
+      forward_yield_guidance: (f.forecast_dpu_cents != null && price != null && price > 0)
+        ? (f.forecast_dpu_cents / 100) / price
+        : null,
+      distribution_frequency: f.distribution_frequency ?? null,
+      forecast_dpu_cents: f.forecast_dpu_cents ?? null,
+      forecast_dpu_basis: f.forecast_dpu_basis ?? null,
+      // Leading indicators of future DPU direction:
+      rental_reversion_pct: f.rental_reversion_pct ?? null,           // future rental income
+      pct_debt_due_12m: f.pct_debt_due_12m ?? null,                   // refinancing wall
+      dpu_change_per_100bps_pct: f.dpu_change_per_100bps_pct ?? null, // MAS-mandated rate sensitivity
+      dpu_yoy_pct: f.dpu_yoy_pct ?? null,                             // organic momentum
+
       // Capital management
       gearing_pct: f.gearing_pct ?? null,
       gearing_pct_incl_perps: f.gearing_pct_incl_perps ?? null,
@@ -460,6 +479,12 @@ async function main() {
           debt: f.debt_source ?? f.wace_source ?? f.pct_fixed_debt_source ?? f.wadm_source ?? null,
           properties: f.num_properties_source ?? f.properties_source ?? null,
           property_yield: f.property_yield_source ?? null,
+          forecast_dpu: f.forecast_dpu_source ?? null,
+          rental_reversion: f.rental_reversion_source ?? null,
+          debt_maturity: f.pct_debt_due_12m_source ?? null,
+          rate_sensitivity: f.dpu_change_per_100bps_source ?? null,
+          dpu_yoy: f.dpu_yoy_source ?? null,
+          distribution_frequency: f.distribution_frequency_source ?? null,
           report: f.report_url_source ?? null,
         };
         const out = {};
