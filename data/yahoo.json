@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-05-29T04:51:11.297Z",
+    "generated_at": "2026-05-29T04:54:01.371Z",
     "source": "Yahoo Finance v8 chart + v10 quoteSummary",
     "master_validated": "2026-05-27",
     "auth_mode": "full"
@@ -9,7 +9,7 @@
     {
       "ticker": "C38U",
       "name": "CapitaLand Integrated Commercial Trust",
-      "fetched_at": "2026-05-29T04:51:11.299Z",
+      "fetched_at": "2026-05-29T04:54:01.372Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/C38U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/C38U.SI/"
@@ -297,7 +297,7 @@
     {
       "ticker": "A17U",
       "name": "CapitaLand Ascendas REIT",
-      "fetched_at": "2026-05-29T04:51:11.302Z",
+      "fetched_at": "2026-05-29T04:54:01.373Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/A17U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/A17U.SI/"
@@ -585,7 +585,7 @@
     {
       "ticker": "HMN",
       "name": "CapitaLand Ascott Trust",
-      "fetched_at": "2026-05-29T04:51:11.303Z",
+      "fetched_at": "2026-05-29T04:54:01.375Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/HMN.SI",
         "quote_summary": "https://finance.yahoo.com/quote/HMN.SI/"
@@ -873,7 +873,7 @@
     {
       "ticker": "AU8U",
       "name": "CapitaLand China Trust",
-      "fetched_at": "2026-05-29T04:51:11.306Z",
+      "fetched_at": "2026-05-29T04:54:01.376Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/AU8U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/AU8U.SI/"
@@ -1162,7 +1162,7 @@
     {
       "ticker": "CY6U",
       "name": "CapitaLand India Trust",
-      "fetched_at": "2026-05-29T04:51:12.866Z",
+      "fetched_at": "2026-05-29T04:54:01.517Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/CY6U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/CY6U.SI/"
@@ -1450,7 +1450,7 @@
     {
       "ticker": "M44U",
       "name": "Mapletree Logistics Trust",
-      "fetched_at": "2026-05-29T04:51:13.192Z",
+      "fetched_at": "2026-05-29T04:54:01.520Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/M44U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/M44U.SI/"
@@ -1738,7 +1738,7 @@
     {
       "ticker": "ME8U",
       "name": "Mapletree Industrial Trust",
-      "fetched_at": "2026-05-29T04:51:13.386Z",
+      "fetched_at": "2026-05-29T04:54:01.520Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/ME8U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/ME8U.SI/"
@@ -2026,7 +2026,7 @@
     {
       "ticker": "N2IU",
       "name": "Mapletree Pan Asia Commercial Trust",
-      "fetched_at": "2026-05-29T04:51:13.391Z",
+      "fetched_at": "2026-05-29T04:54:01.537Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/N2IU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/N2IU.SI/"
@@ -2314,7 +2314,7 @@
     {
       "ticker": "K71U",
       "name": "Keppel REIT",
-      "fetched_at": "2026-05-29T04:51:13.411Z",
+      "fetched_at": "2026-05-29T04:54:01.616Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/K71U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/K71U.SI/"
@@ -2602,7 +2602,7 @@
     {
       "ticker": "AJBU",
       "name": "Keppel DC REIT",
-      "fetched_at": "2026-05-29T04:51:13.532Z",
+      "fetched_at": "2026-05-29T04:54:01.640Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/AJBU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/AJBU.SI/"
@@ -2890,7 +2890,7 @@
     {
       "ticker": "CMOU",
       "name": "KORE US REIT",
-      "fetched_at": "2026-05-29T04:51:13.700Z",
+      "fetched_at": "2026-05-29T04:54:01.654Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/CMOU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/CMOU.SI/"
@@ -3178,7 +3178,7 @@
     {
       "ticker": "J69U",
       "name": "Frasers Centrepoint Trust",
-      "fetched_at": "2026-05-29T04:51:13.712Z",
+      "fetched_at": "2026-05-29T04:54:01.656Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/J69U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/J69U.SI/"
@@ -3466,7 +3466,7 @@
     {
       "ticker": "BUOU",
       "name": "Frasers Logistics & Commercial Trust",
-      "fetched_at": "2026-05-29T04:51:13.749Z",
+      "fetched_at": "2026-05-29T04:54:01.720Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/BUOU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/BUOU.SI/"
@@ -3754,7 +3754,7 @@
     {
       "ticker": "T82U",
       "name": "Suntec REIT",
-      "fetched_at": "2026-05-29T04:51:13.859Z",
+      "fetched_at": "2026-05-29T04:54:01.733Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/T82U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/T82U.SI/"
@@ -4042,7 +4042,7 @@
     {
       "ticker": "C2PU",
       "name": "Parkway Life REIT",
-      "fetched_at": "2026-05-29T04:51:14.013Z",
+      "fetched_at": "2026-05-29T04:54:01.743Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/C2PU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/C2PU.SI/"
@@ -4330,7 +4330,7 @@
     {
       "ticker": "SEB",
       "name": "Stoneweg Europe Stapled Trust",
-      "fetched_at": "2026-05-29T04:51:14.052Z",
+      "fetched_at": "2026-05-29T04:54:01.759Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/SEB.SI",
         "quote_summary": "https://finance.yahoo.com/quote/SEB.SI/"
@@ -4597,8 +4597,8 @@
         "exDividendDate": 1772582400,
         "payoutRatio": 1.0106,
         "marketCap": 1320468608,
-        "priceToBook": 0.7712649,
-        "bookValue": 3.0469425,
+        "priceToBook": 0.7749562,
+        "bookValue": 3.0324292,
         "trailingPE": 11.749999,
         "forwardPE": null,
         "priceToSalesTrailing12Months": 6.152675,
@@ -4618,7 +4618,7 @@
     {
       "ticker": "TS0U",
       "name": "OUE REIT",
-      "fetched_at": "2026-05-29T04:51:14.066Z",
+      "fetched_at": "2026-05-29T04:54:01.813Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/TS0U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/TS0U.SI/"
@@ -4907,7 +4907,7 @@
     {
       "ticker": "P40U",
       "name": "Starhill Global REIT",
-      "fetched_at": "2026-05-29T04:51:14.190Z",
+      "fetched_at": "2026-05-29T04:54:01.840Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/P40U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/P40U.SI/"
@@ -5195,7 +5195,7 @@
     {
       "ticker": "JYEU",
       "name": "Lendlease Global Commercial REIT",
-      "fetched_at": "2026-05-29T04:51:14.374Z",
+      "fetched_at": "2026-05-29T04:54:01.845Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/JYEU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/JYEU.SI/"
@@ -5483,7 +5483,7 @@
     {
       "ticker": "9A4U",
       "name": "ESR REIT",
-      "fetched_at": "2026-05-29T04:51:14.384Z",
+      "fetched_at": "2026-05-29T04:54:01.862Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/9A4U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/9A4U.SI/"
@@ -5757,8 +5757,8 @@
         "beta": 0.59,
         "fiftyTwoWeekHigh": 2.92,
         "fiftyTwoWeekLow": 2.21,
-        "fiftyDayAverage": 2.3906,
-        "twoHundredDayAverage": 2.64495,
+        "fiftyDayAverage": 2.391,
+        "twoHundredDayAverage": 2.6403,
         "sharesOutstanding": 805035067,
         "floatShares": 609951277,
         "currency": "SGD",
@@ -5771,7 +5771,7 @@
     {
       "ticker": "O5RU",
       "name": "AIMS APAC REIT",
-      "fetched_at": "2026-05-29T04:51:14.425Z",
+      "fetched_at": "2026-05-29T04:54:01.905Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/O5RU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/O5RU.SI/"
@@ -6059,7 +6059,7 @@
     {
       "ticker": "J85",
       "name": "CDL Hospitality Trusts",
-      "fetched_at": "2026-05-29T04:51:14.513Z",
+      "fetched_at": "2026-05-29T04:54:01.943Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/J85.SI",
         "quote_summary": "https://finance.yahoo.com/quote/J85.SI/"
@@ -6348,7 +6348,7 @@
     {
       "ticker": "Q5T",
       "name": "Far East Hospitality Trust",
-      "fetched_at": "2026-05-29T04:51:14.684Z",
+      "fetched_at": "2026-05-29T04:54:01.960Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/Q5T.SI",
         "quote_summary": "https://finance.yahoo.com/quote/Q5T.SI/"
@@ -6636,7 +6636,7 @@
     {
       "ticker": "CRPU",
       "name": "Sasseur REIT",
-      "fetched_at": "2026-05-29T04:51:14.706Z",
+      "fetched_at": "2026-05-29T04:54:01.969Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/CRPU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/CRPU.SI/"
@@ -6902,21 +6902,21 @@
         "fiveYearAvgDividendYield": 0.0876,
         "exDividendDate": 1773619200,
         "payoutRatio": 1.1880001,
-        "marketCap": 853677312,
+        "marketCap": null,
         "priceToBook": 0.8458647,
         "bookValue": 0.798,
         "trailingPE": 13.5,
         "forwardPE": 10.297483,
-        "priceToSalesTrailing12Months": 7.0564675,
+        "priceToSalesTrailing12Months": null,
         "beta": 0.496,
         "fiftyTwoWeekHigh": 0.72,
         "fiftyTwoWeekLow": 0.615,
         "fiftyDayAverage": 0.6559,
         "twoHundredDayAverage": 0.6774,
-        "sharesOutstanding": 1264707060,
+        "sharesOutstanding": null,
         "floatShares": 570518526,
         "currency": "SGD",
-        "longName": "Sasseur Real Estate Investment Trust",
+        "longName": null,
         "quoteType": "EQUITY"
       },
       "errors": []
@@ -6924,7 +6924,7 @@
     {
       "ticker": "8C8U",
       "name": "Centurion Accommodation REIT",
-      "fetched_at": "2026-05-29T04:51:14.745Z",
+      "fetched_at": "2026-05-29T04:54:02.023Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/8C8U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/8C8U.SI/"
@@ -7208,7 +7208,7 @@
     {
       "ticker": "NTDU",
       "name": "NTT DC REIT",
-      "fetched_at": "2026-05-29T04:51:14.839Z",
+      "fetched_at": "2026-05-29T04:54:02.062Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/NTDU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/NTDU.SI/"
@@ -7495,7 +7495,7 @@
     {
       "ticker": "DCRU",
       "name": "Digital Core REIT",
-      "fetched_at": "2026-05-29T04:51:15.022Z",
+      "fetched_at": "2026-05-29T04:54:02.067Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/DCRU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/DCRU.SI/"
@@ -7783,7 +7783,7 @@
     {
       "ticker": "DHLU",
       "name": "Daiwa House Logistics Trust",
-      "fetched_at": "2026-05-29T04:51:15.034Z",
+      "fetched_at": "2026-05-29T04:54:02.085Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/DHLU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/DHLU.SI/"
@@ -8071,7 +8071,7 @@
     {
       "ticker": "UIBU",
       "name": "UI Boustead REIT",
-      "fetched_at": "2026-05-29T04:51:15.044Z",
+      "fetched_at": "2026-05-29T04:54:02.104Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/UIBU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/UIBU.SI/"
@@ -8334,7 +8334,7 @@
     {
       "ticker": "M1GU",
       "name": "Alpha Integrated REIT",
-      "fetched_at": "2026-05-29T04:51:15.136Z",
+      "fetched_at": "2026-05-29T04:54:02.142Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/M1GU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/M1GU.SI/"
@@ -8622,7 +8622,7 @@
     {
       "ticker": "D5IU",
       "name": "Landmark REIT",
-      "fetched_at": "2026-05-29T04:51:15.323Z",
+      "fetched_at": "2026-05-29T04:54:02.148Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/D5IU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/D5IU.SI/"
@@ -8910,7 +8910,7 @@
     {
       "ticker": "AW9U",
       "name": "First REIT",
-      "fetched_at": "2026-05-29T04:51:15.333Z",
+      "fetched_at": "2026-05-29T04:54:02.172Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/AW9U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/AW9U.SI/"
@@ -9198,7 +9198,7 @@
     {
       "ticker": "BMGU",
       "name": "BHG Retail REIT",
-      "fetched_at": "2026-05-29T04:51:15.336Z",
+      "fetched_at": "2026-05-29T04:54:02.184Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/BMGU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/BMGU.SI/"
@@ -9486,7 +9486,7 @@
     {
       "ticker": "UD1U",
       "name": "IREIT Global",
-      "fetched_at": "2026-05-29T04:51:15.454Z",
+      "fetched_at": "2026-05-29T04:54:02.269Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/UD1U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/UD1U.SI/"
@@ -9774,7 +9774,7 @@
     {
       "ticker": "MXNU",
       "name": "Elite UK REIT",
-      "fetched_at": "2026-05-29T04:51:15.643Z",
+      "fetched_at": "2026-05-29T04:54:02.271Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/MXNU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/MXNU.SI/"
@@ -10062,7 +10062,7 @@
     {
       "ticker": "BTOU",
       "name": "Manulife US REIT",
-      "fetched_at": "2026-05-29T04:51:15.644Z",
+      "fetched_at": "2026-05-29T04:54:02.282Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/BTOU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/BTOU.SI/"
@@ -10350,7 +10350,7 @@
     {
       "ticker": "OXMU",
       "name": "Prime US REIT",
-      "fetched_at": "2026-05-29T04:51:15.647Z",
+      "fetched_at": "2026-05-29T04:54:02.308Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/OXMU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/OXMU.SI/"
@@ -10638,7 +10638,7 @@
     {
       "ticker": "ODBU",
       "name": "United Hampshire US REIT",
-      "fetched_at": "2026-05-29T04:51:15.769Z",
+      "fetched_at": "2026-05-29T04:54:02.365Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/ODBU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/ODBU.SI/"
@@ -10926,7 +10926,7 @@
     {
       "ticker": "XZL",
       "name": "Acrophyte Hospitality Trust",
-      "fetched_at": "2026-05-29T04:51:15.952Z",
+      "fetched_at": "2026-05-29T04:54:02.366Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/XZL.SI",
         "quote_summary": "https://finance.yahoo.com/quote/XZL.SI/"

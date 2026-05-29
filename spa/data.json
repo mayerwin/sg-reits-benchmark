@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "generated_at": "2026-05-29T04:51:16.386Z",
+    "generated_at": "2026-05-29T04:54:02.525Z",
     "master_validated": "2026-05-27",
-    "yahoo_generated_at": "2026-05-29T04:51:11.297Z",
+    "yahoo_generated_at": "2026-05-29T04:54:01.371Z",
     "facts_groups_present": [
       "reit_facts_group1.json",
       "reit_facts_group2.json",
@@ -389,7 +389,7 @@
         "composite": 85
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:11.299Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.372Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -768,7 +768,7 @@
         "composite": 80
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:11.302Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.373Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -1139,7 +1139,7 @@
         "composite": 82
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:11.303Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.375Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -1519,7 +1519,7 @@
         "composite": 74
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:11.306Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.376Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -1899,7 +1899,7 @@
         "composite": 77
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:12.866Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.517Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -2273,7 +2273,7 @@
         "composite": 69
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.192Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.520Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -2651,7 +2651,7 @@
         "composite": 75
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.386Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.520Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -3028,7 +3028,7 @@
         "composite": 66
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.391Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.537Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -3407,7 +3407,7 @@
         "composite": 82
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.411Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.616Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -3791,7 +3791,7 @@
         "composite": 82
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.532Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.640Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -4171,7 +4171,7 @@
         "composite": 52
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.700Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.654Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -4550,7 +4550,7 @@
         "composite": 76
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.712Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.656Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -4934,7 +4934,7 @@
         "composite": 79
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.749Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.720Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -5316,7 +5316,7 @@
         "composite": 61
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:13.859Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.733Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -5698,7 +5698,7 @@
         "composite": 90
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.013Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.743Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -6082,7 +6082,7 @@
         "composite": 76
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.052Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.759Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -6463,7 +6463,7 @@
         "composite": 78
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.066Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.813Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -6846,7 +6846,7 @@
         "composite": 85
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.190Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.840Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -7221,7 +7221,7 @@
         "composite": 71
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.374Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.845Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -7238,8 +7238,8 @@
       "market_cap": 1924033920,
       "fifty_two_week_high": 2.92,
       "fifty_two_week_low": 2.21,
-      "fifty_day_avg": 2.3906,
-      "two_hundred_day_avg": 2.64495,
+      "fifty_day_avg": 2.391,
+      "two_hundred_day_avg": 2.6403,
       "shares_outstanding": 805035067,
       "price_series": [
         {
@@ -7600,7 +7600,7 @@
         "composite": 62
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.384Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.862Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -7980,7 +7980,7 @@
         "composite": 78
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.425Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.905Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -8350,7 +8350,7 @@
         "composite": 78
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.513Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.943Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -8724,7 +8724,7 @@
         "composite": 71
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.684Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:01.960Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -8738,12 +8738,12 @@
       "trading_currency": "SGD",
       "alt_counter": null,
       "price": 0.675,
-      "market_cap": 853677312,
+      "market_cap": null,
       "fifty_two_week_high": 0.72,
       "fifty_two_week_low": 0.615,
       "fifty_day_avg": 0.6559,
       "two_hundred_day_avg": 0.6774,
-      "shares_outstanding": 1264707060,
+      "shares_outstanding": null,
       "price_series": [
         {
           "t": 1748480400,
@@ -9096,8 +9096,8 @@
         },
         "composite": 76
       },
-      "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.706Z",
+      "passes_user_screen": false,
+      "yahoo_fetched_at": "2026-05-29T04:54:01.969Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -9468,7 +9468,7 @@
         "composite": 79
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.745Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.023Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -9846,7 +9846,7 @@
         "composite": 84
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:14.839Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.062Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -10225,7 +10225,7 @@
         "composite": 75
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.022Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.067Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -10605,7 +10605,7 @@
         "composite": 75
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.034Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.085Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -10955,7 +10955,7 @@
         "composite": 78
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.044Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.104Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -11328,7 +11328,7 @@
         "composite": 67
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.136Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.142Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -11704,7 +11704,7 @@
         "composite": 58
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.323Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.148Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -12079,7 +12079,7 @@
         "composite": 64
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.333Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.172Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -12452,7 +12452,7 @@
         "composite": 50
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.336Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.184Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -12830,7 +12830,7 @@
         "composite": 64
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.454Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.269Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -13215,7 +13215,7 @@
         "composite": 79
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.643Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.271Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -13589,7 +13589,7 @@
         "composite": 48
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.644Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.282Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -13973,7 +13973,7 @@
         "composite": 57
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.647Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.308Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -14346,7 +14346,7 @@
         "composite": 67
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.769Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.365Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -14716,7 +14716,7 @@
         "composite": 38
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T04:51:15.952Z",
+      "yahoo_fetched_at": "2026-05-29T04:54:02.366Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     }
   ]
