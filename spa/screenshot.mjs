@@ -25,12 +25,12 @@ if (await firstRow.count()) {
   await page.waitForTimeout(200);
 }
 
-// Scrolled view (verify sticky headers + Name column + hbar)
-await page.evaluate(() => { const s = document.querySelector('#table-scroll'); if (s) s.scrollTop = 200; });
+// Scrolled view (verify whole-page scroll + sticky rail + sticky hbar)
+await page.evaluate(() => window.scrollTo(0, 420));
 await page.waitForTimeout(300);
 await page.screenshot({ path: 'screenshot_scrolled.png', fullPage: false });
 console.log('scrolled shot saved');
-await page.evaluate(() => { const s = document.querySelector('#table-scroll'); if (s) s.scrollTop = 0; });
+await page.evaluate(() => window.scrollTo(0, 0));
 await page.waitForTimeout(150);
 await page.locator('#help-btn').click();
 await page.waitForTimeout(400);

@@ -235,23 +235,28 @@ legend { padding: 0; display: block; width: 100%; }
   gap: 0;
 }
 
-/* =====================  RAIL  ===================== */
+/* =====================  RAIL  =====================
+   The rail is pinned (sticky) so it stays in place while the whole PAGE scrolls the table.
+   It only scrolls internally — with its own thin scrollbar — when the viewport is too short
+   to show all the filters. */
 .rail {
   border-right: 1px solid var(--line);
   background: var(--ink-1);
   position: sticky; top: 0;
   align-self: start;
-  height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
 }
 .rail__inner {
   padding: 22px 22px 40px;
-  height: 100%;
+  max-height: 100vh;
   overflow-y: auto;
-  /* Hide scrollbar — keep scrollable */
-  scrollbar-width: none;
+  scrollbar-width: thin;                 /* only appears when content exceeds the viewport */
+  scrollbar-color: var(--line-2) transparent;
 }
-.rail__inner::-webkit-scrollbar { display: none; }
+.rail__inner::-webkit-scrollbar { width: 8px; }
+.rail__inner::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+.rail__inner::-webkit-scrollbar-track { background: transparent; }
 
 .rail__group {
   padding: 16px 0;
@@ -447,15 +452,20 @@ legend { padding: 0; display: block; width: 100%; }
   letter-spacing: 0.02em;
 }
 
-/* Slim synced horizontal scrollbar, sits directly above the (sticky) column headers so it's
-   always reachable without scrolling to the bottom of a tall table. Driven by JS (app.js)
-   which mirrors scrollLeft with .table-scroll and sets the inner spacer to the table width. */
+/* Slim synced horizontal scrollbar. Pinned (sticky) to the top of the viewport so horizontal
+   scroll stays reachable no matter how far down the page you've scrolled — without needing a
+   secondary vertical scrollbar on the table itself. Driven by JS (app.js) which mirrors
+   scrollLeft with .table-scroll and sets the inner spacer to the table's full width. */
 .hbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   overflow-x: auto;
   overflow-y: hidden;
   height: 12px;
   background: var(--ink-2);
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   scrollbar-width: thin;
   scrollbar-color: var(--line-2) var(--ink-2);
 }
@@ -466,14 +476,12 @@ legend { padding: 0; display: block; width: 100%; }
 .hbar.is-hidden { display: none; }   /* hidden when the table fits without horizontal overflow */
 
 .table-scroll {
-  /* The table-scroll is the single vertical scroll region (keeps sticky headers working),
-     but its native scrollbars are hidden — vertical scroll is by wheel/trackpad, horizontal
-     by the synced .hbar above. This removes the awkward secondary scrollbar pair. */
-  overflow: auto;
+  /* Horizontal-only scroll region. The WHOLE PAGE scrolls vertically (no inner vertical
+     scrollbar, no max-height) so the table flows naturally and the footnote sits after it.
+     Native scrollbars are hidden — horizontal scrolling is driven by the synced .hbar above. */
+  overflow-x: auto;
   border-bottom: 1px solid var(--line);
-  max-height: calc(100vh - 200px);
   scrollbar-width: none;
-  overscroll-behavior: contain;
 }
 .table-scroll::-webkit-scrollbar { display: none; }
 
