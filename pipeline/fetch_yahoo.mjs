@@ -74,6 +74,24 @@ async function getAuth(retries = 3) {
   return null;
 }
 
+/** FX rates as "units of SGD per 1 unit of currency" (so SGD = 1). Used ONLY to reconcile a
+ *  REIT whose distribution currency differs from its trading currency (e.g. Stoneweg/IREIT pay
+ *  EUR but trade in SGD) so its yield is computed in a single currency. Chart API needs no auth. */
+async function fetchFx() {
+  const fx = { SGD: 1 };
+  for (const ccy of ['USD', 'EUR', 'GBP']) {
+    try {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ccy}SGD=X?interval=1d&range=5d`;
+      const res = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': 'application/json' } });
+      if (!res.ok) throw new Error(`FX ${ccy} ${res.status}`);
+      const j = await res.json();
+      const rate = j?.chart?.result?.[0]?.meta?.regularMarketPrice;
+      if (Number.isFinite(rate) && rate > 0) fx[ccy] = rate;
+    } catch (e) { console.warn(`  FX ${ccy}SGD failed: ${e.message}`); }
+  }
+  return fx;
+}
+
 async function fetchChart(ticker) {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}.SI?interval=1d&range=1y&includePrePost=false`;
   const res = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': 'application/json' } });
@@ -278,6 +296,10 @@ async function main() {
     priorByTicker = Object.fromEntries((prior.data || []).map(d => [d.ticker, d]));
   } catch { /* first run — no prior */ }
 
+  console.log('Fetching FX (EUR/USD/GBP → SGD)...');
+  const fx = await fetchFx();
+  console.log('  fx:', JSON.stringify(fx));
+
   console.log('Acquiring Yahoo Finance auth (cookie + crumb)...');
   const auth = await getAuth();
   if (auth) {
@@ -295,6 +317,7 @@ async function main() {
       source: 'Yahoo Finance v8 chart + v10 quoteSummary',
       master_validated: master._meta.last_validated,
       auth_mode: auth ? 'full' : 'chart-only',
+      fx: fx,   // {SGD:1, USD:.., EUR:.., GBP:..} units of SGD per 1 unit; for DPU↔price ccy reconciliation
     },
     data: [],
   };

@@ -81,6 +81,22 @@ const main = async () => {
     // WALE basis mixing: NLA vs GRI are not comparable across REITs.
     if (r.wale_years != null && !r.wale_basis) add('L', t, `WALE ${r.wale_years}y has no basis (NLA/GRI) recorded — not comparable across REITs without it`);
 
+    // Forward run-rate vs trailing yield divergence: a large gap is EITHER a real DPU
+    // trend (e.g. a sharp YoY decline) OR a period/frequency error in the latest-period DPU.
+    // Flag for review; cross-check against dpu_yoy_pct to tell which.
+    if (r.forward_yield_run_rate != null && r.distribution_yield_ttm != null && r.distribution_yield_ttm > 0) {
+      const ratio = r.forward_yield_run_rate / r.distribution_yield_ttm;
+      if (ratio > 1.4 || ratio < 0.7) {
+        const yoy = r.dpu_yoy_pct != null ? `${r.dpu_yoy_pct > 0 ? '+' : ''}${r.dpu_yoy_pct}% YoY` : 'YoY n/d';
+        const explained = r.dpu_yoy_pct != null && Math.abs(r.dpu_yoy_pct) > 15;
+        add(explained ? 'L' : 'M', t, `forward run-rate yield (${(r.forward_yield_run_rate * 100).toFixed(1)}%) diverges ${(ratio).toFixed(2)}× from TTM (${(r.distribution_yield_ttm * 100).toFixed(1)}%) — ${explained ? 'consistent with ' + yoy : 'verify last-period DPU × frequency vs a real trend (' + yoy + ')'}`);
+      }
+    }
+    // Distribution-currency vs trading-currency mismatch: yield must be FX-reconciled (it now is
+    // in the merger). Flag so a reviewer can confirm the conversion looks right, not skip it.
+    if (r.dpu_currency && r.trading_currency && r.dpu_currency !== r.trading_currency && r.distribution_yield_ttm != null)
+      add('L', t, `distribution currency (${r.dpu_currency}) ≠ trading currency (${r.trading_currency}) — yield is FX-reconciled to ${r.dpu_currency}; confirm it looks right (${(r.distribution_yield_ttm * 100).toFixed(1)}%)`);
+
     // 4. Source authority --------------------------------------------------
     for (const [k, s] of Object.entries(r.sources || {})) {
       if (s && typeof s === 'object' && s.url && s.authoritative === false)

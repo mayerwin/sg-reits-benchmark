@@ -579,7 +579,7 @@
       "gearing_pct_incl_perps": null,
       "gearing_pct_incl_perps_source": null,
       "perpetual_securities_note": "SERT has no outstanding perpetual securities (1Q 2026 balance-sheet items show bank loans, RCF, EMTN bonds only; no perpetual capital line in the structure).",
-      "distribution_frequency": 2,
+      "distribution_frequency": 4,
       "distribution_frequency_note": "Bi-annual (semi-annual) distributions per the 1Q 2026 presentation ('liquidity and bi-annual distributions'). The 3.423 Euro cents quoted for 1Q 2026 is an INDICATIVE quarterly accrual figure, not a paid quarterly distribution.",
       "distribution_frequency_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
       "forecast_dpu_cents": 13.39,
@@ -597,7 +597,7 @@
       "dpu_yoy_pct": 1.5,
       "dpu_yoy_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
       "dpu_yoy_note": "Quarter-on-corresponding-quarter: 1Q 2026 indicative DPS 3.423 Euro cents vs 1Q 2025 indicative DPS 3.374 Euro cents = +1.5% YoY (distributable income +0.4% YoY). This is a quarterly indicative comparison, not a full-year DPS YoY (FY2026 not yet complete; FY2026 guided broadly in line with FY2025's 13.39 cents, i.e. ~flat).",
-      "_forward_notes": "Stapled trust (REIT + business trust components stapled); distribution is DPS per stapled security, declared in EUR cents (SGX counter SEB trades in SGD; EUR counter SET also listed). Distributions are bi-annual (semi-annual); the 3.423 Euro-cent 1Q figure is an indicative quarterly accrual, not a paid quarterly distribution. Forward DPS guided broadly in line with FY2025's 13.39 Euro cents, with ~€41m (7 cents/security) of crystallised capital gains in reserve to support distributions. Positive operating momentum (+3.9% total reversion, +7.6% logistics/light industrial), no debt maturity until Oct 2027 (0% due in 12 months), 87% hedged. Gearing defined per EMTN programme (42.7% proforma net), not the MAS Property Funds Appendix; ICR not disclosed."
+      "_forward_notes": "Stapled trust (REIT + business trust components stapled); distribution is DPS per stapled security, declared in EUR cents (SGX counter SEB trades in SGD; EUR counter SET also listed). Distributions are bi-annual (semi-annual); the 3.423 Euro-cent 1Q figure is an indicative quarterly accrual, not a paid quarterly distribution. Forward DPS guided broadly in line with FY2025's 13.39 Euro cents, with ~€41m (7 cents/security) of crystallised capital gains in reserve to support distributions. Positive operating momentum (+3.9% total reversion, +7.6% logistics/light industrial), no debt maturity until Oct 2027 (0% due in 12 months), 87% hedged. Gearing defined per EMTN programme (42.7% proforma net), not the MAS Property Funds Appendix; ICR not disclosed. distribution_frequency reconciled to 4 (quarterly): disclosed annual DPU 13.39 EUR cts ≈ 4 × the 3.423 EUR-cts quarterly indicative DPS, and YoY is +1.5%, so the period figure is a quarter, not a half-year."
     },
     "AU8U": {
       "name": "CapitaLand China Trust (CLCT)",

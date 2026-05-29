@@ -408,14 +408,15 @@
       "pct_debt_due_12m": 0,
       "pct_debt_due_12m_source": "https://investor.careit.com.sg/newsroom/20260505_185539_8C8U_P0G80WVAJG9RTBV3.1.pdf",
       "pct_debt_due_12m_note": "0%. Manager explicitly states 'No debt maturing till FY 2028' (as at 31 Mar 2026). WADM 3.9 years; total facilities S$875.9m.",
-      "dpu_change_per_100bps_pct": -2.0,
+      "dpu_change_per_100bps_pct": -2,
       "dpu_change_per_100bps_source": "https://investor.careit.com.sg/newsroom/20260505_185539_8C8U_P0G80WVAJG9RTBV3.1.pdf",
       "dpu_change_per_100bps_note": "Manager discloses a 100 basis points change in base rates has an estimated impact of S$2.3 million or 0.13 cent per annum on amount available for distribution / DPU (based on 1,722,435,558 units). As % of Projection Year 2026 forecast DPU 6.64 cents = ~-2.0%. (ICR sensitivity separately: 100bps increase -> ICR 4.78x.)",
       "dpu_yoy_pct": null,
       "dpu_yoy_source": null,
       "dpu_yoy_note": "Not derivable - recent IPO (25 Sep 2025); only one prior distribution period (FP 2025 stub, 12 Aug-31 Dec 2025) so no like-for-like prior-year comparison exists. FP 2025 DPU was 1.739 cents (6.7% above IPO forecast).",
       "_forward_notes": "Recent IPO - has an IPO-prospectus forward DPU forecast: 6.64 cents (PY2026) / 7.02 cents (PY2027). PBWA/PBSA accommodation REIT: occupancy + rental rates rather than rental reversion. Semi-annual distributions. Zero debt due within 12 months (none till FY2028). DPU/100bps sensitivity explicitly disclosed (0.13c). DPU YoY not derivable (single prior stub period).",
-      "_notes": "v2 revision: populated previously-null top-level report_period / report_date / report_url using 1Q 2026 Business Update (May 5, 2026); secondary metadata (dpu_nav source) for FP 2025 maiden distribution retained. Updated occupancy from stale FP 2025 figure (97.5% total) to 1Q 2026 bed-weighted 94.6% (PBWA 94.0% + PBSA 98.6%) with note explaining the difference is driven by new bed-block ramp-up at Toh Guan / Mandai."
+      "_notes": "v2 revision: populated previously-null top-level report_period / report_date / report_url using 1Q 2026 Business Update (May 5, 2026); secondary metadata (dpu_nav source) for FP 2025 maiden distribution retained. Updated occupancy from stale FP 2025 figure (97.5% total) to 1Q 2026 bed-weighted 94.6% (PBWA 94.0% + PBSA 98.6%) with note explaining the difference is driven by new bed-block ramp-up at Toh Guan / Mandai.",
+      "dpu_ttm_is_stub": true
     },
     "NTDU": {
       "name": "NTT DC REIT",
@@ -480,8 +481,8 @@
       "distribution_frequency": 2,
       "distribution_frequency_source": "https://links.sgx.com/1.0.0/prospectus-circulars/55219",
       "distribution_frequency_note": "Intends to make distributions semi-annually (per IPO Prospectus dated 7 July 2025). Distributes 100% of distributable income for the period to 31 Mar 2027, then at least 90% thereafter. FY25/26 maiden distribution of 5.56 US cents covers the full listing period; payment date 29 June 2026.",
-      "forecast_dpu_cents": null,
-      "forecast_dpu_basis": null,
+      "forecast_dpu_cents": 7.5,
+      "forecast_dpu_basis": "IPO prospectus annualised DPU (US7.50c, FY25/26 forecast) — first reported period is a ~8.5-month maiden stub, so trailing/period-annualised yields are unreliable; this forecast is the cleaner forward read",
       "forecast_dpu_source": "https://links.sgx.com/1.0.0/corporate-announcements/TKVC2GLR5JBL9TYG/888503_FY%2025-26%20Results.pdf",
       "forecast_dpu_note": "No FORWARD DPU forecast for FY26/27 published in the FY25/26 results. The IPO Prospectus forecast (5.42 US cents) applied to the now-elapsed FY25/26 listing period; actual was 5.56 US cents (+2.6% above forecast). No projection figure for the next year is disclosed.",
       "rental_reversion_pct": 8.5,
@@ -496,7 +497,8 @@
       "dpu_yoy_pct": null,
       "dpu_yoy_source": "https://links.sgx.com/1.0.0/corporate-announcements/TKVC2GLR5JBL9TYG/888503_FY%2025-26%20Results.pdf",
       "dpu_yoy_note": "Not derivable - FY25/26 is the maiden full-period result (no prior full-year comparison). DPU was 5.56 US cents, +2.6% above the IPO Forecast of 5.42 US cents.",
-      "_forward_notes": "Data-centre REIT with strong forward signal: +8.5% portfolio rental reversion in FY25/26 (+13.7% incl. SG1) and a contracted +23% SG1 MSA uplift to be booked from 1Q FY26/27. Semi-annual distributions. Zero debt due within 12 months. No forward DPU forecast and no DPU/100bps sensitivity disclosed (only ICR sensitivity). DPU YoY not derivable (maiden period). USD-denominated."
+      "_forward_notes": "Data-centre REIT with strong forward signal: +8.5% portfolio rental reversion in FY25/26 (+13.7% incl. SG1) and a contracted +23% SG1 MSA uplift to be booked from 1Q FY26/27. Semi-annual distributions. Zero debt due within 12 months. No forward DPU forecast and no DPU/100bps sensitivity disclosed (only ICR sensitivity). DPU YoY not derivable (maiden period). USD-denominated.",
+      "dpu_ttm_is_stub": true
     },
     "DCRU": {
       "name": "Digital Core REIT",

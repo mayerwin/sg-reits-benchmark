@@ -293,6 +293,7 @@ async function main() {
   }
 
   const yahooByTicker = Object.fromEntries(yahoo.data.map(d => [d.ticker, d]));
+  const FX = yahoo._meta?.fx || { SGD: 1 };   // units of SGD per 1 unit of currency
 
   const records = master.reits.map(reit => {
     const t = reit.ticker;
@@ -303,16 +304,42 @@ async function main() {
     const currency = y.chart?.currency || reit.trading_currency;
     const marketCap = y.summary?.marketCap;
     const yahooYield = y.summary?.dividendYield_trailing; // fraction
+    const dpuCurrency = f.dpu_currency || currency;
     const dpuTTM = f.dpu_ttm_cents != null ? f.dpu_ttm_cents / 100 : null;
+    const isStub = f.dpu_ttm_is_stub === true;   // recent IPO: trailing/period figures unreliable
 
-    // Distribution yield: prefer manager-disclosed DPU over Yahoo (Yahoo may include capital
-    // distributions and reports NaN for very-recent IPOs with no full-year history).
+    // Convert `price` (in trading currency) into the DISTRIBUTION currency so a yield divides
+    // like-for-like. Needed for REITs that pay in a different currency than they trade in
+    // (e.g. Stoneweg / IREIT trade in SGD but distribute in EUR). FX = SGD-per-unit.
+    const priceInDpuCcy = (price != null && FX[currency] && FX[dpuCurrency])
+      ? price * FX[currency] / FX[dpuCurrency]
+      : price;
+    const yieldFromDpu = (dpuCents) => (dpuCents != null && priceInDpuCcy != null && priceInDpuCcy > 0)
+      ? (dpuCents / 100) / priceInDpuCcy
+      : null;
+
+    // Distribution yield: prefer manager-disclosed DPU (FX-reconciled) over Yahoo. For a
+    // stub-period IPO the trailing DPU isn't a true 12 months, so we suppress it (the forward
+    // yield carries the real signal) rather than show a misleadingly low number.
     const sanitize = (v) => (v == null || Number.isNaN(v)) ? null : v;
-    const distYield = sanitize(
-      (dpuTTM != null && price != null && price > 0)
-        ? dpuTTM / price
-        : yahooYield,
+    const distYield = isStub ? null : sanitize(
+      (dpuTTM != null) ? yieldFromDpu(f.dpu_ttm_cents) : yahooYield,
     );
+
+    // Run-rate forward yield = latest declared period DPU annualised by payment frequency.
+    // This is only trustworthy when the latest figure IS one full distribution period. Several
+    // semi-annual payers report a QUARTERLY DPU in their 1Q update, so `last × freq` under-
+    // annualises. Guard: keep the run-rate only when it's within a sane band of the (reliable,
+    // FX-reconciled) trailing yield, OR the divergence is explained by a large real DPU trend
+    // (|YoY| > 20%, e.g. IREIT down 42%). Otherwise the period basis is ambiguous → suppress.
+    let fwdRunRate = (!isStub && f.dpu_last_period_cents != null && f.distribution_frequency)
+      ? yieldFromDpu(f.dpu_last_period_cents * f.distribution_frequency)
+      : null;
+    if (fwdRunRate != null && distYield != null && distYield > 0) {
+      const ratio = fwdRunRate / distYield;
+      const trendExplains = f.dpu_yoy_pct != null && Math.abs(f.dpu_yoy_pct) > 20;
+      if ((ratio > 1.4 || ratio < 0.7) && !trendExplains) fwdRunRate = null;
+    }
 
     // NOTE on "true profits" / cash earnings yield:
     //   The user asked for "cash received minus all cash costs (incl. interest), excluding
@@ -415,15 +442,14 @@ async function main() {
         : null,
 
       // === Forward-looking (expected future yield) ===
-      // Run-rate forward yield: annualise the latest declared period DPU (period × freq) / price.
-      // Captures a recent acquisition/divestment that the trailing-12M yield hasn't caught up to.
-      forward_yield_run_rate: (f.dpu_last_period_cents != null && f.distribution_frequency && price != null && price > 0)
-        ? (f.dpu_last_period_cents / 100 * f.distribution_frequency) / price
-        : null,
+      // Run-rate forward yield: annualise the latest declared period DPU (period × freq), FX-
+      // reconciled to the distribution currency. Captures a recent acquisition/divestment the
+      // trailing-12M yield hasn't caught up to. SUPPRESSED for stub-period IPOs, whose maiden
+      // period isn't a clean ×freq window — their guided forward yield is the honest read instead.
+      forward_yield_run_rate: fwdRunRate,
       // Guided forward yield: from a manager/prospectus numeric DPU forecast (mostly IPOs/guidance).
-      forward_yield_guidance: (f.forecast_dpu_cents != null && price != null && price > 0)
-        ? (f.forecast_dpu_cents / 100) / price
-        : null,
+      forward_yield_guidance: yieldFromDpu(f.forecast_dpu_cents),
+      dpu_ttm_is_stub: isStub,
       distribution_frequency: f.distribution_frequency ?? null,
       forecast_dpu_cents: f.forecast_dpu_cents ?? null,
       forecast_dpu_basis: f.forecast_dpu_basis ?? null,
