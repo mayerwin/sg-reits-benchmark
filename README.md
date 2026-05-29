@@ -1,4 +1,4 @@
-# S-REIT Terminal
+# S-REIT Benchmark
 
 A re-runnable Singapore REIT screener and data pipeline. Built for investors making capital-allocation decisions — accuracy and per-field source provenance over polish.
 

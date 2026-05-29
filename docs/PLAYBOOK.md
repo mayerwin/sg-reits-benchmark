@@ -1,6 +1,6 @@
-# S-REIT Terminal — Re-run Playbook
+# S-REIT Benchmark — Re-run Playbook
 
-This is the **complete, replicable** procedure for refreshing the S-REIT Terminal dataset. Follow these steps verbatim. Every command runs from the project root unless noted.
+This is the **complete, replicable** procedure for refreshing the S-REIT Benchmark dataset. Follow these steps verbatim. Every command runs from the project root unless noted.
 
 > The dashboard exists to support **financial decisions worth hundreds of millions**. Accuracy is non-negotiable. The playbook below is designed so that any reasonably capable agent or operator can re-run it without context from prior runs and arrive at the same correct dataset.
 

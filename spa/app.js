@@ -1,4 +1,4 @@
-/* S-REIT Terminal — single-file vanilla JS app
+/* S-REIT Benchmark — single-file vanilla JS app
  *
  * Loads data.json, renders a sortable filterable table with detail drawer + sparklines.
  * Persists user preferences (filters, column visibility, hidden REITs) to localStorage.
