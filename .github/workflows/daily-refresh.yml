@@ -1,0 +1,59 @@
+name: Daily market data refresh
+
+# Runs daily at 11:00 UTC (19:00 SGT, after SG market close at 17:10 SGT).
+# Refreshes Yahoo Finance data only — REIT-specific metrics (gearing/ICR/DPU)
+# require manual / agent refresh per `docs/PLAYBOOK.md` §4 since they come
+# from REIT IR filings.
+
+on:
+  schedule:
+    - cron: '0 11 * * 1-5'  # Mon-Fri at 11:00 UTC
+  workflow_dispatch:        # Manual trigger from Actions UI
+    inputs:
+      reason:
+        description: 'Reason for manual refresh (logged in commit message)'
+        required: false
+        default: 'manual refresh'
+
+permissions:
+  contents: write           # Needed to commit refreshed data.json
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Refresh Yahoo data
+        working-directory: ./pipeline
+        run: |
+          echo "==> fetch_yahoo.mjs"
+          node fetch_yahoo.mjs
+
+      - name: Merge into dataset
+        working-directory: ./pipeline
+        run: |
+          echo "==> merge.mjs"
+          node merge.mjs
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/yahoo.json data/data.json spa/data.json
+          if git diff --staged --quiet; then
+            echo "no data changes — nothing to commit"
+          else
+            STAMP=$(date -u +'%Y-%m-%d %H:%M UTC')
+            REASON='${{ github.event.inputs.reason || 'scheduled refresh' }}'
+            git commit -m "data: daily refresh $STAMP ($REASON)"
+            git push
+          fi

@@ -1,0 +1,58 @@
+name: Deploy SPA to GitHub Pages
+
+# Publishes the spa/ folder to GitHub Pages on every push to main, and
+# after the daily-refresh workflow updates spa/data.json.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'spa/**'
+      - 'docs/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Daily market data refresh']
+    types: [completed]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build site bundle
+        run: |
+          mkdir -p _site
+          cp -r spa/* _site/
+          cp -r docs _site/docs
+          # Ensure data is fresh in the deployed bundle
+          cp data/data.json _site/data.json
+          # Disable Jekyll processing
+          touch _site/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+pipeline/node_modules/
+spa/node_modules/
+package-lock.json
+
+# Build outputs
+_site/
+
+# Local screenshots (regenerated)
+spa/screenshot_*.png
+spa/review10_*.png
+spa/review10.mjs
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Local dev artifacts
+*.tmp
+
+# Agent scratch
+tmp_extracts/

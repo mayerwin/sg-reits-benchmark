@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "description": "Canonical master list of all Singapore-listed REITs and Stapled Property Trusts. All tickers VALIDATED against Yahoo Finance (chart API) on 2026-05-27.",
+    "primary_source": "REITAS (https://www.reitas.sg/singapore-reits/s-reit-sectors/)",
+    "secondary_sources": [
+      "SGinvestors.io REIT listing (https://sginvestors.io/sgx/reit-listing/alpha)",
+      "SGX REITs page (https://www.sgx.com/reits)",
+      "Individual REIT IR pages",
+      "Yahoo Finance chart API"
+    ],
+    "last_validated": "2026-05-27",
+    "count": 39,
+    "exclusions": [
+      "Eagle Hospitality Trust (LIW) — trading suspended",
+      "EC World REIT (BWCU) — trading suspended",
+      "Dasin Retail Trust (CEDU) — trading suspended",
+      "Frasers Hospitality Trust (ACV) — privatised & delisted Oct 2025"
+    ],
+    "notes": [
+      "Each REIT listed by its PRIMARY counter only. Dual-currency lines (Elite UK MENU/MXNU, IREIT 8U7U/UD1U, Stoneweg SEB/SET) are noted but only the most-liquid counter is the primary entry.",
+      "Recent name changes: ESR REIT (was ESR-LOGOS REIT, ticker 9A4U); KORE US REIT (was Keppel Pacific Oak US REIT, CMOU unchanged); Landmark REIT (was Lippo Malls Indonesia Retail Trust, D5IU unchanged, mandate now broader Asia); Alpha Integrated REIT (was Sabana Industrial REIT, M1GU unchanged).",
+      "Recent IPOs: NTT DC REIT (14 Jul 2025); Centurion Accommodation REIT (25 Sep 2025); UI Boustead REIT (12 Mar 2026)."
+    ]
+  },
+  "reits": [
+    {"ticker": "C38U", "name": "CapitaLand Integrated Commercial Trust", "sector": "Diversified", "sub_sector": "Retail / Office", "geography": "Singapore / Australia / Germany", "sponsor": "CapitaLand Investment", "ir_url": "https://investor.cict.com.sg/", "trading_currency": "SGD"},
+    {"ticker": "A17U", "name": "CapitaLand Ascendas REIT", "sector": "Industrial", "sub_sector": "Business Parks / Logistics / Hi-Tech", "geography": "Singapore / Australia / US / UK / Europe", "sponsor": "CapitaLand Investment", "ir_url": "https://investor.capitaland-ascendasreit.com/", "trading_currency": "SGD"},
+    {"ticker": "HMN", "name": "CapitaLand Ascott Trust", "sector": "Hospitality", "sub_sector": "Serviced Residences / Hotels / Student Accommodation", "geography": "Global (~39 cities)", "sponsor": "CapitaLand Investment", "ir_url": "https://investor.capitalandascotttrust.com/", "trading_currency": "SGD"},
+    {"ticker": "AU8U", "name": "CapitaLand China Trust", "sector": "Diversified", "sub_sector": "Retail / Business Park / Logistics (China)", "geography": "China", "sponsor": "CapitaLand Investment", "ir_url": "https://investor.clct.com.sg/", "trading_currency": "SGD"},
+    {"ticker": "CY6U", "name": "CapitaLand India Trust", "sector": "Diversified", "sub_sector": "IT Business Parks / Logistics / Data Centres (Business Trust)", "geography": "India", "sponsor": "CapitaLand Investment", "ir_url": "https://investor.clint.com.sg/", "trading_currency": "SGD"},
+    {"ticker": "M44U", "name": "Mapletree Logistics Trust", "sector": "Industrial", "sub_sector": "Logistics", "geography": "Asia-Pacific (9 markets)", "sponsor": "Mapletree Investments", "ir_url": "https://investor.mapletreelogisticstrust.com/", "trading_currency": "SGD"},
+    {"ticker": "ME8U", "name": "Mapletree Industrial Trust", "sector": "Industrial", "sub_sector": "Data Centres / Hi-Tech / Industrial", "geography": "Singapore / US / Japan", "sponsor": "Mapletree Investments", "ir_url": "https://investor.mapletreeindustrialtrust.com/", "trading_currency": "SGD"},
+    {"ticker": "N2IU", "name": "Mapletree Pan Asia Commercial Trust", "sector": "Diversified", "sub_sector": "Retail / Office (Pan Asia)", "geography": "Singapore / Hong Kong / China / Japan / South Korea", "sponsor": "Mapletree Investments", "ir_url": "https://investor.mapletreepact.com/", "trading_currency": "SGD"},
+    {"ticker": "K71U", "name": "Keppel REIT", "sector": "Office", "sub_sector": "Premium Office", "geography": "Singapore / Australia / South Korea / Japan", "sponsor": "Keppel Ltd", "ir_url": "https://www.keppelreit.com/en/investor-relations/", "trading_currency": "SGD"},
+    {"ticker": "AJBU", "name": "Keppel DC REIT", "sector": "Data Centre", "sub_sector": "Data Centres", "geography": "Singapore / Japan / Australia / China / Malaysia / Germany / Ireland / Italy / Netherlands", "sponsor": "Keppel Ltd", "ir_url": "https://www.keppeldcreit.com/en/investor-relations/", "trading_currency": "SGD"},
+    {"ticker": "CMOU", "name": "KORE US REIT", "sector": "Office", "sub_sector": "US Office", "geography": "United States", "sponsor": "Keppel Ltd / Pacific Oak", "ir_url": "https://www.koreusreit.com/investor-relations/", "trading_currency": "USD"},
+    {"ticker": "J69U", "name": "Frasers Centrepoint Trust", "sector": "Retail", "sub_sector": "Suburban Retail Malls", "geography": "Singapore", "sponsor": "Frasers Property", "ir_url": "https://fct.frasersproperty.com/", "trading_currency": "SGD"},
+    {"ticker": "BUOU", "name": "Frasers Logistics & Commercial Trust", "sector": "Industrial", "sub_sector": "Logistics / Commercial", "geography": "Australia / Germany / Singapore / UK / Netherlands", "sponsor": "Frasers Property", "ir_url": "https://flct.frasersproperty.com/", "trading_currency": "SGD"},
+    {"ticker": "T82U", "name": "Suntec REIT", "sector": "Diversified", "sub_sector": "Office / Retail / Convention", "geography": "Singapore / Australia / UK", "sponsor": "Acrophyte (Tang Organization)", "ir_url": "https://suntecreit.listedcompany.com/", "trading_currency": "SGD"},
+    {"ticker": "C2PU", "name": "Parkway Life REIT", "sector": "Healthcare", "sub_sector": "Hospitals / Nursing Homes", "geography": "Singapore / Japan / France", "sponsor": "IHH Healthcare", "ir_url": "https://www.plifereit.com/investor-relations.html", "trading_currency": "SGD"},
+    {"ticker": "SEB", "name": "Stoneweg Europe Stapled Trust", "sector": "Diversified", "sub_sector": "European Logistics / Light Industrial / Office", "geography": "Europe (NL / FR / IT / DE / others)", "sponsor": "SWI Group (Stoneweg / Icona Capital)", "ir_url": "https://investor.stonewegeuropestapledtrust.com.sg/", "trading_currency": "SGD", "alt_counter": {"ticker": "SET", "currency": "EUR"}},
+    {"ticker": "TS0U", "name": "OUE REIT", "sector": "Diversified", "sub_sector": "Office / Retail / Hospitality", "geography": "Singapore / Shanghai", "sponsor": "OUE Limited", "ir_url": "https://investor.ouereit.com/", "trading_currency": "SGD"},
+    {"ticker": "P40U", "name": "Starhill Global REIT", "sector": "Retail", "sub_sector": "Prime Retail / Office", "geography": "Singapore / Australia / Malaysia / Japan / China", "sponsor": "YTL Corporation", "ir_url": "https://www.starhillglobalreit.com/", "trading_currency": "SGD"},
+    {"ticker": "JYEU", "name": "Lendlease Global Commercial REIT", "sector": "Diversified", "sub_sector": "Retail / Commercial", "geography": "Singapore / Italy / Germany", "sponsor": "Lendlease Corporation", "ir_url": "https://www.lendleaseglobalcommercialreit.com/investor/", "trading_currency": "SGD"},
+    {"ticker": "9A4U", "name": "ESR REIT", "sector": "Industrial", "sub_sector": "Logistics / Industrial / Hi-Tech", "geography": "Singapore / Australia / Japan", "sponsor": "ESR Group", "ir_url": "https://esr-reit.listedcompany.com/", "trading_currency": "SGD"},
+    {"ticker": "O5RU", "name": "AIMS APAC REIT", "sector": "Industrial", "sub_sector": "Logistics / Industrial / Business Parks", "geography": "Singapore / Australia", "sponsor": "AIMS Financial Group", "ir_url": "https://investor.aimsapacreit.com/", "trading_currency": "SGD"},
+    {"ticker": "J85", "name": "CDL Hospitality Trusts", "sector": "Hospitality", "sub_sector": "Hotels / Resorts", "geography": "Singapore / UK / Germany / Italy / Australia / NZ / Japan / Maldives", "sponsor": "City Developments Limited", "ir_url": "https://investor.cdlht.com/", "trading_currency": "SGD"},
+    {"ticker": "Q5T", "name": "Far East Hospitality Trust", "sector": "Hospitality", "sub_sector": "Hotels / Serviced Residences", "geography": "Singapore / Japan", "sponsor": "Far East Organization", "ir_url": "https://feht.listedcompany.com/", "trading_currency": "SGD"},
+    {"ticker": "CRPU", "name": "Sasseur REIT", "sector": "Retail", "sub_sector": "Outlet Malls", "geography": "China", "sponsor": "Sasseur Group", "ir_url": "https://investor.sasseurreit.com/", "trading_currency": "SGD"},
+    {"ticker": "8C8U", "name": "Centurion Accommodation REIT", "sector": "Hospitality", "sub_sector": "Worker / Student Accommodation (PBWA / PBSA)", "geography": "Singapore / UK / Australia", "sponsor": "Centurion Corporation", "ir_url": "https://investor.careit.com.sg/", "trading_currency": "SGD"},
+    {"ticker": "NTDU", "name": "NTT DC REIT", "sector": "Data Centre", "sub_sector": "Data Centres", "geography": "United States / Austria / Singapore", "sponsor": "NTT Limited (NTT Group)", "ir_url": "https://ir.nttdcreit.com/", "trading_currency": "USD"},
+    {"ticker": "DCRU", "name": "Digital Core REIT", "sector": "Data Centre", "sub_sector": "Data Centres", "geography": "United States / Canada / Germany / Japan", "sponsor": "Digital Realty Trust", "ir_url": "https://www.digitalcorereit.com/investor-relations/", "trading_currency": "USD"},
+    {"ticker": "DHLU", "name": "Daiwa House Logistics Trust", "sector": "Industrial", "sub_sector": "Logistics", "geography": "Japan", "sponsor": "Daiwa House Industry", "ir_url": "https://www.daiwahouse-logisticstrust.com/", "trading_currency": "SGD"},
+    {"ticker": "UIBU", "name": "UI Boustead REIT", "sector": "Industrial", "sub_sector": "Logistics / Industrial", "geography": "Singapore / Japan", "sponsor": "UIB Holdings (Unified Industrial / Boustead Projects)", "ir_url": "https://ir.uibreit.com/", "trading_currency": "SGD"},
+    {"ticker": "M1GU", "name": "Alpha Integrated REIT", "sector": "Industrial", "sub_sector": "Industrial", "geography": "Singapore", "sponsor": "Internally managed (no external sponsor — internalised Oct 2025)", "ir_url": "https://investor.ai-reit.com/", "trading_currency": "SGD"},
+    {"ticker": "D5IU", "name": "Landmark REIT", "sector": "Retail", "sub_sector": "Retail (diversifying)", "geography": "Indonesia (mandate expanding to Asia)", "sponsor": "Lippo Group", "ir_url": "https://ir.landmarkreit.com/", "trading_currency": "SGD"},
+    {"ticker": "AW9U", "name": "First REIT", "sector": "Healthcare", "sub_sector": "Hospitals / Healthcare", "geography": "Indonesia / Singapore / Japan", "sponsor": "OUE Limited / OUE Healthcare", "ir_url": "https://www.first-reit.com/investor-overview.html", "trading_currency": "SGD"},
+    {"ticker": "BMGU", "name": "BHG Retail REIT", "sector": "Retail", "sub_sector": "China Retail Malls", "geography": "China", "sponsor": "Beijing Hualian Group", "ir_url": "https://bhgreit.listedcompany.com/", "trading_currency": "SGD"},
+    {"ticker": "UD1U", "name": "IREIT Global", "sector": "Office", "sub_sector": "Office / Retail (Europe)", "geography": "Germany / Spain / France", "sponsor": "Tikehau Capital / City Developments", "ir_url": "https://investor.ireitglobal.com/", "trading_currency": "SGD", "alt_counter": {"ticker": "8U7U", "currency": "EUR"}},
+    {"ticker": "MXNU", "name": "Elite UK REIT", "sector": "Office", "sub_sector": "UK Government-let Office", "geography": "United Kingdom", "sponsor": "Ho Lee Group / Elite Partners Holdings", "ir_url": "https://investor.eliteukreit.com/", "trading_currency": "GBP", "alt_counter": {"ticker": "MENU", "currency": "SGD"}},
+    {"ticker": "BTOU", "name": "Manulife US REIT", "sector": "Office", "sub_sector": "US Office", "geography": "United States", "sponsor": "Manulife Financial", "ir_url": "https://investor.manulifeusreit.sg/", "trading_currency": "USD"},
+    {"ticker": "OXMU", "name": "Prime US REIT", "sector": "Office", "sub_sector": "US Office", "geography": "United States", "sponsor": "KBS Asia Partners", "ir_url": "https://investor.primeusreit.com/", "trading_currency": "USD"},
+    {"ticker": "ODBU", "name": "United Hampshire US REIT", "sector": "Retail", "sub_sector": "US Grocery-Anchored Retail / Self-Storage", "geography": "United States", "sponsor": "UOB Global Capital / Hampshire Companies", "ir_url": "https://investor.uhreit.com/", "trading_currency": "USD"},
+    {"ticker": "XZL", "name": "Acrophyte Hospitality Trust", "sector": "Hospitality", "sub_sector": "US Hotels (was ARA US Hospitality Trust)", "geography": "United States", "sponsor": "Acrophyte (Tang Organization)", "ir_url": "https://www.acrophytetrust.com/investor-relations/", "trading_currency": "USD"}
+  ]
+}

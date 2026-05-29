@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "description": "Source URL whitelist. Hosts listed here are flagged authoritative by the merger even though they are not built-in. Use sparingly — the user has explicitly requested SGX / Yahoo / issuer-IR pages as the only authoritative sources by default.",
+    "instructions": [
+      "To whitelist a new host, add a substring of the host (case-insensitive) to the `allow` array.",
+      "Examples: \"linkedin.com\" would whitelist any URL containing linkedin.com.",
+      "Removing a host immediately invalidates any source URL using it on the next merge.",
+      "If you add a host here, document the reason in the `notes` array for future maintainers."
+    ]
+  },
+  "allow": [],
+  "notes": [
+    "listedcompany.com and q4cdn.com are recognised as authoritative directly in merge.mjs (built-in), not here, because they are issuer-IR hosting platforms (SGX/Investis and Q4 Inc respectively) that only ever host the issuer's own filings.",
+    "capitaland.com and frasersproperty.com are recognised as built-in authoritative because they are the manager/sponsor corporate domains hosting the REITs' own newsroom PDFs."
+  ]
+}

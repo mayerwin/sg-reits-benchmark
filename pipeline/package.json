@@ -1,0 +1,16 @@
+{
+  "name": "sg-reits-pipeline",
+  "version": "1.0.0",
+  "description": "Data pipeline for the SG REIT screener. Fetches per-REIT metrics from authoritative sources and emits a JSON consumed by the SPA.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "fetch:yahoo": "node fetch_yahoo.mjs",
+    "merge": "node merge.mjs",
+    "all": "npm run fetch:yahoo && npm run merge"
+  },
+  "dependencies": {}
+}

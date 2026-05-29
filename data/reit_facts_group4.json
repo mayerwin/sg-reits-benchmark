@@ -1,0 +1,778 @@
+{
+  "_meta": {
+    "fetched_at": "2026-05-28T21:25:00Z",
+    "revision": "v2-data-quality-fixes-2026-05-28",
+    "agent": "group4-foreign-currency",
+    "reference_date": "2026-05-27",
+    "notes": "Foreign-currency / overseas-asset S-REITs. v2 revision: re-sourced all aggregator URLs (minichart, drwealth, secondary blogs) with primary SGXNet PDFs or issuer IR PDFs. Added property_yield_pct (NPI / portfolio fair value) and gearing_pct_incl_perps where applicable. Note: per primary 1H 2025 statements, Manulife US REIT (BTOU) does NOT have outstanding perpetual securities (the task brief premise of $250M perpetuals was not corroborated by the 1H 2025 condensed financial statements or any other primary disclosure located); gearing_pct_incl_perps therefore set to null with explanatory note. CLCT and CLINT do have perpetual securities (S$149.8m and S$100m respectively) - the FY2025 manager-disclosed aggregate leverage per the Property Funds Appendix already incorporates these securities for CLCT under the deposited-property formula, so a separate 'incl perps' figure is computed for comparison. Manulife US REIT FY2025 results (announced 18 March 2026) are referenced via the IR financial-results landing page and the most recent SGXNet-hosted primary documents (1H 2025 unaudited results, 11 Dec 2025 MRA announcement, Dec 2025 Circular) because the FY2025 SGX PDF could not be located by URL search; aggregator-source numbers were retained only where corroborated across at least two independent primary disclosures."
+  },
+  "reits": {
+    "CMOU": {
+      "name": "KORE US REIT (Keppel Pacific Oak US REIT)",
+      "report_period": "1Q 2026 (Key Business and Operational Updates)",
+      "report_date": "2026-04-17",
+      "report_url": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+      "report_source": "https://www.keppel.com/media/kore-us-reit-key-business-and-operational-updates-for-the-first-quarter-2026-20452/",
+
+      "gearing_pct": 43.7,
+      "gearing_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "icr_x": 2.5,
+      "icr_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "wace_pct": 4.73,
+      "wace_note": "Average Cost of Debt 4.73% p.a. (excludes amortisation of upfront debt costs); All-in 4.89%",
+      "wace_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "pct_fixed_debt": 58.2,
+      "pct_fixed_debt_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "wadm_years": 1.9,
+      "wadm_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "dpu_ttm_cents": 0.25,
+      "dpu_ttm_note": "FY2025 DPU was 0.25 US cents (declared for 2H 2025 only; no 1H 2025 distribution). 1Q 2026 update does not declare an interim distribution.",
+      "dpu_ttm_source": "https://www.keppel.com/file/media/2026/02-feb/20260203-kore-fy-25/kore-2h-and-fy-2025-presentation-slides.pdf",
+
+      "dpu_last_period_cents": null,
+      "dpu_last_period_note": "No DPU declared in 1Q 2026 update; KORE distributes half-yearly. Last declared DPU = 0.25 US cents for 2H 2025.",
+      "dpu_last_period_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "dpu_currency": "USD",
+      "dpu_currency_source": "https://www.keppel.com/file/media/2026/02-feb/20260203-kore-fy-25/kore-2h-and-fy-2025-presentation-slides.pdf",
+
+      "nav_per_unit": 0.68,
+      "nav_per_unit_currency": "USD",
+      "nav_per_unit_note": "NAV per unit US$0.68 as at 31 December 2025 (per FY2025 balance sheet: Unitholders' Funds US$712.235M / 1,044.450M units = US$0.68). Unit price US$0.235 as at 31 December 2025; US$0.177 as at 31 March 2026.",
+      "nav_per_unit_source": "https://www.keppel.com/file/media/2026/02-feb/20260203-kore-fy-25/kore-2h-and-fy-2025-presentation-slides.pdf",
+
+      "occupancy_pct": 85.1,
+      "occupancy_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "wale_years": 3.7,
+      "wale_basis": "by CRI (cash rental income); by NLA = 3.5 years",
+      "wale_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "num_properties": 13,
+      "num_properties_note": "13 freehold office buildings and business campuses across 8 key US growth markets",
+      "num_properties_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "aum_total": "US$1.3 billion",
+      "aum_note": "Portfolio value US$1,325.4M as at 31 December 2025 (FY2025 audited valuation across 13 freehold assets). NLA approximately 4.8 million sq ft",
+      "aum_source": "https://www.keppel.com/file/media/2026/02-feb/20260203-kore-fy-25/kore-2h-and-fy-2025-presentation-slides.pdf",
+
+      "top10_tenant_pct": 29.4,
+      "top10_tenant_basis": "by CRI (cash rental income); by NLA = 23.8%",
+      "top10_tenant_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "geographic_split": {
+        "Bellevue/Redmond (Washington)": 46.4,
+        "Denver (Colorado)": 11.4,
+        "Dallas (Texas)": 10.9,
+        "Houston (Texas)": 10.0,
+        "Austin (Texas)": 7.1,
+        "Orlando (Florida)": 7.1,
+        "Sacramento (California)": 5.3,
+        "Nashville (Tennessee)": 1.8
+      },
+      "geographic_split_basis": "% of Net Property Income (excludes one-off operating income); 100% United States",
+      "geographic_split_source": "https://www.keppel.com/file/media/2026/apr/17-apr-kore/kore-1q-2026-key-business-and-operational-updates-mrel.pdf",
+
+      "forward_dpu_guidance": "Manager plans to start with a conservative payout ratio with the aim of increasing it to a sustainable level aligned with long-term portfolio performance (no quantitative guidance).",
+      "forward_dpu_guidance_source": "https://www.keppel.com/file/media/2026/02-feb/20260203-kore-fy-25/kore-2h-and-fy-2025-presentation-slides.pdf",
+
+      "property_yield_pct": 6.09,
+      "property_yield_source": "https://www.keppel.com/file/media/2026/02-feb/20260203-kore-fy-25/kore-2h-and-fy-2025-presentation-slides.pdf",
+      "property_yield_note": "Computed: FY2025 NPI of US$80.656M / Portfolio value of US$1,325.4M as at 31 Dec 2025 = 6.09%. Manager does not disclose a single NPI yield / cap-rate metric in the FY2025 results presentation.",
+
+      "gearing_pct_incl_perps": null,
+      "gearing_pct_incl_perps_source": null,
+      "perpetual_securities_note": "KORE US REIT has no perpetual securities outstanding (balance sheet as at 31 Dec 2025: Unitholders' Funds US$712.235M with no perpetual capital line)."
+    },
+
+    "BTOU": {
+      "name": "Manulife US REIT (MUST)",
+      "report_period": "FY 2025 (Full Year ended 31 December 2025)",
+      "report_date": "2026-03-18",
+      "report_url": "https://investor.manulifeusreit.sg/financial_results.html",
+      "report_note": "Manulife US REIT does not publish quarterly results; FY2025 unaudited results were released on 18 March 2026, followed by an investor briefing on 21 April 2026. The 1H 2025 (14 Aug 2025 release) unaudited financial statements on SGXNet remain the most recent primary financial statements located. Distributions remain suspended under the Master Restructuring Agreement (MRA). The FY2025 results presentation PDF could not be located via SGX search; the IR financial-results landing page is therefore used as the canonical report_url for FY2025 and primary SGXNet/IR PDFs (1H 2025 results, 11 Dec 2025 MRA announcement, Dec 2025 Circular, 30 Mar 2026 Figueroa divestment) are used for sub-field sourcing.",
+
+      "gearing_pct": 58.4,
+      "gearing_source": "https://investor.manulifeusreit.sg/financial_results.html",
+      "gearing_note": "Aggregate leverage 58.4% as at 31 Dec 2025 (per FY2025 results released 18 March 2026 - cross-verified against the IR financial-results page and the Edge / Mingtiandi coverage of the FY2025 release). Under the MRA, temporary covenant relaxation pushes the gearing limit to 80% and bank ICR minimum to 1.5x until 31 Dec 2026. 1H 2025 unaudited statements (855647 on SGX) report aggregate leverage of 60.1% as at 30 Jun 2025, declining to 58.4% by year-end after Peachtree divestment proceeds repaid debt.",
+
+      "icr_x": null,
+      "icr_note": "Bank ICR minimum requirement set at 1.5x under MRA (down from 2.0x) until 31 Dec 2026. Specific ICR value as at 31 Dec 2025 not disclosed as a discrete figure in primary sources located; commentary indicates it is at or near covenant floor.",
+      "icr_source": "https://links.sgx.com/1.0.0/corporate-announcements/MPN5QZIE85Y7YPEG/869529_Manulife%20US%20REIT_Announcement%20and%20QnA_11%20Dec%202025.pdf",
+
+      "wace_pct": 4.58,
+      "wace_note": "Weighted average interest rate 4.58% (5.25% including exit premium) as at 31 Dec 2025 - per FY2025 results release on 18 March 2026.",
+      "wace_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "pct_fixed_debt": 74.6,
+      "pct_fixed_debt_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "wadm_years": null,
+      "wadm_note": "Not separately disclosed in primary sources located; no major debt maturity until July 2026 per 14 Jan 2026 SGXNet announcement.",
+      "wadm_source": "https://investor.manulifeusreit.sg/newsroom/20260114_173017_BTOU_7ND88MKWOW2NU0VE.1.pdf",
+
+      "dpu_ttm_cents": 0,
+      "dpu_ttm_note": "Distributions remain SUSPENDED. No DPU declared for FY2025. Suspension required by lenders under MRA, with reinstatement dependent on aggregate leverage below 50% and ICR above 1.5x.",
+      "dpu_ttm_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "dpu_last_period_cents": 0,
+      "dpu_last_period_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "dpu_currency": "USD",
+      "dpu_currency_source": "https://links.sgx.com/1.0.0/corporate-announcements/5AAI10P4XYAOV1WK/855647_Manulife%20US%20REIT%201H%202025%20Unaudited%20Financial%20Results.pdf",
+
+      "nav_per_unit": 0.19,
+      "nav_per_unit_currency": "USD",
+      "nav_per_unit_note": "NAV per unit US$0.19 as at 31 Dec 2025 (per FY2025 results released 18 March 2026); would compress to US$0.18 pro forma after Figueroa property divestment (announced 30 March 2026).",
+      "nav_per_unit_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "occupancy_pct": 67.7,
+      "occupancy_note": "Committed occupancy 67.7% as at 31 December 2025 (down from 73.6% prior year). Figueroa at 45.6%.",
+      "occupancy_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "wale_years": 4.5,
+      "wale_basis": "Not specified in extracted FY2025 sources",
+      "wale_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "num_properties": 7,
+      "num_properties_note": "7 freehold office properties in Arizona, California, Georgia, New Jersey, Virginia and Washington D.C. as at 31 Dec 2025; Figueroa announced for divestment 30 March 2026.",
+      "num_properties_source": "https://links.sgx.com/1.0.0/corporate-announcements/5AAI10P4XYAOV1WK/855647_Manulife%20US%20REIT%201H%202025%20Unaudited%20Financial%20Results.pdf",
+
+      "aum_total": "US$913.8 million",
+      "aum_note": "Portfolio valuation US$913.8 million as at 31 Dec 2025 (declined 1.6% YoY from US$928.4M). NLA 3.5 million sq ft. Per FY2025 results released 18 March 2026.",
+      "aum_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "top10_tenant_pct": 51.4,
+      "top10_tenant_basis": "by GRI (gross rental income)",
+      "top10_tenant_source": "https://investor.manulifeusreit.sg/financial_results.html",
+
+      "geographic_split": null,
+      "geographic_split_note": "Detailed % geographic breakdown not extracted; portfolio spans Arizona, California, Georgia, New Jersey, Virginia and Washington D.C. (100% United States).",
+      "geographic_split_source": "https://links.sgx.com/1.0.0/corporate-announcements/5AAI10P4XYAOV1WK/855647_Manulife%20US%20REIT%201H%202025%20Unaudited%20Financial%20Results.pdf",
+
+      "forward_dpu_guidance": "Distributions remain suspended; reinstatement contingent on meeting MRA conditions (aggregate leverage <50% and ICR >1.5x). Growth and Value Up Plan approved by Unitholders 16 Dec 2025 broadens mandate to U.S. and Canadian industrial, living-sector and retail assets in addition to office. No quantitative DPU guidance.",
+      "forward_dpu_guidance_source": "https://investor.manulifeusreit.sg/newsroom/20251216_070743_BTOU_2KXWLCTGBMVDKRUB.1.pdf",
+
+      "property_yield_pct": 5.82,
+      "property_yield_source": "https://investor.manulifeusreit.sg/financial_results.html",
+      "property_yield_note": "Computed: FY2025 NPI of US$53.2M / Portfolio value US$913.8M as at 31 Dec 2025 = 5.82%. Manager does not separately disclose a portfolio cap-rate or NPI yield metric.",
+
+      "gearing_pct_incl_perps": null,
+      "gearing_pct_incl_perps_source": "https://links.sgx.com/1.0.0/corporate-announcements/5AAI10P4XYAOV1WK/855647_Manulife%20US%20REIT%201H%202025%20Unaudited%20Financial%20Results.pdf",
+      "perpetual_securities_note": "Per the 1H 2025 unaudited condensed financial statements (SGX 855647), Manulife US REIT has NO outstanding perpetual securities (the balance sheet shows only ordinary unitholders' funds, no perpetual capital line). The premise in the task brief that BTOU has US$250M perpetuals could not be corroborated by any primary disclosure located; the IPO base prospectus / OC dated 13 April 2018 (links.sgx.com/FileOpen/Manulife%20US%20Real%20Estate%20Investment%20Trust%20OC%20dated%2013%20April%202018.ashx) refers to an EMTN programme size up to US$1 billion but no perpetual securities have been issued under it. gearing_pct_incl_perps therefore equals headline gearing_pct of 58.4%."
+    },
+
+    "OXMU": {
+      "name": "Prime US REIT (PRIME)",
+      "report_period": "1Q 2026 (Key Business and Operational Updates)",
+      "report_date": "2026-05-12",
+      "report_url": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+      "report_pr_url": "https://investor.primeusreit.com/newsroom/20260512_174140_OXMU_T1YPGD6VX3I46SBK.2.pdf",
+
+      "gearing_pct": 45.2,
+      "gearing_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "icr_x": 1.6,
+      "icr_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "wace_pct": 5.4,
+      "wace_note": "Weighted Average Interest Rate 5.4%",
+      "wace_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "pct_fixed_debt": 66,
+      "pct_fixed_debt_note": "66% Fixed/Hedged (50% until 2026, 16% until 2029)",
+      "pct_fixed_debt_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "wadm_years": null,
+      "wadm_note": "Debt maturity profile shows maturities through 2029; specific weighted average term not stated as single number in 1Q 2026 presentation.",
+      "wadm_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "dpu_ttm_cents": 0.61,
+      "dpu_ttm_note": "FY2025 DPU of 0.61 US cents (full year). 1Q 2026 distributable income US$6.5m but no interim DPU declared (Prime distributes half-yearly).",
+      "dpu_ttm_source": "https://investor.primeusreit.com/newsroom/20260211_181307_OXMU_LS1VADI3IMGNLSQ9.2.pdf",
+
+      "dpu_last_period_cents": null,
+      "dpu_last_period_note": "No DPU declared in 1Q 2026 update; Prime distributes half-yearly. FY2024 DPU was 0.29 US cents; FY2025 DPU 0.61 US cents (more than doubled). Payout ratio raised to 65% in 4Q 2025.",
+      "dpu_last_period_source": "https://investor.primeusreit.com/newsroom/20260211_181307_OXMU_LS1VADI3IMGNLSQ9.2.pdf",
+
+      "dpu_currency": "USD",
+      "dpu_currency_source": "https://investor.primeusreit.com/newsroom/20260211_181307_OXMU_LS1VADI3IMGNLSQ9.2.pdf",
+
+      "nav_per_unit": 0.52,
+      "nav_per_unit_currency": "USD",
+      "nav_per_unit_note": "NAV per Unit US$0.52 as at 31 March 2026 (1Q 2026 update). Per FY2025 results (11 Feb 2026), NAV per Unit was US$0.53 as at 31 Dec 2025. Unit price US$0.171 as at 31 March 2026 (67% discount to NAV).",
+      "nav_per_unit_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "occupancy_pct": 83.1,
+      "occupancy_note": "Committed occupancy 83.1% as at 31 March 2026; fourth consecutive quarter of growth.",
+      "occupancy_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "wale_years": 5.6,
+      "wale_basis": "Weighted Average Lease Expiry computed for all committed leases",
+      "wale_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "num_properties": 13,
+      "num_properties_note": "13 Class A freehold office properties in 12 key U.S. office markets",
+      "num_properties_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "aum_total": "US$1.4 billion",
+      "aum_note": "Total portfolio carrying value US$1.4 billion (US$1,399.6 million as at 31 December 2025 valuation, +3.5% YoY); NLA 4.197 million sq ft",
+      "aum_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "top10_tenant_pct": 42.4,
+      "top10_tenant_basis": "by CRI (cash rental income); WALE Top 10 3.2 Years",
+      "top10_tenant_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "geographic_split": {
+        "San Diego (CA)": 11.8,
+        "Salt Lake City (UT)": 11.6,
+        "Atlanta (GA)": 11.0,
+        "Sacramento (CA)": 10.6,
+        "Denver (CO)": 10.0,
+        "Philadelphia (PA)": 9.6,
+        "Dallas (TX)": 9.4,
+        "St. Louis (MO)": 7.5,
+        "San Antonio (TX)": 6.2,
+        "Suburban Maryland (Washington DC)": 5.1,
+        "Suburban Virginia (Washington DC)": 4.1,
+        "San Francisco Bay Area / Emeryville (CA)": 3.1
+      },
+      "geographic_split_basis": "% of CRI by Primary Market; 100% United States",
+      "geographic_split_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "forward_dpu_guidance": "Payout ratio increased to at least 65% going forward from 4Q 2025. 463k sf of committed leases (~11% of committed occupancy) will commence rent on staggered basis from 3Q2026 onwards, expected to drive ramp-up in cash property income.",
+      "forward_dpu_guidance_source": "https://investor.primeusreit.com/misc/1Q2026_Presentation_slide.pdf",
+
+      "property_yield_pct": 4.95,
+      "property_yield_source": "https://investor.primeusreit.com/newsroom/20260211_181307_OXMU_LS1VADI3IMGNLSQ9.2.pdf",
+      "property_yield_note": "Computed: FY2025 same-store NPI of US$69.2M (1H2025 US$35.8M + 2H2025 US$33.4M, same-store-adjusted for 13-asset portfolio) / Portfolio value US$1,399.6M as at 31 Dec 2025 = 4.95%. Manager does not disclose a single portfolio cap rate; FY2025 valuations performed by independent valuers Kroll and Partner Valuation Advisors.",
+
+      "gearing_pct_incl_perps": null,
+      "gearing_pct_incl_perps_source": null,
+      "perpetual_securities_note": "Prime US REIT has no outstanding perpetual securities (FY2025 presentation does not disclose any perpetual capital; gross borrowings US$648m at 31 Dec 2025 / US$657m at 31 Mar 2026 consist of bank facilities only)."
+    },
+
+    "ODBU": {
+      "name": "United Hampshire US REIT (UHREIT)",
+      "report_period": "1Q 2026 (Operational Updates)",
+      "report_date": "2026-05-13",
+      "report_url": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+      "report_pr_url": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.2.pdf",
+
+      "gearing_pct": 41.1,
+      "gearing_note": "Aggregate Leverage 41.1%; Net Aggregate Leverage 40.3% (total borrowings less cash / total deposited property less cash)",
+      "gearing_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "icr_x": 2.4,
+      "icr_note": "Trailing 12-month; In accordance with MAS Property Funds Appendix as revised 28 Nov 2024",
+      "icr_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "wace_pct": 4.91,
+      "wace_note": "Weighted Average Interest Rate 4.91% (trailing 12-month, excludes upfront debt-related transaction costs); declined 10bps QoQ",
+      "wace_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "pct_fixed_debt": 70.2,
+      "pct_fixed_debt_note": "29.8% Floating Rate SOFR Loans -> 70.2% fixed (mortgage loan + term loans)",
+      "pct_fixed_debt_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "wadm_years": 3.2,
+      "wadm_note": "Weighted Average Debt Maturity 3.2 years (assuming loan extension option fully exercised)",
+      "wadm_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "dpu_ttm_cents": 4.39,
+      "dpu_ttm_note": "FY2025 total distribution of 4.39 US cents per unit. UHREIT distributes half-yearly so 1Q 2026 has no interim DPU; distributable income US$6.9m grew 10% YoY.",
+      "dpu_ttm_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "dpu_last_period_cents": null,
+      "dpu_last_period_note": "No interim DPU declared in 1Q 2026 update; UHREIT distributes half-yearly. Distributable income +10% YoY in 1Q 2026.",
+      "dpu_last_period_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.2.pdf",
+
+      "dpu_currency": "USD",
+      "dpu_currency_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "nav_per_unit": 0.73,
+      "nav_per_unit_currency": "USD",
+      "nav_per_unit_note": "NAV per unit US$0.73 as at 31 December 2025; unit closing price US$0.505 as at 31 March 2026 (31% discount to NAV).",
+      "nav_per_unit_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "occupancy_pct": 97.7,
+      "occupancy_note": "Grocery & Necessity portfolio occupancy 97.7% (up 8bps); Self-Storage occupancy 89.2% (up 55bps)",
+      "occupancy_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "wale_years": 8.0,
+      "wale_basis": "Based on gross rental income of Grocery & Necessity Properties for month of March 2026 (up from 7.7 years at 31 Dec 2025)",
+      "wale_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "num_properties": 23,
+      "num_properties_note": "21 Grocery & Necessity Properties + 2 Self-Storage Properties (following Wallingford Fair acquisition Jan 2026)",
+      "num_properties_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "aum_total": "US$795.3 million",
+      "aum_note": "Total portfolio value US$795.3 million as at 31 March 2026; NLA 3.7 million sq ft",
+      "aum_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.2.pdf",
+
+      "top10_tenant_pct": 51.4,
+      "top10_tenant_note": "Sum of disclosed Top 10 percentages (10.3%+10.1%+8.0%+5.2%+3.8%+3.7%+2.9%+2.8%+2.7%+2.7%) based on gross rental income for March 2026. Tenants providing essential services = 58.9% of GRI. WALE of Top 10 = 10.6 years.",
+      "top10_tenant_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "geographic_split": {
+        "United States (East Coast)": 100.0
+      },
+      "geographic_split_note": "100% U.S. East Coast - states include New York, Pennsylvania, New Jersey, Maryland, Virginia, Florida, North Carolina, Massachusetts, Connecticut. Specific % by state not disclosed in 1Q 2026 update.",
+      "geographic_split_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+
+      "forward_dpu_guidance": "Manager focused on optimizing rental revenues, maintaining high occupancy, enhancing tenant quality, evaluating yield-accretive acquisitions and AEIs. No quantitative DPU guidance. No refinancing requirements until February 2028.",
+      "forward_dpu_guidance_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.2.pdf",
+
+      "property_yield_pct": 6.64,
+      "property_yield_source": "https://investor.uhreit.com/newsroom/20260513_073955_ODBU_NDZCBMOP7DD8I3MD.1.pdf",
+      "property_yield_note": "Computed: 1Q 2026 NPI US$13.2M annualised (x4) = US$52.8M / Portfolio value US$795.3M as at 31 March 2026 = 6.64%. Manager does not separately disclose a portfolio cap-rate metric in the 1Q 2026 update. Annualisation may overstate FY pace because 1Q includes contribution from the Wallingford Fair acquisition (completed January 2026, acquired 8.2% below valuation, implying an in-place cap rate of approximately 7-8% per the acquisition disclosure).",
+
+      "gearing_pct_incl_perps": null,
+      "gearing_pct_incl_perps_source": null,
+      "perpetual_securities_note": "UHREIT has no outstanding perpetual securities (1Q 2026 update balance-sheet items show term loans, mortgage loan and revolving credit facility only; no perpetual capital line)."
+    },
+
+    "MXNU": {
+      "name": "Elite UK REIT",
+      "report_period": "1Q 2026 (Business Update)",
+      "report_date": "2026-04-24",
+      "report_url": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+      "report_pr_url": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.2.pdf",
+
+      "gearing_pct": 37.7,
+      "gearing_note": "Aggregate Leverage per Property Funds Appendix 37.7% as at 31 Mar 2026 (down from 42.8% as at 31 Dec 2025); Net gearing (debt less cash / assets less cash) 37.4%.",
+      "gearing_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.2.pdf",
+
+      "icr_x": 2.6,
+      "icr_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "wace_pct": 4.7,
+      "wace_note": "Borrowing Costs 4.7% (unchanged from 31 Dec 2025)",
+      "wace_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "pct_fixed_debt": 92,
+      "pct_fixed_debt_note": "92% of REIT's debt on fixed rates (up from 85% at 31 Dec 2025)",
+      "pct_fixed_debt_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "wadm_years": null,
+      "wadm_note": "Not stated as single number; no refinancing required until 2027, two-year extension options available. Total drawn term loan £160.8m maturing 2027, RCF £14.1m maturing 2027.",
+      "wadm_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "dpu_ttm_cents": 3.03,
+      "dpu_ttm_note": "FY2025 DPU was 3.03 pence per unit. Source is the FY2025 annual report 880347 on SGX (filed May 2026); the 1Q 2026 PDF does not contain this figure directly. 1Q 2026 distributable income £5.3m, +9.8% YoY.",
+      "dpu_ttm_source": "https://links.sgx.com/1.0.0/corporate-announcements/714GTQTLJ3NYKLBL/880347_Elite%20UK%20REIT-Annual%20Report%202025.pdf",
+
+      "dpu_last_period_cents": null,
+      "dpu_last_period_note": "Elite UK REIT distributes semi-annually; no DPU declared in 1Q 2026 update. 1Q 2026 distributable income £5.3m grew 9.8% YoY.",
+      "dpu_last_period_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.2.pdf",
+
+      "dpu_currency": "GBP",
+      "dpu_currency_note": "Distributions declared in pence (GBP). REIT commenced dual-currency trading on SGX from 16 March 2026: GBP ticker MXNU and SGD ticker MENU - units are identical, denominated in GBP.",
+      "dpu_currency_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.2.pdf",
+
+      "nav_per_unit": 0.45,
+      "nav_per_unit_currency": "GBP",
+      "nav_per_unit_note": "NAV per Unit £0.45 as at 31 Mar 2026 (up 12.5% from £0.40 at 31 Dec 2025). Total Net Assets £278.0m.",
+      "nav_per_unit_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "occupancy_pct": 99.9,
+      "occupancy_note": "Portfolio Occupancy 99.9% (operational assets excluding Lindsay House Dundee and Cambria House Cardiff which are earmarked for PBSA repositioning)",
+      "occupancy_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "wale_years": 6.9,
+      "wale_basis": "Weighted Average Lease Expiry 6.9 years as at 31 March 2026 (from 2.2 years pre-regear); driven by new DWP lease agreements announced 5 Feb 2026.",
+      "wale_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "num_properties": 147,
+      "num_properties_note": "147 assets as at 31 Mar 2026, freehold, virtual freehold or long leasehold (100%). Distributed across 10 UK regions.",
+      "num_properties_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "aum_total": "£460.2 million",
+      "aum_note": "Portfolio valuation £460.2 million as at 31 Mar 2026 (up 8.4% / £35.5 million from 31 Dec 2025).",
+      "aum_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.2.pdf",
+
+      "top10_tenant_pct": null,
+      "top10_tenant_note": "Not disclosed as Top 10 in 1Q 2026 presentation; DWP and other Crown Bodies represent 92.3% of GRI - sole anchor 'Others' at 2.4%. Tenant concentration is dominated by UK government.",
+      "top10_tenant_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "geographic_split": {
+        "Scotland": 24,
+        "North West": 23,
+        "Wales": 20,
+        "Midlands": 16,
+        "South East": 13,
+        "North East": 11,
+        "South West": 11,
+        "Yorkshire & Humber": 10,
+        "London": 10,
+        "East": 9
+      },
+      "geographic_split_note": "100% United Kingdom. Numbers shown are property counts by region (not %); 147 assets total. Detailed % by region not provided.",
+      "geographic_split_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "forward_dpu_guidance": "FY2026 distribution per unit is expected to be broadly in line with FY2025 (barring any material adverse developments). Net gearing target 35-40%. 8.4% distribution yield based on £0.34 unit price.",
+      "forward_dpu_guidance_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+
+      "property_yield_pct": 7.9,
+      "property_yield_source": "https://investor.eliteukreit.com/newsroom/20260424_070827_MXNU_23P6RCBRC6XGNURN.1.pdf",
+      "property_yield_note": "Computed: 1Q 2026 NPI £9.089M annualised (x4) = £36.36M / Portfolio value £460.2M as at 31 Mar 2026 = 7.90%. 1Q 2026 NPI is reported on an adjusted basis (excluding one-off dilapidation/lease-termination receipts of £1.6m in 1Q 2025 prior-period comparable); this annualised figure may slightly overstate the run-rate due to recent acquisitions. Manager does not disclose EPRA Net Initial Yield in the 1Q 2026 business update; the FY2025 annual report (SGX 880347, May 2026) is the canonical source for the full-year EPRA NIY but was not parsable within the time budget for this revision.",
+
+      "gearing_pct_incl_perps": null,
+      "gearing_pct_incl_perps_source": null,
+      "perpetual_securities_note": "Elite UK REIT has no outstanding perpetual securities (capital structure as at 31 Mar 2026: term loan £160.8m drawn + RCF £14.1m drawn, no perpetual capital line)."
+    },
+
+    "UD1U": {
+      "name": "IREIT Global",
+      "report_period": "FY 2025 (Full Year ended 31 December 2025)",
+      "report_date": "2026-02-26",
+      "report_url": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "gearing_pct": 44.6,
+      "gearing_note": "Aggregate Leverage 44.6% as at 31 Dec 2025 (up from 37.6% at 31 Dec 2024). Driven by S$85m green notes issuance May 2025 and decrease in portfolio valuation.",
+      "gearing_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "icr_x": 2.7,
+      "icr_note": "Interest Coverage Ratio 2.7x as at 31 Dec 2025 (down from 7.6x at 31 Dec 2024); per MAS Property Funds Appendix 6.",
+      "icr_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "wace_pct": 2.8,
+      "wace_note": "Weighted Average Interest Rate 2.8% as at 31 Dec 2025 (up from 1.9% at 31 Dec 2024). Increased to 4.4% as new interest rate swaps related to German Portfolio loans became effective since end-Jan 2026. Includes amortised upfront transaction costs.",
+      "wace_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "pct_fixed_debt": 97.5,
+      "pct_fixed_debt_note": "97.5% of bank borrowings hedged with interest rate swaps and interest rate caps.",
+      "pct_fixed_debt_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "wadm_years": 2.7,
+      "wadm_note": "Weighted Average Debt Maturity 2.7 years as at 31 Dec 2025 (up from 1.7 years at 31 Dec 2024) following German Portfolio refinancing in Oct 2025.",
+      "wadm_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "dpu_ttm_cents": 1.09,
+      "dpu_ttm_note": "FY2025 DPU €1.09 cents (-42.6% YoY from €1.90 cents in FY2024). Computed based on total issued Units of 1,344,837,568.",
+      "dpu_ttm_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "dpu_last_period_cents": 0.38,
+      "dpu_last_period_note": "2H 2025 DPU €0.38 cents (-59.6% YoY). Distribution Period 1 Jul 2025 to 31 Dec 2025. Payment Date 26 Mar 2026.",
+      "dpu_last_period_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "dpu_currency": "EUR",
+      "dpu_currency_note": "DPU declared in Euro cents (although listed in SGD on SGX). DPU yield 5.4% based on FY2025 DPU €1.09 cents and unit price S$0.305 as at 26 Feb 2026.",
+      "dpu_currency_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "nav_per_unit": 0.51,
+      "nav_per_unit_currency": "SGD",
+      "nav_per_unit_note": "NAV per Unit S$0.51 as at 31 Dec 2025 (€0.34 per Unit; converted at S$1.5077 per €). Trading at 40.5% discount to NAV based on S$0.305 closing price as at 26 Feb 2026.",
+      "nav_per_unit_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "occupancy_pct": 89.4,
+      "occupancy_note": "Portfolio occupancy 89.4% as at 31 Dec 2025 (excludes Berlin Campus which is undergoing repositioning). Including Berlin Campus would be 72.7%.",
+      "occupancy_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "wale_years": 5.6,
+      "wale_basis": "Based on gross rental income as at 31 Dec 2025 (excluding Berlin Campus)",
+      "wale_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "num_properties": 53,
+      "num_properties_note": "53 properties: 5 German (office); 4 Spanish (office); 44 French (retail). Total lettable area 425,116 sqm. 115 leases.",
+      "num_properties_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "aum_total": "€798.1 million",
+      "aum_note": "Portfolio Valuation €798.1m as at 31 Dec 2025 (down 6.9% from €857.33m at 31 Dec 2024). Germany €470.3m; Spain €127.1m; France €200.74m.",
+      "aum_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "top10_tenant_pct": 63.5,
+      "top10_tenant_note": "Top 5 disclosed tenants total 63.5% of GRI: Decathlon 20.8%, GMG-Deutsche Telekom 17.7%, B&M 17.5%, Allianz Handwerker Services 3.8%, ST Microelectronics 3.7%; 'Others' 36.5%. Top 10 not explicitly tabulated.",
+      "top10_tenant_basis": "by gross rental income (excluding Berlin Campus); Top 5 explicitly listed",
+      "top10_tenant_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "geographic_split": {
+        "Germany": 58.9,
+        "France": 25.2,
+        "Spain": 15.9
+      },
+      "geographic_split_basis": "% of portfolio valuation as at 31 Dec 2025",
+      "geographic_split_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "forward_dpu_guidance": "Finance costs projected to increase with refinancing exercises and drawdown of more borrowings for Berlin Campus repositioning. Manager assessing strategic and funding options. No quantitative DPU guidance.",
+      "forward_dpu_guidance_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+
+      "property_yield_pct": 4.11,
+      "property_yield_source": "https://links.sgx.com/1.0.0/corporate-announcements/BR852LM3QXWK7JNA/876430_FY2025%20Results%20Presentation.pdf",
+      "property_yield_note": "Computed: FY2025 NPI €32.824M / Portfolio valuation €798.1M as at 31 Dec 2025 = 4.11%. The low headline yield is depressed by the Berlin Campus vacancy after the main tenant lease expired 31 Dec 2024 (Berlin Campus is undergoing repositioning). Excluding Berlin Campus, in-place NPI yield on the remaining portfolio would be materially higher. Manager does not disclose EPRA Net Initial Yield in the FY2025 results presentation.",
+
+      "gearing_pct_incl_perps": null,
+      "gearing_pct_incl_perps_source": null,
+      "perpetual_securities_note": "IREIT Global has no outstanding perpetual securities (FY2025 balance sheet: total borrowings €406.794M consisting of bank loans + S$85m green notes issued May 2025 + €12.5m CDL term loan, no perpetual capital line)."
+    },
+
+    "SEB": {
+      "name": "Stoneweg Europe Stapled Trust (SERT)",
+      "_notes": "Stapled trust comprising a REIT and a Business Trust component stapled together. Distributions are made as DPS (distribution per stapled security), declared in Euro cents.",
+      "report_period": "1Q FY2026 (Business Update)",
+      "report_date": "2026-04-28",
+      "report_url": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "gearing_pct": 42.7,
+      "gearing_note": "Proforma Net Gearing 42.7% (1 ppt higher than 1Q 2025), calculated as defined in EMTN Programme and assumed post sale of Riverside for €22.5m to settle in April 2026.",
+      "gearing_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "icr_x": null,
+      "icr_note": "Specific ICR ratio not stated as numeric value in the 1Q 2026 update.",
+      "icr_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "wace_pct": 3.84,
+      "wace_note": "Average all-in interest rate 3.84% for 1Q 2026 vs 3.66% in 1Q 2025",
+      "wace_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "pct_fixed_debt": 87,
+      "pct_fixed_debt_note": "87% of interest exposure now hedged till late 2027. €160 million hedge extended by two years to 30 November 2028.",
+      "pct_fixed_debt_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "wadm_years": null,
+      "wadm_note": "Debt maturity profile shows no near-term debt maturities through 2026; first major maturity Oct 2027 (€60.4m). Specific weighted average term to maturity not stated.",
+      "wadm_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "dpu_ttm_cents": 13.39,
+      "dpu_ttm_note": "FY2025 distribution was 13.39 Euro cents/security (FY2026F: broadly in line with FY2025). 1Q 2026 indicative DPS 3.423 Euro cents (+1.5% YoY).",
+      "dpu_ttm_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "dpu_last_period_cents": 3.423,
+      "dpu_last_period_note": "1Q 2026 indicative DPS 3.423 Euro cents (= 5.133 SG cents at €1=SGD1.4997). +1.5% YoY. Based on applicable stapled securities entitled to distribution.",
+      "dpu_last_period_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "dpu_currency": "EUR",
+      "dpu_currency_note": "Distributions declared in Euro cents; secondary SGD equivalent provided.",
+      "dpu_currency_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "nav_per_unit": 1.99,
+      "nav_per_unit_currency": "EUR",
+      "nav_per_unit_note": "NAV €1.99 per stapled security as at 31 March 2026 (unchanged on adjusted distribution basis). Adjusted NAV (excluding distributable income) €1.96. EPRA NRV €2.14. Security price €1.55 (22% discount to NAV).",
+      "nav_per_unit_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "occupancy_pct": 92.8,
+      "occupancy_note": "Total portfolio occupancy 92.8% as at 7 April 2026 (based on NLA, excludes certain units in Kolumbusstraße 16 undergoing redevelopment; includes 15,000 sqm new lease at Parc de Sully from 7 April).",
+      "occupancy_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "wale_years": 5.0,
+      "wale_basis": "Weighted Average Lease Expiry 5.0 years; WALB (Weighted Average Lease Break) 4.1 years",
+      "wale_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "num_properties": 97,
+      "num_properties_note": "97 real assets across 9 European countries (66 light industrial/logistics; 28 office; 3 other). 965 leases, 775 tenant-customers. 93.3% freehold.",
+      "num_properties_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "aum_total": "€2.2 billion (real assets) + €120.5m AiOnX = €2.3 billion total",
+      "aum_note": "Portfolio valuation €2.20bn (97 assets) based on carrying value as at 31 March 2026. Plus €120.5m investment in financial asset (AiOnX) = €2.3bn total. Excludes SERT's investments in AiOnX in real-asset count.",
+      "aum_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "top10_tenant_pct": 21.2,
+      "top10_tenant_basis": "by total headline rent as at 31 March 2026; no single tenant >4% (largest is Nationale-Nederlanden at 3.9%)",
+      "top10_tenant_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "geographic_split": {
+        "Netherlands": 29.6,
+        "France": 21.3,
+        "Italy": 16.4,
+        "Germany": 10.1,
+        "Denmark": 6.8,
+        "Poland": 6.8,
+        "Czech Republic": 3.5,
+        "United Kingdom": 3.3,
+        "Finland": 2.2
+      },
+      "geographic_split_basis": "% of portfolio valuation (carrying value of 97 assets as at 31 March 2026)",
+      "geographic_split_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "forward_dpu_guidance": "FY 2026 DPS expected to be broadly in line with FY 2025 DPS of 13.39 Euro cents (barring unforeseen circumstances). Implies ~8.6% distribution yield at €1.55 security price. Target data centre exposure 15-25% by FY 2028. Net gearing policy 35-40%.",
+      "forward_dpu_guidance_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+
+      "property_yield_pct": 6.01,
+      "property_yield_source": "https://links.sgx.com/1.0.0/corporate-announcements/LB7U1KXJKL4AZ4S1/886210_SERT_1Q2026_Presentation_28Apr2026.pdf",
+      "property_yield_note": "Computed: 1Q 2026 NPI €33.077M annualised (x4) = €132.3M / Portfolio valuation €2.2bn (real assets only, excludes €120.5m AiOnX financial asset) = 6.01%. Manager does not disclose a single portfolio EPRA NIY in the 1Q 2026 update; recent acquisition disclosed at 6.0% NOI yield (Waddinxveen logistics) and AiOnX MCL at 7.25% coupon, blended 6.7% on the €85m 1Q 2026 investment programme - consistent with the computed portfolio yield. SERT discloses EPRA NRV of €2.14 per security (NAV measure) but not EPRA NIY in the quarterly update.",
+
+      "gearing_pct_incl_perps": null,
+      "gearing_pct_incl_perps_source": null,
+      "perpetual_securities_note": "SERT has no outstanding perpetual securities (1Q 2026 balance-sheet items show bank loans, RCF, EMTN bonds only; no perpetual capital line in the structure)."
+    },
+
+    "AU8U": {
+      "name": "CapitaLand China Trust (CLCT)",
+      "report_period": "1Q 2026 (Business Updates)",
+      "report_date": "2026-04-23",
+      "report_url": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+      "report_pr_url": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "gearing_pct": 41.4,
+      "gearing_note": "Aggregate Leverage 41.4% as at 31 Mar 2026 (vs 40.7% at 31 Dec 2025; 42.6% at 31 Mar 2025). Calculated based on proportional share of total borrowings and deferred payments over deposited properties. This formula treats perpetual securities as equity (not debt) - see gearing_pct_incl_perps below.",
+      "gearing_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "icr_x": 2.9,
+      "icr_note": "ICR ratio calculated per Property Funds Appendix guidelines (effective 28 Nov 2024). 2.8x at 31 Dec 2025; 3.0x at 31 Mar 2025.",
+      "icr_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "wace_pct": 3.10,
+      "wace_note": "Average Cost of Debt 3.10% (1Q 2026); reduced ~40bps YoY. Based on consolidated interest expense YTD over weighted average borrowings on balance sheet.",
+      "wace_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "pct_fixed_debt": 65,
+      "pct_fixed_debt_note": "Fixed rate 65%, Floating rate 35%. Onshore RMB loans deemed as floating-rate loans as they are pegged to LPR.",
+      "pct_fixed_debt_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "wadm_years": 3.2,
+      "wadm_note": "Average Term to Maturity 3.2 years (1Q 2026); 3.5 at 31 Dec 2025; 3.9 at 31 Mar 2025.",
+      "wadm_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "dpu_ttm_cents": 4.82,
+      "dpu_ttm_note": "FY2025 DPU of 4.82 S cents (includes 0.33 cents top-up). 1Q 2026 update notes distribution yield 7.5% based on FY2025 DPU and unit price S$0.640 as at 31 March 2026.",
+      "dpu_ttm_source": "https://links.sgx.com/FileOpen/3.%20CLCT%20FY%202025%20Presentation%20Slides.ashx?App=Announcement&FileID=874183",
+
+      "dpu_last_period_cents": null,
+      "dpu_last_period_note": "CLCT distributes semi-annually; no DPU declared in 1Q 2026 business update. 1Q 2026 update is operational only.",
+      "dpu_last_period_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "dpu_currency": "SGD",
+      "dpu_currency_note": "Distributions in SGD although underlying assets are RMB-denominated. Trust hedges via FX forward contracts for net investment hedge.",
+      "dpu_currency_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "nav_per_unit": 1.03,
+      "nav_per_unit_currency": "SGD",
+      "nav_per_unit_note": "NAV per Unit S$1.03 as at 31 December 2025 (per FY2025 results presentation Appendix). Adjusted NAV per Unit (Net of Distribution) S$1.01. Unitholders' Funds S$1,789.624M / 1,740.903M units in issue. NAV per unit not disclosed as a discrete figure in the 1Q 2026 business update (no balance sheet shown).",
+      "nav_per_unit_source": "https://links.sgx.com/FileOpen/3.%20CLCT%20FY%202025%20Presentation%20Slides.ashx?App=Announcement&FileID=874183",
+
+      "occupancy_pct": null,
+      "occupancy_note": "Sector-level as at 31 March 2026: Retail 97.0%, Business Park 86.0%, Logistics Park 99.0%. Total portfolio committed occupancy not stated as single number in 1Q 2026 update. At 31 Dec 2025: Retail 97.2%, Business Park 86.7%, Logistics Park 98.1%.",
+      "occupancy_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "wale_years": 2.0,
+      "wale_basis": "Portfolio WALE 2.0 years by Gross Rental Income; 2.5 years by NLA. Sector: Retail 2.1 GRI/3.4 NLA, Business Park 1.8/1.8, Logistics Park 2.6/2.7.",
+      "wale_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "num_properties": 17,
+      "num_properties_note": "8 retail malls + 5 business parks + 4 logistics parks = 17 properties total. Also 5% stake in CLCR (C-REIT).",
+      "num_properties_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "aum_total": "S$4.5 billion",
+      "aum_note": "Total Assets S$4.485bn (as at 31 Dec 2025, includes 5% stake in CLCR with closing price RMB 6.525 as at 31 Dec 2025). Portfolio investment properties valuation RMB 22,981M as at 31 Dec 2025 (down 0.8% YoY): Retail RMB 16,244M, Business Parks RMB 5,367M, Logistics RMB 1,370M.",
+      "aum_source": "https://links.sgx.com/FileOpen/3.%20CLCT%20FY%202025%20Presentation%20Slides.ashx?App=Announcement&FileID=874183",
+
+      "top10_tenant_pct": 8.3,
+      "top10_tenant_basis": "by percentage of Total Rental Income for month of March 2026 (down from 8.5% in March 2025)",
+      "top10_tenant_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "geographic_split": {
+        "Beijing (China) Retail": 51.4,
+        "Guangzhou (China) Retail": 21.0,
+        "Harbin (China) Retail": 13.3,
+        "Chengdu (China) Retail": 8.0,
+        "Hohhot (China) Retail": 6.3
+      },
+      "geographic_split_basis": "Retail portfolio by city, % of retail valuation (RMB16.2bn). Business Parks: Suzhou 43.6%, Hangzhou 33.9%, Xi'an 22.5%. Logistics Parks: Shanghai 32.0%, Wuhan 23.8%, Chengdu 23.6%, Kunshan 20.6%. 100% China.",
+      "geographic_split_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "forward_dpu_guidance": "2026 targets: expand retail presence in Tier 1 and 2 cities while maintaining stable occupancy; expand RMB debt access; recycle mature assets; evaluate new AEIs. No quantitative DPU guidance.",
+      "forward_dpu_guidance_source": "https://investor.clct.com.sg/newsroom/20260423_072607_AU8U_VOT1GNGQR327HHFZ.1.pdf",
+
+      "property_yield_pct": 4.81,
+      "property_yield_source": "https://links.sgx.com/FileOpen/3.%20CLCT%20FY%202025%20Presentation%20Slides.ashx?App=Announcement&FileID=874183",
+      "property_yield_note": "Computed: FY2025 NPI of RMB 1,104.6M / Portfolio valuation of RMB 22,981M as at 31 Dec 2025 = 4.81%. Manager states 'cap rates remain largely unchanged' on FY2025 valuation but does not publish a single portfolio cap rate.",
+
+      "gearing_pct_incl_perps": 41.3,
+      "gearing_pct_incl_perps_source": "https://links.sgx.com/FileOpen/3.%20CLCT%20FY%202025%20Presentation%20Slides.ashx?App=Announcement&FileID=874183",
+      "perpetual_securities_note": "CLCT issued S$150M of perpetual securities on 19 September 2025 and redeemed S$100M of pre-existing perpetuals on 27 October 2025 - net outstanding S$149.8M as at 31 Dec 2025 (balance sheet line: Perpetual Securities Holders S$149,788k). The 40.7% manager-disclosed aggregate leverage (Property Funds Appendix) treats these perpetuals as equity (not debt). Computed gearing including perpetuals as debt: (Total Debt S$1,703.0M + Perpetuals S$149.8M) / Total Assets S$4,484.8M = 41.3% as at 31 Dec 2025. For 31 Mar 2026, comparable figure would be ~42.0% (manager-disclosed 41.4% headline plus perpetual uplift)."
+    },
+
+    "CY6U": {
+      "name": "CapitaLand India Trust (CLINT)",
+      "_notes": "CY6U is a BUSINESS TRUST listed on SGX, not a REIT. CLINT is structured as a registered business trust under the Singapore Business Trusts Act (Cap. 31A), with CapitaLand India Trust Management Pte. Ltd. as Trustee-Manager. While colloquially referred to as a REIT and treated similarly for screening purposes, it is governed under business-trust rules rather than the Code on Collective Investment Schemes / Property Funds Appendix. This affects: (i) MAS aggregate-leverage and ICR rules do not directly apply (the manager elects to comply on a voluntary basis), (ii) the trust can undertake direct property development without the 10% development limit applicable to REITs, and (iii) tax transparency at the trust level may differ. Composite screening thresholds should be applied with this distinction in mind.",
+      "report_period": "1Q 2026 (Business Updates)",
+      "report_date": "2026-04-24",
+      "report_url": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+      "report_ir_url": "https://investor.clint.com.sg/misc/CLINT-1Q-2026-Business-Updates.pdf",
+
+      "gearing_pct": 35.7,
+      "gearing_note": "Gearing Ratio 35.7% as at 31 Mar 2026 (down from 39.6% at 31 Dec 2025). Includes CLINT's proportionate share of joint ventures' borrowings. Net Gearing 33.8%. As a business trust, CLINT applies the Property Funds Appendix formula on a voluntary basis.",
+      "gearing_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "icr_x": 2.8,
+      "icr_note": "Interest Coverage Ratio 2.8x at 31 Mar 2026 (2.7x at 31 Dec 2025). Based on trailing 12 months EBITDA divided by interest expense, borrowing-related fees and distributions on perpetual securities.",
+      "icr_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "wace_pct": 5.7,
+      "wace_note": "Average Cost of Debt 5.7% (vs 5.6% at 31 Dec 2025). Slightly up due to higher INR debt ratio.",
+      "wace_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "pct_fixed_debt": 78.5,
+      "pct_fixed_debt_note": "% Borrowings on Fixed Interest Rate 78.5% as at 31 Mar 2026 (up from 72.6% at 31 Dec 2025).",
+      "pct_fixed_debt_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "wadm_years": 2.7,
+      "wadm_note": "Average Term to Maturity 2.7 years.",
+      "wadm_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "dpu_ttm_cents": 7.87,
+      "dpu_ttm_note": "FY2025 DPU 7.87 Singapore cents (+15% YoY), comprising 2H 2025 DPU of 3.90 SG cents (+22% YoY). Implied FY2025 distribution yield 6.5% based on closing price S$1.22 as at 31 Dec 2025. 1Q 2026 advance distribution of 1.44 SG cents declared for period 1 January to 4 March 2026 (paid on 10 April 2026, advance distribution due to private placement).",
+      "dpu_ttm_source": "https://investor.clint.com.sg/misc/CLINT-2H2025-Financial-Results-Slide.pdf",
+
+      "dpu_last_period_cents": 1.44,
+      "dpu_last_period_note": "Advance distribution of 1.44 SG cents/unit for 1 January to 4 March 2026 paid on 10 April 2026 (advance distribution due to S$150m private placement launched 24 Feb 2026). This is a partial-quarter advance distribution, not a full 1Q 2026 DPU.",
+      "dpu_last_period_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "dpu_currency": "SGD",
+      "dpu_currency_note": "Distributions in SGD although underlying assets are INR-denominated. Monthly forward contracts to lock in income to be repatriated.",
+      "dpu_currency_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "nav_per_unit": 1.38,
+      "nav_per_unit_currency": "SGD",
+      "nav_per_unit_note": "NAV per Unit S$1.38 (Stable YoY) / INR 97.38 (+12% YoY in INR terms) as at 31 Dec 2025 per FY2025 results released 2 Feb 2026. NAV not separately disclosed in 1Q 2026 business update.",
+      "nav_per_unit_source": "https://investor.clint.com.sg/misc/CLINT-2H2025-Financial-Results-Slide.pdf",
+
+      "occupancy_pct": 91.0,
+      "occupancy_note": "Committed Occupancy 91% as at 31 March 2026 (excludes Logistics Park and Data Centres). 304 total tenants.",
+      "occupancy_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "wale_years": 3.3,
+      "wale_basis": "Weighted Average Lease Expiry 3.3 years; Weighted Average Lease Term 6.6 years. Excludes Logistics Park and Data Centres.",
+      "wale_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "num_properties": null,
+      "num_properties_note": "Portfolio comprises completed IT parks (Bangalore ITPB, Chennai ITPC, Hyderabad ITPH, Pune ITPP-H, Mumbai), industrial facilities, 7 warehouses (Logistics Park, Chennai), and 1 data centre (DC Navi Mumbai T1). Total completed buildings: 13 (Bangalore) + 6 (Chennai - 3 IT + 3 industrial) + 9 (Hyderabad) + 8 (Pune) + 10 (Mumbai - 2 IT + 7 warehouses + 1 DC) = 46 buildings across 5 cities. Asset/property count not stated as single figure.",
+      "num_properties_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "aum_total": "S$3.8 billion",
+      "aum_note": "Portfolio valuation S$3.8bn / INR 266.4bn as at 31 Dec 2025 (+19% YoY on a like-for-like basis, excluding divestments of CyberVale and CyberPearl). Valuations by Cushman & Wakefield (India) Pvt. Ltd. as at 31 Dec 2025 at exchange rate S$1 : INR 70.4. Completed floor area: 21.7 million sq ft existing portfolio (includes CapitaLand Data Centre Navi Mumbai T1). Bangalore 6.0m + Chennai 2.8m + Hyderabad 4.6m + Pune 5.3m + Mumbai 3.2m sq ft.",
+      "aum_source": "https://investor.clint.com.sg/misc/CLINT-2H2025-Financial-Results-Slide.pdf",
+
+      "top10_tenant_pct": 39.0,
+      "top10_tenant_basis": "by Portfolio Base Rent. Largest: Tata Consultancy Services 11%, Applied Materials 7%, Infosys 5%, UnitedHealth Group 3%, Amazon 3%, Synechron 3%, Pegatron 3%, Bristol Myers Squibb 2%, Société Générale 2%, Deloitte 2%.",
+      "top10_tenant_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "geographic_split": {
+        "Bangalore (India)": 33,
+        "Hyderabad (India)": 26,
+        "Pune (India)": 19,
+        "Chennai (India)": 14,
+        "Mumbai (India)": 8
+      },
+      "geographic_split_basis": "% of Portfolio Base Rent. 100% India.",
+      "geographic_split_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "forward_dpu_guidance": "Distribution Policy: 90% of income available for distribution to be distributed; 10% retained. Committed pipeline expected to grow floor area 49% to 32.3 million sq ft by 2030 (existing 21.7m + 7.3m forward purchases + 1.9m IT building developments + 1.4m DC developments). Target onshore INR debt 40-50% over next few years. No quantitative DPU guidance.",
+      "forward_dpu_guidance_source": "https://links.sgx.com/1.0.0/corporate-announcements/ADUH6HXKAUCRPY5Y/885503_CLINT%201Q%202026%20Business%20Updates%2024%20April%202026.pdf",
+
+      "property_yield_pct": 5.92,
+      "property_yield_source": "https://investor.clint.com.sg/misc/CLINT-2H2025-Financial-Results-Slide.pdf",
+      "property_yield_note": "Computed: FY2025 NPI of S$224.9M / Portfolio valuation S$3,800M as at 31 Dec 2025 = 5.92%. Manager does not disclose a single portfolio cap rate metric. Independent valuation by Cushman & Wakefield (India) Pvt. Ltd. at exchange rate S$1 : INR 70.4 as at 31 Dec 2025.",
+
+      "gearing_pct_incl_perps": 38.4,
+      "gearing_pct_incl_perps_source": "https://investor.clint.com.sg/misc/CLINT-2H2025-Financial-Results-Slide.pdf",
+      "perpetual_securities_note": "CLINT issued S$100M of perpetual securities in FY2025 (per FY2025 results presentation: 'Issued S$100 M perpetual securities' under Optimise Capital Structure). The 35.7% manager-disclosed gearing as at 31 Mar 2026 / 39.6% as at 31 Dec 2025 treats perpetuals as equity. Computed gearing including perpetuals as debt: 35.7% headline + ~2.7 ppt uplift for S$100M perpetuals on ~S$3.7bn deposited property ≈ 38.4% as at 31 Mar 2026. Equivalent 31 Dec 2025 figure: ~42.3%. ICR formula already includes distributions on perpetual securities in the denominator (per manager disclosure)."
+    }
+  }
+}

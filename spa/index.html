@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>S-REIT Terminal — Singapore REIT Screener</title>
+  <meta name="description" content="Authoritative Singapore REIT screener. Live market data from Yahoo Finance, REIT-specific metrics from manager IR filings only. Built for sophisticated investors." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <a class="skip-link" href="#reit-table">Skip to REIT table</a>
+
+  <header class="masthead" role="banner">
+    <div class="masthead__brand">
+      <button class="rail-toggle" id="rail-toggle" aria-label="Toggle filters" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="masthead__mark" aria-hidden="true">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+      <div class="masthead__name">
+        <h1 aria-label="S-REIT Terminal">S<span class="hyphen" aria-hidden="true">-</span>REIT <em>Terminal</em></h1>
+        <div class="masthead__sub">Singapore REIT screener · authoritative sources · per-field provenance</div>
+      </div>
+    </div>
+
+    <div class="masthead__actions">
+      <button type="button" class="action-btn" id="columns-btn" aria-haspopup="true" aria-expanded="false">Columns</button>
+      <button type="button" class="action-btn" id="hidden-btn" title="Manage REITs you've hidden">Hidden <span id="hidden-count" class="action-badge">0</span></button>
+      <button type="button" class="action-btn action-btn--accent" id="help-btn" aria-haspopup="dialog">Help</button>
+    </div>
+
+    <dl class="masthead__meta" aria-label="Data freshness">
+      <div class="meta-row">
+        <dt class="meta-label">Market data</dt>
+        <dd class="meta-val" id="yahoo-time">—</dd>
+      </div>
+      <div class="meta-row">
+        <dt class="meta-label">Master validated</dt>
+        <dd class="meta-val" id="master-time">—</dd>
+      </div>
+      <div class="meta-row">
+        <dt class="meta-label">Universe</dt>
+        <dd class="meta-val"><span id="universe-count">—</span> SGX-listed REITs &amp; stapled trusts</dd>
+      </div>
+    </dl>
+  </header>
+
+  <main class="grid" role="main">
+
+    <aside class="rail" id="rail" aria-label="Filters">
+      <div class="rail__inner">
+        <div class="rail__group">
+          <div class="rail__heading">User screen</div>
+          <label class="screen-toggle">
+            <input type="checkbox" id="user-screen" />
+            <span class="screen-toggle__box" aria-hidden="true"></span>
+            <span class="screen-toggle__text">
+              Gearing &lt; 40% · Mkt cap ≥ 200M trading-currency
+            </span>
+          </label>
+          <div class="rail__note" id="screen-count">—</div>
+        </div>
+
+        <div class="rail__group">
+          <label for="search" class="rail__heading">Search</label>
+          <input type="search" id="search" placeholder="Ticker, name, sponsor… (press /)" autocomplete="off" aria-label="Search by ticker, name, sponsor, or geography" />
+        </div>
+
+        <fieldset class="rail__group rail__group--chips">
+          <legend class="rail__heading">Sector</legend>
+          <div class="chip-list" id="sector-filter" role="group" aria-label="Sector filter"></div>
+        </fieldset>
+
+        <fieldset class="rail__group rail__group--chips">
+          <legend class="rail__heading">Currency</legend>
+          <div class="chip-list" id="currency-filter" role="group" aria-label="Currency filter"></div>
+        </fieldset>
+
+        <fieldset class="rail__group rail__group--range">
+          <legend class="rail__heading">Gearing (%) <span class="range-val" id="gearing-val" aria-live="polite">any</span></legend>
+          <div class="range-row">
+            <input type="range" id="gearing-min" min="0" max="60" value="0" step="1" aria-label="Gearing minimum" />
+            <input type="range" id="gearing-max" min="0" max="60" value="60" step="1" aria-label="Gearing maximum" />
+          </div>
+        </fieldset>
+
+        <fieldset class="rail__group rail__group--range">
+          <legend class="rail__heading">Dist. yield (%) <span class="range-val" id="yield-val" aria-live="polite">any</span></legend>
+          <div class="range-row">
+            <input type="range" id="yield-min" min="0" max="20" value="0" step="0.5" aria-label="Distribution yield minimum" />
+            <input type="range" id="yield-max" min="0" max="20" value="20" step="0.5" aria-label="Distribution yield maximum" />
+          </div>
+        </fieldset>
+
+        <fieldset class="rail__group rail__group--range">
+          <legend class="rail__heading">Mkt cap (trading ccy, $M) <span class="range-val" id="mcap-val" aria-live="polite">any</span></legend>
+          <div class="range-row">
+            <input type="range" id="mcap-min" min="0" max="20000" value="0" step="50" aria-label="Market cap minimum" />
+            <input type="range" id="mcap-max" min="0" max="20000" value="20000" step="50" aria-label="Market cap maximum" />
+          </div>
+        </fieldset>
+
+        <div class="rail__group">
+          <button type="button" class="rail__reset" id="reset-filters">Reset all filters</button>
+        </div>
+
+        <div class="rail__group rail__group--legend">
+          <div class="rail__heading">Quality bands</div>
+          <div class="legend-row"><span class="qb qb--strong">strong</span><span class="qb-note">≥ 80</span></div>
+          <div class="legend-row"><span class="qb qb--healthy">healthy</span><span class="qb-note">65–80</span></div>
+          <div class="legend-row"><span class="qb qb--caution">caution</span><span class="qb-note">45–65</span></div>
+          <div class="legend-row"><span class="qb qb--stress">stress</span><span class="qb-note">&lt; 45</span></div>
+          <a class="rail__doc" href="#" id="open-methodology">Methodology &amp; thresholds →</a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="table-wrap" aria-label="REIT screener table">
+      <div class="table-meta">
+        <div>
+          <span class="count" id="visible-count">—</span>
+          <span class="count-label">REITs shown</span>
+          <span class="filter-note" id="filter-note"></span>
+        </div>
+        <div class="hint">Click a row for detail · right-click any value for source &amp; actions</div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="reit-table" id="reit-table">
+          <caption class="sr-only">Singapore REITs sorted by market capitalisation; click any row for detail; right-click any value for source.</caption>
+          <thead id="reit-thead"></thead>
+          <tbody id="reit-rows"></tbody>
+        </table>
+      </div>
+
+      <div class="footnote">
+        <p>Yield TTM prefers manager-disclosed DPU over Yahoo's headline (Yahoo can include capital distributions). P/NAV uses manager-reported NAV per unit when available; otherwise Yahoo's price-to-book as a labelled fallback. Gearing, ICR, WALE, Property Yield, NAV and Occupancy come from each manager's most recent quarterly business update — open a row to see the exact source URL, or right-click any value.</p>
+        <p>Currency badges show the REIT's trading currency. <strong>SGD is implicit</strong> and shown only when foreign. Ratios (yield, gearing, occupancy, etc.) are currency-independent and compare directly; raw market cap and price are <em>not</em> currency-translated — apply your own FX awareness when comparing absolute figures across currencies.</p>
+        <p><strong>Composite "quality" scores</strong> capture capital-management discipline, recurring yield, and operating metrics — sector-aware. They do NOT capture sponsor strength, tenant credit, refinancing cliffs, distribution composition (organic vs capital top-ups), or unit-dilution from manager fees. Use as a triage tool, never as a buy signal.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Detail drawer (dialog) -->
+  <div class="drawer" id="drawer" hidden>
+    <div class="drawer__scrim" data-close></div>
+    <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title" tabindex="-1">
+      <button type="button" class="drawer__close" data-close aria-label="Close detail panel">×</button>
+      <div class="drawer__content" id="drawer-content"></div>
+    </div>
+  </div>
+
+  <!-- Modal — Columns / Hidden / Help all share this -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__scrim" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+      <button type="button" class="modal__close" data-close aria-label="Close">×</button>
+      <div class="modal__content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Right-click context menu -->
+  <ul class="ctx-menu" id="ctx-menu" role="menu" hidden></ul>
+
+  <!-- Tooltip layer -->
+  <div class="tooltip" id="tooltip" hidden></div>
+
+  <footer class="colophon" role="contentinfo">
+    <div>S-REIT <em>Terminal</em> · <a href="#" id="open-methodology-foot">Methodology</a> · <a href="#" id="open-playbook-foot">Re-run playbook</a> · <a href="https://github.com/mayerwin/s-reits-benchmark" id="repo-link" target="_blank" rel="noopener">Source on GitHub</a></div>
+    <div>Built for decision support, not investment advice. Verify every figure against the linked source before acting on it.</div>
+  </footer>
+
+  <script>window.GITHUB_REPO = 'mayerwin/s-reits-benchmark';</script>
+  <script src="metrics-doc.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
