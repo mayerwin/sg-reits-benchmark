@@ -315,19 +315,62 @@ legend { padding: 0; display: block; width: 100%; }
 .chip:hover { color: var(--text-0); border-color: var(--line-2); }
 .chip.is-on { background: var(--acc-deeper); border-color: var(--acc); color: var(--acc-bright); }
 
-.range-row { display: flex; gap: 8px; min-width: 0; }
-/* min-width:0 lets the two sliders shrink below their intrinsic width so the pair never
-   overflows the 280px rail (which previously forced a horizontal scrollbar). */
-.range-row input[type=range] { flex: 1 1 0; min-width: 0; -webkit-appearance: none; appearance: none; background: transparent; height: 18px; }
-.range-row input[type=range]::-webkit-slider-runnable-track { height: 2px; background: var(--line-2); }
-.range-row input[type=range]::-moz-range-track { height: 2px; background: var(--line-2); }
-.range-row input[type=range]::-webkit-slider-thumb {
+/* ---- Dual-thumb range slider (one track, min + max cursors) ---- */
+.dual {
+  position: relative;
+  height: 20px;
+  margin-top: 2px;
+}
+.dual__track {
+  position: absolute;
+  left: 7px; right: 7px;            /* inset by half a thumb so fill aligns with thumb centres */
+  top: 50%; transform: translateY(-50%);
+  height: 3px;
+  background: var(--line-2);
+  border-radius: 2px;
+}
+.dual__fill {
+  position: absolute;
+  top: 0; bottom: 0;
+  background: var(--acc);
+  border-radius: 2px;
+}
+/* Two range inputs overlaid on the same track. Only the thumbs are interactive. */
+.dual__in {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  width: 100%;
+  height: 20px;
+  margin: 0;
   -webkit-appearance: none; appearance: none;
-  width: 10px; height: 14px; background: var(--acc); border: none; margin-top: -6px; cursor: ew-resize;
+  background: transparent;
+  pointer-events: none;             /* track ignores clicks … */
 }
-.range-row input[type=range]::-moz-range-thumb {
-  width: 10px; height: 14px; background: var(--acc); border: none; cursor: ew-resize;
+.dual__in::-webkit-slider-runnable-track { background: transparent; height: 20px; }
+.dual__in::-moz-range-track { background: transparent; height: 20px; }
+.dual__in::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  pointer-events: auto;             /* … but thumbs are grabbable */
+  width: 14px; height: 14px; margin-top: 3px;
+  border-radius: 50%;
+  background: var(--acc);
+  border: 2px solid var(--ink-1);
+  box-shadow: 0 0 0 1px var(--acc-soft);
+  cursor: ew-resize;
 }
+.dual__in::-moz-range-thumb {
+  pointer-events: auto;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--acc);
+  border: 2px solid var(--ink-1);
+  box-shadow: 0 0 0 1px var(--acc-soft);
+  cursor: ew-resize;
+}
+.dual__in:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--acc-bright); }
+/* Min thumb sits above so it stays grabbable when the two thumbs are close together. */
+.dual__in--min { z-index: 3; }
+.dual__in--max { z-index: 2; }
 
 .screen-toggle {
   display: flex; align-items: flex-start; gap: 10px;
@@ -385,6 +428,12 @@ legend { padding: 0; display: block; width: 100%; }
   transition: color 80ms, border-color 80ms;
 }
 .rail__reset:hover { color: var(--text-0); border-color: var(--acc); }
+.rail__reset--hard { border-style: dashed; color: var(--text-3); font-size: 10px; }
+.rail__reset--hard:hover { color: var(--q-stress); border-color: var(--q-stress); }
+
+/* Dotted-underline label inside a range-filter heading (tooltip target) */
+.rail__filterlabel { border-bottom: 1px dotted var(--text-4); cursor: help; }
+.rail__filterlabel:hover { color: var(--text-1); border-bottom-color: var(--acc); }
 
 .rail__group--legend .legend-row {
   display: flex; align-items: center; gap: 8px;

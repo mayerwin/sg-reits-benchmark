@@ -121,14 +121,16 @@ const STATE = {
   search: '',
   sectors: new Set(),
   currencies: new Set(),
-  gearingMin: 0, gearingMax: 60,
-  yieldMin: 0, yieldMax: 20,
-  mcapMin: 0, mcapMax: 20000,
+  ranges: {},                 // { columnKey: [lo, hi] } in display units; only present when narrowed
   columns: new Set(DEFAULT_COLUMNS),
   hiddenReits: new Set(),
   lastFocusBeforeDrawer: null,
   lastModalTrigger: null,
 };
+
+// Per-column numeric filter definitions (bounds computed from data at init).
+let FILTER_DEFS = [];  // [{ key, label, metric, value(r), fmt(v), bound:[min,max], step }]
+let FILTER_BY_KEY = {};
 
 function savePrefs() {
   try {
@@ -137,9 +139,7 @@ function savePrefs() {
       search: STATE.search,
       sectors: [...STATE.sectors],
       currencies: [...STATE.currencies],
-      gearingMin: STATE.gearingMin, gearingMax: STATE.gearingMax,
-      yieldMin: STATE.yieldMin, yieldMax: STATE.yieldMax,
-      mcapMin: STATE.mcapMin, mcapMax: STATE.mcapMax,
+      ranges: STATE.ranges,
       // Never persist an empty column set — fall back to default so a reload can't load blank.
       columns: STATE.columns.size ? [...STATE.columns] : [...DEFAULT_COLUMNS],
       hiddenReits: [...STATE.hiddenReits],
@@ -147,6 +147,9 @@ function savePrefs() {
     localStorage.setItem(LS_KEY, JSON.stringify(p));
   } catch {}
 }
+
+// Loaded from storage before FILTER_DEFS exist; applied/clamped once defs are built.
+let _pendingRanges = null;
 
 function loadPrefs() {
   try {
@@ -161,9 +164,7 @@ function loadPrefs() {
     if (typeof p.search === 'string') STATE.search = p.search;
     if (Array.isArray(p.sectors)) STATE.sectors = new Set(p.sectors);
     if (Array.isArray(p.currencies)) STATE.currencies = new Set(p.currencies);
-    for (const k of ['gearingMin','gearingMax','yieldMin','yieldMax','mcapMin','mcapMax']) {
-      if (typeof p[k] === 'number' && Number.isFinite(p[k])) STATE[k] = p[k];
-    }
+    if (p.ranges && typeof p.ranges === 'object') _pendingRanges = p.ranges;
     // Only restore columns that still exist in ALL_COLUMNS; ignore empty/garbage.
     if (Array.isArray(p.columns)) {
       const valid = p.columns.filter(c => ALL_COLUMNS.some(ac => ac.key === c));
@@ -175,6 +176,162 @@ function loadPrefs() {
 
 let DATA = null;
 let IS_TOUCH = false;
+
+/* ===================== PER-COLUMN NUMERIC FILTERS (dual-range sliders) ===================== */
+
+// How to read each numeric column's value (in the unit the slider operates in) and format it.
+const FILTER_META = {
+  price:                  { unit: 'price', accessor: r => r.price },
+  market_cap:             { unit: 'money', accessor: r => r.market_cap == null ? null : r.market_cap / 1e6 }, // millions
+  distribution_yield_ttm: { unit: 'pct',   accessor: r => r.distribution_yield_ttm == null ? null : r.distribution_yield_ttm * 100 },
+  gearing_pct:            { unit: 'pct',   accessor: r => r.gearing_pct },
+  gearing_pct_incl_perps: { unit: 'pct',   accessor: r => r.gearing_pct_incl_perps },
+  icr_x:                  { unit: 'x',     accessor: r => r.icr_x },
+  wace_pct:               { unit: 'pct',   accessor: r => r.wace_pct },
+  pct_fixed_debt:         { unit: 'pct',   accessor: r => r.pct_fixed_debt },
+  wadm_years:             { unit: 'yr',    accessor: r => r.wadm_years },
+  wale_years:             { unit: 'yr',    accessor: r => r.wale_years },
+  occupancy_pct:          { unit: 'pct',   accessor: r => r.occupancy_pct },
+  property_yield_pct:     { unit: 'pct',   accessor: r => r.property_yield_pct },
+  num_properties:         { unit: 'int',   accessor: r => r.num_properties },
+  top10_tenant_pct:       { unit: 'pct',   accessor: r => r.top10_tenant_pct },
+  nav_per_unit:           { unit: 'price', accessor: r => r.nav_per_unit },
+  p_nav:                  { unit: 'x',     accessor: r => r.p_nav },
+  trailing_pe:            { unit: 'pe',    accessor: r => r.trailing_pe },
+  quality:                { unit: 'int',   accessor: r => r.scores?.composite ?? null },
+};
+
+function fmtFilter(unit, v) {
+  if (v == null) return '—';
+  switch (unit) {
+    case 'pct': return (Number.isInteger(v) ? v : v.toFixed(1)) + '%';
+    case 'money': return v >= 1000 ? (v / 1000).toFixed(1) + 'B' : Math.round(v) + 'M'; // v is in millions
+    case 'x': return v.toFixed(2) + 'x';
+    case 'yr': return v.toFixed(1) + 'y';
+    case 'price': return v < 1 ? v.toFixed(3) : v.toFixed(2);
+    case 'pe': return v.toFixed(1);
+    case 'int': default: return String(Math.round(v));
+  }
+}
+
+// Pick a "nice" step for a given numeric span.
+function niceStep(span, unit) {
+  if (unit === 'int') return 1;
+  if (unit === 'money') return span > 4000 ? 50 : 10;     // millions
+  if (span <= 2) return 0.05;
+  if (span <= 10) return 0.1;
+  if (span <= 60) return 0.5;
+  if (span <= 200) return 1;
+  return Math.pow(10, Math.floor(Math.log10(span / 50)));
+}
+
+function buildFilterDefs() {
+  FILTER_DEFS = [];
+  for (const col of ALL_COLUMNS) {
+    const meta = FILTER_META[col.key];
+    if (!meta) continue; // categorical / non-numeric columns
+    const vals = DATA.reits.map(meta.accessor).filter(v => v != null && Number.isFinite(v));
+    if (!vals.length) continue;
+    let lo = Math.min(...vals), hi = Math.max(...vals);
+    const step = niceStep(hi - lo || 1, meta.unit);
+    // Round bounds outward to the step so the full data range is reachable.
+    lo = Math.floor(lo / step) * step;
+    hi = Math.ceil(hi / step) * step;
+    if (hi === lo) hi = lo + step;
+    FILTER_DEFS.push({
+      key: col.key,
+      label: col.label,
+      metric: col.metric,
+      unit: meta.unit,
+      value: meta.accessor,
+      fmt: (v) => fmtFilter(meta.unit, v),
+      bound: [lo, hi],
+      step,
+    });
+  }
+  FILTER_BY_KEY = Object.fromEntries(FILTER_DEFS.map(d => [d.key, d]));
+
+  // Apply any persisted ranges now that bounds exist (clamp to current bounds; drop full-range).
+  if (_pendingRanges) {
+    for (const [k, v] of Object.entries(_pendingRanges)) {
+      const d = FILTER_BY_KEY[k];
+      if (!d || !Array.isArray(v) || v.length !== 2) continue;
+      let [a, b] = v.map(Number);
+      if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
+      a = Math.max(d.bound[0], Math.min(a, d.bound[1]));
+      b = Math.max(d.bound[0], Math.min(b, d.bound[1]));
+      if (a > b) [a, b] = [b, a];
+      if (a > d.bound[0] || b < d.bound[1]) STATE.ranges[k] = [a, b];
+    }
+    _pendingRanges = null;
+  }
+}
+
+/** Range filters currently narrowed from their full bounds. */
+function activeRangeFilters() {
+  return FILTER_DEFS
+    .filter(d => STATE.ranges[d.key])
+    .map(d => {
+      const [lo, hi] = STATE.ranges[d.key];
+      return { label: d.label, value: d.value, min: lo, max: hi };
+    });
+}
+
+function buildRangeFilters() {
+  const wrap = $('#range-filters');
+  if (!wrap) return;
+  wrap.innerHTML = FILTER_DEFS.map(d => {
+    const cur = STATE.ranges[d.key] || d.bound;
+    const narrowed = !!STATE.ranges[d.key];
+    const valTxt = narrowed ? `${d.fmt(cur[0])}–${d.fmt(cur[1])}` : 'any';
+    return `<div class="rail__group rail__group--range">
+      <div class="rail__heading">
+        <span class="has-tip rail__filterlabel" data-tip="${esc(d.metric || '')}">${esc(d.label)}</span>
+        <span class="range-val" data-val-for="${esc(d.key)}">${esc(valTxt)}</span>
+      </div>
+      <div class="dual" data-key="${esc(d.key)}">
+        <div class="dual__track"><div class="dual__fill" data-fill-for="${esc(d.key)}"></div></div>
+        <input type="range" class="dual__in dual__in--min" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[0]}" aria-label="${esc(d.label)} minimum" />
+        <input type="range" class="dual__in dual__in--max" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[1]}" aria-label="${esc(d.label)} maximum" />
+      </div>
+    </div>`;
+  }).join('');
+  FILTER_DEFS.forEach(d => updateDualUI(d.key));
+}
+
+function updateDualUI(key) {
+  const d = FILTER_BY_KEY[key];
+  const cur = STATE.ranges[key] || d.bound;
+  const [bMin, bMax] = d.bound;
+  const span = (bMax - bMin) || 1;
+  const fill = $(`[data-fill-for="${cssEscape(key)}"]`);
+  if (fill) {
+    fill.style.left = ((cur[0] - bMin) / span * 100) + '%';
+    fill.style.right = ((bMax - cur[1]) / span * 100) + '%';
+  }
+  const val = $(`[data-val-for="${cssEscape(key)}"]`);
+  if (val) val.textContent = STATE.ranges[key] ? `${d.fmt(cur[0])}–${d.fmt(cur[1])}` : 'any';
+}
+
+function onDualInput(e) {
+  const input = e.target.closest('.dual__in');
+  if (!input) return;
+  const key = input.dataset.key;
+  const d = FILTER_BY_KEY[key];
+  const isMin = input.classList.contains('dual__in--min');
+  const wrap = input.closest('.dual');
+  const minEl = $('.dual__in--min', wrap), maxEl = $('.dual__in--max', wrap);
+  let lo = Number(minEl.value), hi = Number(maxEl.value);
+  // Clamp so the thumbs can't cross.
+  if (isMin && lo > hi) { lo = hi; minEl.value = lo; }
+  if (!isMin && hi < lo) { hi = lo; maxEl.value = hi; }
+  // Store only when narrowed from the full bounds; otherwise clear the filter.
+  if (lo <= d.bound[0] && hi >= d.bound[1]) delete STATE.ranges[key];
+  else STATE.ranges[key] = [lo, hi];
+  updateDualUI(key);
+  savePrefs();
+  render();
+}
 
 /* ===================== HORIZONTAL SCROLLBAR (synced, pinned above headers) ===================== */
 function wireHbar() {
@@ -272,6 +429,7 @@ function init() {
     ? 'Tap a row for detail · long-press any value for its source &amp; actions'
     : 'Click a row for detail · right-click any value for source &amp; actions';
 
+  buildFilterDefs();   // compute per-column bounds + apply any persisted ranges
   buildChipFilters();
   buildTableHead();
   wireHbar();
@@ -286,27 +444,16 @@ function init() {
     }
   });
 
-  // Range pairs
-  const rangePairs = [
-    { minId: 'gearing-min', maxId: 'gearing-max', minKey: 'gearingMin', maxKey: 'gearingMax' },
-    { minId: 'yield-min', maxId: 'yield-max', minKey: 'yieldMin', maxKey: 'yieldMax' },
-    { minId: 'mcap-min', maxId: 'mcap-max', minKey: 'mcapMin', maxKey: 'mcapMax' },
-  ];
-  for (const p of rangePairs) {
-    const minEl = $('#' + p.minId), maxEl = $('#' + p.maxId);
-    minEl.value = STATE[p.minKey]; maxEl.value = STATE[p.maxKey];
-    minEl.addEventListener('input', () => {
-      let v = Number(minEl.value);
-      if (v > Number(maxEl.value)) { v = Number(maxEl.value); minEl.value = v; }
-      STATE[p.minKey] = v; updateRangeLabels(); savePrefs(); render();
-    });
-    maxEl.addEventListener('input', () => {
-      let v = Number(maxEl.value);
-      if (v < Number(minEl.value)) { v = Number(minEl.value); maxEl.value = v; }
-      STATE[p.maxKey] = v; updateRangeLabels(); savePrefs(); render();
-    });
-  }
+  // Per-column dual-range filters (delegated input handler)
+  buildRangeFilters();
+  $('#range-filters').addEventListener('input', onDualInput);
   $('#reset-filters').addEventListener('click', resetFilters);
+  $('#reset-app').addEventListener('click', () => {
+    if (confirm('Clear all saved settings (filters, columns, hidden REITs) from this browser and reload?')) {
+      try { localStorage.removeItem(LS_KEY); } catch {}
+      location.reload();
+    }
+  });
 
   // Sort delegation (real header + floating header clone)
   const onHeadClick = (e) => {
@@ -429,7 +576,6 @@ function init() {
   for (const c of STATE.currencies) $(`#currency-filter .chip[data-ccy="${cssEscape(c)}"]`)?.classList.add('is-on');
   $$('.chip.is-on').forEach(c => c.setAttribute('aria-pressed', 'true'));
 
-  updateRangeLabels();
   updateHiddenCount();
   render();
 }
@@ -472,27 +618,17 @@ function buildTableHead() {
   $('#reit-thead').innerHTML = `<tr>${ths}</tr>`;
 }
 
-function updateRangeLabels() {
-  $('#gearing-val').textContent = (STATE.gearingMin === 0 && STATE.gearingMax === 60) ? 'any' : `${STATE.gearingMin}–${STATE.gearingMax}`;
-  $('#yield-val').textContent = (STATE.yieldMin === 0 && STATE.yieldMax === 20) ? 'any' : `${STATE.yieldMin}–${STATE.yieldMax}`;
-  $('#mcap-val').textContent = (STATE.mcapMin === 0 && STATE.mcapMax === 20000) ? 'any' : `${STATE.mcapMin}–${STATE.mcapMax}M`;
-}
-
 function updateHiddenCount() {
   $('#hidden-count').textContent = String(STATE.hiddenReits.size);
 }
 
 function resetFilters() {
   STATE.search = ''; STATE.sectors.clear(); STATE.currencies.clear();
-  STATE.gearingMin = 0; STATE.gearingMax = 60;
-  STATE.yieldMin = 0; STATE.yieldMax = 20;
-  STATE.mcapMin = 0; STATE.mcapMax = 20000;
+  STATE.ranges = {};
   $('#search').value = '';
-  $('#gearing-min').value = 0; $('#gearing-max').value = 60;
-  $('#yield-min').value = 0; $('#yield-max').value = 20;
-  $('#mcap-min').value = 0; $('#mcap-max').value = 20000;
   $$('.chip.is-on').forEach(c => { c.classList.remove('is-on'); c.setAttribute('aria-pressed', 'false'); });
-  updateRangeLabels(); savePrefs(); render();
+  buildRangeFilters();          // resets every dual slider to its full bounds
+  savePrefs(); render();
 }
 
 /** Categorical filters: hidden / search / sector / currency. */
@@ -505,18 +641,6 @@ function passesCategorical(r) {
   if (STATE.sectors.size && !STATE.sectors.has(r.sector)) return false;
   if (STATE.currencies.size && !STATE.currencies.has(r.trading_currency)) return false;
   return true;
-}
-
-/** The numeric range filters that are currently narrowed from their full extent. */
-function activeRangeFilters() {
-  const a = [];
-  if (STATE.gearingMin > 0 || STATE.gearingMax < 60)
-    a.push({ label: 'gearing', value: r => r.gearing_pct, min: STATE.gearingMin, max: STATE.gearingMax });
-  if (STATE.yieldMin > 0 || STATE.yieldMax < 20)
-    a.push({ label: 'distribution yield', value: r => r.distribution_yield_ttm == null ? null : r.distribution_yield_ttm * 100, min: STATE.yieldMin, max: STATE.yieldMax });
-  if (STATE.mcapMin > 0 || STATE.mcapMax < 20000)
-    a.push({ label: 'market cap', value: r => r.market_cap == null ? null : r.market_cap / 1e6, min: STATE.mcapMin, max: STATE.mcapMax });
-  return a;
 }
 
 function passesFilters(r) {
@@ -578,18 +702,21 @@ function render() {
   const ranges = activeRangeFilters();
   let note = '';
   if (ranges.length) {
-    const droppedForMissing = DATA.reits.filter(r => {
-      if (!passesCategorical(r)) return false;
-      let missing = false;
+    let droppedForMissing = 0;
+    const missingMetrics = new Set();   // only the metrics actually absent on dropped REITs
+    for (const r of DATA.reits) {
+      if (!passesCategorical(r)) continue;
+      let outOfRange = false;
+      const lacking = [];
       for (const f of ranges) {
         const v = f.value(r);
-        if (v == null) missing = true;          // not reported
-        else if (v < f.min || v > f.max) return false; // genuinely out of range, not a coverage gap
+        if (v == null) lacking.push(f.label);
+        else if (v < f.min || v > f.max) { outOfRange = true; break; }
       }
-      return missing;
-    }).length;
+      if (!outOfRange && lacking.length) { droppedForMissing++; lacking.forEach(m => missingMetrics.add(m)); }
+    }
     if (droppedForMissing) {
-      const metrics = ranges.map(f => f.label).join(' / ');
+      const metrics = [...missingMetrics].join(' / ');
       const one = droppedForMissing === 1;
       note = `· ${droppedForMissing} REIT${one ? '' : 's'} not shown — ${one ? "doesn't" : "don't"} report ${metrics}, so the range filter can't include ${one ? 'it' : 'them'}`;
     }
