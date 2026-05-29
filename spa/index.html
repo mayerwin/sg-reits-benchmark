@@ -37,11 +37,11 @@
 
     <dl class="masthead__meta" aria-label="Data freshness">
       <div class="meta-row">
-        <dt class="meta-label">Market data</dt>
+        <dt class="meta-label has-tip" data-tip="market_data_freshness" tabindex="0">Market data</dt>
         <dd class="meta-val" id="yahoo-time">—</dd>
       </div>
       <div class="meta-row">
-        <dt class="meta-label">Master validated</dt>
+        <dt class="meta-label has-tip" data-tip="master_validated" tabindex="0">Master validated</dt>
         <dd class="meta-val" id="master-time">—</dd>
       </div>
       <div class="meta-row">
@@ -57,18 +57,6 @@
 
     <aside class="rail" id="rail" aria-label="Filters">
       <div class="rail__inner">
-        <div class="rail__group">
-          <div class="rail__heading">User screen</div>
-          <label class="screen-toggle">
-            <input type="checkbox" id="user-screen" />
-            <span class="screen-toggle__box" aria-hidden="true"></span>
-            <span class="screen-toggle__text">
-              Gearing &lt; 40% · Mkt cap ≥ 200M trading-currency
-            </span>
-          </label>
-          <div class="rail__note" id="screen-count">—</div>
-        </div>
-
         <div class="rail__group">
           <label for="search" class="rail__heading">Search</label>
           <input type="search" id="search" placeholder="Ticker, name, sponsor… (press /)" autocomplete="off" aria-label="Search by ticker, name, sponsor, or geography" />
@@ -130,12 +118,16 @@
           <span class="count-label">REITs shown</span>
           <span class="filter-note" id="filter-note"></span>
         </div>
-        <div class="hint">Click a row for detail · right-click any value for source &amp; actions</div>
+        <div class="hint" id="table-hint">Click a row for detail · right-click any value for source &amp; actions</div>
       </div>
 
-      <div class="table-scroll">
+      <!-- Synced horizontal scrollbar that sticks just below the column headers, so it's
+           always reachable without scrolling to the bottom of a tall table. -->
+      <div class="hbar" id="hbar" aria-hidden="true"><div class="hbar__inner" id="hbar-inner"></div></div>
+
+      <div class="table-scroll" id="table-scroll">
         <table class="reit-table" id="reit-table">
-          <caption class="sr-only">Singapore REITs sorted by market capitalisation; click any row for detail; right-click any value for source.</caption>
+          <caption class="sr-only">Singapore REITs sorted by market capitalisation; activate a row for detail; right-click or long-press any value for its source.</caption>
           <thead id="reit-thead"></thead>
           <tbody id="reit-rows"></tbody>
         </table>

@@ -71,12 +71,6 @@ function qualityCell(score) {
   return `<span class="qual qual--${b.k}" aria-label="Quality ${score} — ${b.label}"><span class="qual__bar"><span class="qual__fill" style="width:${w}%"></span></span><span class="qual__val">${score}</span></span>`;
 }
 
-function passMark(passes) {
-  return passes
-    ? `<span class="screen-mark screen-mark--pass" title="Passes user screen (gearing<40% AND mcap ≥ 200M trading currency)" aria-label="passes user screen"></span>`
-    : `<span class="screen-mark screen-mark--fail" aria-label="fails or unknown screen"></span>`;
-}
-
 function thresholdBadge(kind, value) {
   if (value == null) return '';
   const bands = {
@@ -130,7 +124,6 @@ const STATE = {
   gearingMin: 0, gearingMax: 60,
   yieldMin: 0, yieldMax: 20,
   mcapMin: 0, mcapMax: 20000,
-  userScreen: false,
   columns: new Set(DEFAULT_COLUMNS),
   hiddenReits: new Set(),
   lastFocusBeforeDrawer: null,
@@ -147,7 +140,6 @@ function savePrefs() {
       gearingMin: STATE.gearingMin, gearingMax: STATE.gearingMax,
       yieldMin: STATE.yieldMin, yieldMax: STATE.yieldMax,
       mcapMin: STATE.mcapMin, mcapMax: STATE.mcapMax,
-      userScreen: STATE.userScreen,
       // Never persist an empty column set — fall back to default so a reload can't load blank.
       columns: STATE.columns.size ? [...STATE.columns] : [...DEFAULT_COLUMNS],
       hiddenReits: [...STATE.hiddenReits],
@@ -172,7 +164,6 @@ function loadPrefs() {
     for (const k of ['gearingMin','gearingMax','yieldMin','yieldMax','mcapMin','mcapMax']) {
       if (typeof p[k] === 'number' && Number.isFinite(p[k])) STATE[k] = p[k];
     }
-    if (typeof p.userScreen === 'boolean') STATE.userScreen = p.userScreen;
     // Only restore columns that still exist in ALL_COLUMNS; ignore empty/garbage.
     if (Array.isArray(p.columns)) {
       const valid = p.columns.filter(c => ALL_COLUMNS.some(ac => ac.key === c));
@@ -183,6 +174,24 @@ function loadPrefs() {
 }
 
 let DATA = null;
+let IS_TOUCH = false;
+
+/* ===================== HORIZONTAL SCROLLBAR (synced, pinned above headers) ===================== */
+function wireHbar() {
+  const hbar = $('#hbar'), scroll = $('#table-scroll');
+  if (!hbar || !scroll) return;
+  let lock = false;
+  hbar.addEventListener('scroll', () => { if (lock) return; lock = true; scroll.scrollLeft = hbar.scrollLeft; lock = false; });
+  scroll.addEventListener('scroll', () => { if (lock) return; lock = true; hbar.scrollLeft = scroll.scrollLeft; lock = false; });
+  window.addEventListener('resize', syncHbar);
+}
+function syncHbar() {
+  const hbar = $('#hbar'), inner = $('#hbar-inner'), scroll = $('#table-scroll'), table = $('#reit-table');
+  if (!hbar || !inner || !scroll || !table) return;
+  const overflow = table.scrollWidth > scroll.clientWidth + 1;
+  hbar.classList.toggle('is-hidden', !overflow);
+  inner.style.width = table.scrollWidth + 'px';
+}
 
 async function load() {
   try {
@@ -201,8 +210,17 @@ function init() {
   $('#master-time').textContent = fmt.date(DATA._meta.master_validated);
   $('#universe-count').textContent = String(DATA._meta.reit_count);
 
+  // Device-aware affordance wording. A coarse pointer with no hover ⇒ touch device.
+  IS_TOUCH = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches
+    || ('ontouchstart' in window && !window.matchMedia?.('(pointer: fine)').matches);
+  const hint = $('#table-hint');
+  if (hint) hint.innerHTML = IS_TOUCH
+    ? 'Tap a row for detail · long-press any value for its source &amp; actions'
+    : 'Click a row for detail · right-click any value for source &amp; actions';
+
   buildChipFilters();
   buildTableHead();
+  wireHbar();
 
   // Search
   const searchEl = $('#search');
@@ -213,11 +231,6 @@ function init() {
       e.preventDefault(); searchEl.focus();
     }
   });
-
-  // User screen
-  const screenEl = $('#user-screen');
-  screenEl.checked = STATE.userScreen;
-  screenEl.addEventListener('change', e => { STATE.userScreen = e.target.checked; savePrefs(); render(); });
 
   // Range pairs
   const rangePairs = [
@@ -333,6 +346,23 @@ function init() {
   document.addEventListener('focusin', showTipFromEvent);
   document.addEventListener('focusout', hideTipFromEvent);
 
+  // Touch: long-press a [data-tip] element to show its definition tooltip.
+  let tipTouchTimer = null;
+  document.addEventListener('touchstart', (e) => {
+    const el = e.target.closest('[data-tip]');
+    if (!el) return;
+    const touch = e.touches[0];
+    tipTouchTimer = setTimeout(() => {
+      showTip(el, touch.clientX, touch.clientY);
+      tipTouchTimer = null;
+    }, 450);
+  }, { passive: true });
+  const cancelTipTouch = () => { if (tipTouchTimer) { clearTimeout(tipTouchTimer); tipTouchTimer = null; } };
+  document.addEventListener('touchend', cancelTipTouch, { passive: true });
+  document.addEventListener('touchmove', () => { cancelTipTouch(); $('#tooltip').hidden = true; }, { passive: true });
+  // Tap anywhere else dismisses an open touch-tooltip.
+  document.addEventListener('touchstart', (e) => { if (!e.target.closest('[data-tip]')) $('#tooltip').hidden = true; }, { passive: true });
+
   // Modal content handlers (bound once)
   initModalDelegation();
 
@@ -399,8 +429,7 @@ function resetFilters() {
   STATE.gearingMin = 0; STATE.gearingMax = 60;
   STATE.yieldMin = 0; STATE.yieldMax = 20;
   STATE.mcapMin = 0; STATE.mcapMax = 20000;
-  STATE.userScreen = false;
-  $('#search').value = ''; $('#user-screen').checked = false;
+  $('#search').value = '';
   $('#gearing-min').value = 0; $('#gearing-max').value = 60;
   $('#yield-min').value = 0; $('#yield-max').value = 20;
   $('#mcap-min').value = 0; $('#mcap-max').value = 20000;
@@ -430,15 +459,19 @@ function passesFilters(r) {
     if (mc == null) return false;
     if (mc < STATE.mcapMin || mc > STATE.mcapMax) return false;
   }
-  if (STATE.userScreen && !r.passes_user_screen) return false;
   return true;
 }
 
 function getSortVal(r, key) {
   if (key === 'quality') return r.scores?.composite ?? null;
   if (['sector','name','geography','ticker'].includes(key)) return (r[key] || '').toLowerCase();
-  if (key === 'report_date') return r.report_date ? new Date(r.report_date).getTime() : 0;
+  if (key === 'report_date') return r.report_date ? new Date(r.report_date).getTime() : null;
   return r[key];
+}
+
+/** Stable tiebreak: larger market cap first, then ticker A→Z. */
+function tieBreak(a, b) {
+  return (b.market_cap || 0) - (a.market_cap || 0) || a.ticker.localeCompare(b.ticker);
 }
 
 function render() {
@@ -447,13 +480,15 @@ function render() {
   rows.sort((a, b) => {
     const va = getSortVal(a, STATE.sort.key);
     const vb = getSortVal(b, STATE.sort.key);
-    let cmp;
-    if (va == null && vb == null) cmp = 0;
-    else if (va == null) cmp = 1;
-    else if (vb == null) cmp = -1;
-    else if (typeof va === 'string') cmp = va.localeCompare(vb);
-    else cmp = va - vb;
-    if (cmp === 0) return (b.market_cap || 0) - (a.market_cap || 0) || a.ticker.localeCompare(b.ticker);
+    // Nulls ALWAYS sort last, regardless of asc/desc — return directly so the desc
+    // negation below doesn't flip them to the top.
+    const aNull = va == null || (typeof va === 'string' && va === '');
+    const bNull = vb == null || (typeof vb === 'string' && vb === '');
+    if (aNull && bNull) return tieBreak(a, b);
+    if (aNull) return 1;
+    if (bNull) return -1;
+    let cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
+    if (cmp === 0) return tieBreak(a, b);
     return STATE.sort.asc ? cmp : -cmp;
   });
 
@@ -468,9 +503,6 @@ function render() {
   });
 
   $('#visible-count').textContent = rows.length;
-  const passing = DATA.reits.filter(r => r.passes_user_screen).length;
-  const withFacts = DATA.reits.filter(r => r.gearing_pct != null).length;
-  $('#screen-count').innerHTML = `${passing} pass · ${withFacts} with disclosed gearing · ${DATA.reits.length} total`;
   updateHiddenCount();
 
   const noteEl = $('#filter-note');
@@ -481,13 +513,15 @@ function render() {
   if (!rows.length) {
     const cols = ALL_COLUMNS.filter(c => STATE.columns.has(c.key)).length;
     tbody.innerHTML = `<tr><td colspan="${cols}" class="empty">no REITs match these filters</td></tr>`;
+    syncHbar();
     return;
   }
   tbody.innerHTML = rows.map(r => rowHTML(r)).join('');
+  syncHbar();
 }
 
 const CELL_RENDERERS = {
-  ticker: r => `<td class="tick num" data-col="ticker">${passMark(r.passes_user_screen)}${esc(r.ticker)}</td>`,
+  ticker: r => `<td class="tick num" data-col="ticker">${esc(r.ticker)}</td>`,
   name: r => `<td class="name is-sticky" data-col="name">${esc(r.name)}</td>`,
   sector: r => `<td data-col="sector">${sectorChip(r.sector)}</td>`,
   geography: r => `<td class="geo" data-col="geography" title="${esc(r.geography || '')}">${esc(r.geography || '—')}</td>`,
@@ -651,7 +685,6 @@ function drawerHTML(r) {
     </div>
 
     <div class="d-pills">
-      ${r.passes_user_screen ? '<span class="pill pill--pass">passes user screen</span>' : '<span class="pill pill--fail">fails user screen</span>'}
       ${r.alt_counter ? `<span class="pill">alt counter: ${esc(r.alt_counter.ticker)} ${esc(r.alt_counter.currency)}</span>` : ''}
       <span class="pill">price as of ${esc(fmt.date(r.quote_time))}</span>
       ${r.report_period ? `<span class="pill">results: ${esc(r.report_period)}</span>` : ''}
@@ -853,12 +886,17 @@ function openModal(title, html, trigger = null) {
 }
 
 function openColumnsModal(trigger) {
-  const items = ALL_COLUMNS.map(c => `<label class="col-toggle">
-    <input type="checkbox" data-col="${esc(c.key)}" ${STATE.columns.has(c.key) ? 'checked' : ''} />
-    <span>${esc(c.label)}</span>
-    ${c.metric ? `<small class="col-toggle__hint">${esc(window.METRICS[c.metric]?.what?.slice(0, 80) || '')}…</small>` : ''}
-  </label>`).join('');
-  openModal('Columns', `<p class="modal__lead">Toggle which columns appear in the table. Saved to your browser.</p>
+  const items = ALL_COLUMNS.map(c => {
+    const m = c.metric ? window.METRICS[c.metric] : null;
+    // Short, ≤2-line description; the full definition is one hover (data-tip) or the Help page away.
+    const hint = m ? esc(m.what) : '';
+    return `<label class="col-toggle"${c.metric ? ` data-tip="${esc(c.metric)}"` : ''}>
+      <input type="checkbox" data-col="${esc(c.key)}" ${STATE.columns.has(c.key) ? 'checked' : ''} />
+      <span class="col-toggle__name">${esc(c.label)}</span>
+      ${hint ? `<small class="col-toggle__hint">${hint}</small>` : ''}
+    </label>`;
+  }).join('');
+  openModal('Columns', `<p class="modal__lead">Toggle which columns appear in the table — saved to your browser. Hover (or long-press) a row for the full definition, or open the <button type="button" class="link-btn" id="cols-to-help">Help page</button> for all terminology.</p>
     <div class="col-toggle-list">${items}</div>
     <div class="modal__actions">
       <button type="button" id="cols-reset">Reset to default</button>
@@ -870,7 +908,7 @@ function openColumnsModal(trigger) {
 function openHiddenModal(trigger) {
   if (STATE.hiddenReits.size === 0) {
     openModal('Hidden REITs', `<p class="modal__lead">You haven't hidden any REITs.</p>
-      <p>To hide a REIT, right-click any cell in its row, or open its detail drawer and click "hide this REIT".</p>`, trigger);
+      <p>To hide a REIT, ${IS_TOUCH ? 'long-press' : 'right-click'} any cell in its row, or open its detail drawer and tap "hide this REIT".</p>`, trigger);
     return;
   }
   const items = [...STATE.hiddenReits].map(t => {
@@ -905,6 +943,7 @@ function initModalDelegation() {
       savePrefs(); render(); openColumnsModal();
       return;
     }
+    if (e.target.closest('#cols-to-help')) { openHelpModal(); return; }
     const unhide = e.target.closest('[data-unhide]');
     if (unhide) { toggleHidden(unhide.dataset.unhide); openHiddenModal(); return; }
     if (e.target.closest('#unhide-all')) {
@@ -938,7 +977,7 @@ function openHelpModal() {
   };
   const html = `
     <p class="modal__lead">Every metric on this dashboard, in plain English. The data drives capital-allocation decisions, so each definition includes <strong>why the metric matters</strong> (or doesn't) — not just what it is.</p>
-    <p class="modal__intro"><strong>How to read the screener:</strong> sort by <em>Quality</em> for a triage view, then drill into individual REITs via the row drawer. Right-click any cell value to jump to the exact source filing. The user screen (top-left) filters to REITs with gearing &lt; 40% and market cap ≥ 200M trading currency.</p>
+    <p class="modal__intro"><strong>How to read the screener:</strong> sort by <em>Quality</em> for a triage view, then open a REIT's row for the full detail drawer. ${IS_TOUCH ? 'Long-press' : 'Right-click'} any cell value to jump to the exact source filing. Use the left-rail filters (sector, currency, gearing, yield, market-cap ranges) to narrow the universe — your filters and column choices are remembered in this browser.</p>
     <p class="modal__intro"><strong>Which metrics are most attractive?</strong> For institutional REIT investors, the most actionable indicators in this environment are: (1) <em>ICR</em> as the leading indicator of DPU sustainability under rising rates; (2) <em>Gearing including perpetuals</em> for true leverage; (3) <em>Distribution yield TTM</em> — but with a twist: the sweet spot is 5.5–7%, anything above 9% is usually distress, not opportunity; (4) <em>Property yield vs WACE spread</em> to see if leverage is value-additive or value-destroying. <em>Price-to-NAV</em> is overrated — appraisals lag spot 6–18 months.</p>
     ${Object.entries(sections).map(([title, keys]) => `
       <h2 class="help-section">${esc(title)}</h2>
@@ -988,24 +1027,35 @@ document.addEventListener('click', (e) => {
 function showTipFromEvent(e) {
   const el = e.target.closest('[data-tip]');
   if (!el) return;
-  const key = el.dataset.tip;
-  const m = window.METRICS?.[key];
+  showTip(el);
+}
+/** Render the metric tooltip for `el`. If x/y are given (touch long-press) anchor near the
+ *  touch point; otherwise anchor to the element's bounding box (hover/focus). */
+function showTip(el, x = null, y = null) {
+  const m = window.METRICS?.[el.dataset.tip];
   if (!m) return;
   const tip = $('#tooltip');
   tip.innerHTML = `<div class="tooltip__title">${esc(m.label)}${m.abbr && m.abbr !== m.label ? ` <small>(${esc(m.abbr)})</small>` : ''}</div>
     <div class="tooltip__what">${esc(m.what)}</div>
     ${m.why ? `<div class="tooltip__why"><strong>Why:</strong> ${esc(m.why)}</div>` : ''}
     ${m.healthy ? `<div class="tooltip__healthy"><strong>Healthy:</strong> ${esc(m.healthy)}</div>` : ''}
-    <div class="tooltip__more">Click <em>Help</em> for full definition · right-click cell for source</div>`;
+    <div class="tooltip__more">Open <em>Help</em> for the full definition · ${IS_TOUCH ? 'long-press' : 'right-click'} a cell for its source</div>`;
   tip.hidden = false;
-  const r = el.getBoundingClientRect();
   const tipW = tip.offsetWidth, tipH = tip.offsetHeight;
-  let left = r.left + r.width / 2 - tipW / 2;
-  let top = r.bottom + 8;
-  if (top + tipH > window.innerHeight - 8) top = r.top - tipH - 8;
+  let left, top;
+  if (x != null && y != null) {
+    left = x - tipW / 2;
+    top = y + 14;
+    if (top + tipH > window.innerHeight - 8) top = y - tipH - 14;
+  } else {
+    const r = el.getBoundingClientRect();
+    left = r.left + r.width / 2 - tipW / 2;
+    top = r.bottom + 8;
+    if (top + tipH > window.innerHeight - 8) top = r.top - tipH - 8;
+  }
   left = Math.max(8, Math.min(left, window.innerWidth - tipW - 8));
   tip.style.left = left + 'px';
-  tip.style.top = top + 'px';
+  tip.style.top = Math.max(8, top) + 'px';
 }
 function hideTipFromEvent(e) {
   const tip = $('#tooltip');

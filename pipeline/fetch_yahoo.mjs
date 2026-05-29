@@ -223,10 +223,12 @@ async function processOne(reit, auth, priorByTicker) {
       record.errors.push(`summary: ${e.message}`);
     }
   }
-  // If we have no fresh summary (chart-only run, or quoteSummary failed) carry forward the
-  // previous run's summary so a transient auth/crumb outage doesn't wipe market-cap/yield/P-B.
+
+  const prior = priorByTicker?.[ticker];
+
+  // If we have no fresh summary at all (chart-only run, or quoteSummary failed) carry forward
+  // the previous run's summary so a transient auth/crumb outage doesn't wipe everything.
   if (!record.summary) {
-    const prior = priorByTicker?.[ticker];
     if (prior?.summary) {
       record.summary = prior.summary;
       record.summary_stale = true;
@@ -235,7 +237,32 @@ async function processOne(reit, auth, priorByTicker) {
     } else {
       record.errors.push('summary: unavailable (no auth and no prior data to carry forward)');
     }
+  } else if (prior?.summary) {
+    // FIELD-LEVEL carry-forward: Yahoo intermittently returns null for individual fields
+    // (e.g. marketCap / sharesOutstanding for some SGX REITs like CRPU) even on a successful
+    // call. Don't let a transient per-field null wipe a value we had last run — back-fill any
+    // null field from the prior summary and note which fields were carried.
+    const carried = [];
+    for (const [k, v] of Object.entries(record.summary)) {
+      if (v == null && prior.summary[k] != null) {
+        record.summary[k] = prior.summary[k];
+        carried.push(k);
+      }
+    }
+    if (carried.length) {
+      record.summary_carried_fields = carried;
+      record.summary_carried_since = prior.fetched_at || null;
+    }
   }
+
+  // Last-resort market-cap fallback: derive from price × shares when Yahoo omits marketCap
+  // but exposes sharesOutstanding (matches how Yahoo's own website computes it).
+  if (record.summary && record.summary.marketCap == null
+      && record.summary.sharesOutstanding != null && record.chart?.regularMarketPrice != null) {
+    record.summary.marketCap = record.summary.sharesOutstanding * record.chart.regularMarketPrice;
+    record.summary.marketCap_derived = true;
+  }
+
   return record;
 }
 

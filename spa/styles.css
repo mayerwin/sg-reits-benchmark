@@ -104,12 +104,15 @@ legend { padding: 0; display: block; width: 100%; }
 .masthead {
   display: grid;
   grid-template-columns: 1fr auto;
-  align-items: flex-end;
-  gap: 24px 32px;
+  align-items: start;            /* right-hand column starts level with the logo */
+  gap: 14px 32px;
   padding: 28px 40px 22px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
 }
+/* Brand spans both rows on the left so the action buttons + freshness meta stack on the
+   right, both starting at the same distance from the top as the logo. */
+.masthead__brand { grid-row: 1 / span 2; }
 .masthead__brand { display: flex; gap: 18px; align-items: center; }
 .masthead__mark {
   display: flex; flex-direction: column; gap: 4px;
@@ -201,6 +204,8 @@ legend { padding: 0; display: block; width: 100%; }
 }
 .meta-row { display: contents; }
 .meta-label { color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+.meta-label.has-tip { cursor: help; border-bottom: 1px dotted var(--text-4); }
+.meta-label.has-tip:hover, .meta-label.has-tip:focus-visible { color: var(--text-1); border-bottom-color: var(--acc); }
 .meta-val { color: var(--text-1); text-align: right; margin: 0; font-variant-numeric: tabular-nums; }
 
 /* Mobile rail scrim (behind the slide-in filter panel). Only ever visible on mobile —
@@ -442,12 +447,35 @@ legend { padding: 0; display: block; width: 100%; }
   letter-spacing: 0.02em;
 }
 
-.table-scroll {
+/* Slim synced horizontal scrollbar, sits directly above the (sticky) column headers so it's
+   always reachable without scrolling to the bottom of a tall table. Driven by JS (app.js)
+   which mirrors scrollLeft with .table-scroll and sets the inner spacer to the table width. */
+.hbar {
   overflow-x: auto;
-  border-bottom: 1px solid var(--line);
-  max-height: calc(100vh - 230px);
-  overflow-y: auto;
+  overflow-y: hidden;
+  height: 12px;
+  background: var(--ink-2);
+  border-top: 1px solid var(--line);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) var(--ink-2);
 }
+.hbar__inner { height: 1px; }
+.hbar::-webkit-scrollbar { height: 9px; }
+.hbar::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 6px; }
+.hbar::-webkit-scrollbar-track { background: var(--ink-2); }
+.hbar.is-hidden { display: none; }   /* hidden when the table fits without horizontal overflow */
+
+.table-scroll {
+  /* The table-scroll is the single vertical scroll region (keeps sticky headers working),
+     but its native scrollbars are hidden — vertical scroll is by wheel/trackpad, horizontal
+     by the synced .hbar above. This removes the awkward secondary scrollbar pair. */
+  overflow: auto;
+  border-bottom: 1px solid var(--line);
+  max-height: calc(100vh - 200px);
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+.table-scroll::-webkit-scrollbar { display: none; }
 
 .reit-table {
   width: 100%;
@@ -492,17 +520,24 @@ legend { padding: 0; display: block; width: 100%; }
   vertical-align: 1px;
 }
 
-/* Sticky name column (second column position) */
+/* Sticky Name column — stays visible during horizontal scroll.
+   z-index layering (critical): the Name HEADER is the top-left corner and must sit above
+   BOTH the other headers (z-index 10) and the scrolling body sticky-cells, otherwise body
+   Name cells (same z-index) paint over the header as you scroll down and it looks like the
+   header isn't pinned. So: corner header = 12, other headers = 10, body sticky cells = 4. */
 .reit-table thead th.is-sticky,
 .reit-table tbody td.is-sticky {
   position: sticky;
   left: 0;
-  background: var(--ink-2);
-  z-index: 5;
   box-shadow: 1px 0 0 var(--line);
+}
+.reit-table thead th.is-sticky {
+  background: var(--ink-2);
+  z-index: 12;            /* above other sticky headers (10) and all body cells */
 }
 .reit-table tbody td.is-sticky {
   background: var(--ink-1);
+  z-index: 4;             /* above normal body cells (0), below the header row */
 }
 .reit-table tbody tr:hover td.is-sticky { background: var(--ink-3); }
 .reit-table tbody tr.is-active td.is-sticky { background: var(--ink-4); }
@@ -1035,13 +1070,27 @@ legend { padding: 0; display: block; width: 100%; }
 }
 .col-toggle:hover { border-color: var(--acc); color: var(--text-0); }
 .col-toggle input { margin: 2px 0 0; }
+.col-toggle__name { font-weight: 600; }
 .col-toggle__hint {
   grid-column: 2;
   font-family: var(--font-sans);
   font-size: 10.5px;
   color: var(--text-3);
   line-height: 1.3;
+  /* Clamp to 2 lines so cards stay uniform; full text is in the hover tooltip / Help page. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+/* Inline text-button used in modal lead copy (e.g. "open the Help page"). */
+.link-btn {
+  background: none; border: none; padding: 0;
+  color: var(--acc); cursor: pointer;
+  font: inherit; text-decoration: none; border-bottom: 1px dotted var(--acc-soft);
+}
+.link-btn:hover { color: var(--acc-bright); border-bottom-color: var(--acc-bright); }
 
 /* Hidden REITs modal */
 .hidden-list { list-style: none; padding: 0; margin: 0; }

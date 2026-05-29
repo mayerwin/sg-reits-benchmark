@@ -221,6 +221,18 @@ window.METRICS = {
     what: 'Hybrid instruments with no fixed maturity that pay a fixed distribution. Accounted as equity but economically behave like debt.',
     why: 'Many SG REIT managers issue perpetuals and exclude them from headline gearing. This understates real leverage. The "Gearing incl. perps" column adds them back.',
   },
+
+  // === Data-freshness labels (masthead tooltips) ===
+  market_data_freshness: {
+    label: 'Market data',
+    what: 'Timestamp of the last Yahoo Finance fetch — the prices, market caps, 52-week ranges and TTM yields. Shown in Singapore time (SGT).',
+    why: 'Prices move continuously while the market is open; this tells you how stale the quote-driven figures are. The GitHub Actions pipeline refreshes this every trading day after the SGX close.',
+  },
+  master_validated: {
+    label: 'Master validated',
+    what: 'The date the canonical REIT list (names, tickers, sectors, sponsors, IR links) was last cross-checked against REITAS, SGX and SGinvestors.',
+    why: 'This is NOT the price date — it is when the universe itself was last verified for IPOs, delistings, renames and suspensions. The REIT-specific metrics (gearing, ICR, DPU, etc.) carry their own per-filing "As of" date, shown in each row and the detail drawer.',
+  },
 };
 
 window.METRIC_GROUPS = {

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-05-29T04:54:01.371Z",
+    "generated_at": "2026-05-29T06:05:27.423Z",
     "source": "Yahoo Finance v8 chart + v10 quoteSummary",
     "master_validated": "2026-05-27",
     "auth_mode": "full"
@@ -9,15 +9,15 @@
     {
       "ticker": "C38U",
       "name": "CapitaLand Integrated Commercial Trust",
-      "fetched_at": "2026-05-29T04:54:01.372Z",
+      "fetched_at": "2026-05-29T06:05:27.424Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/C38U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/C38U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 2.31,
-        "regularMarketTime": 1780027196,
+        "regularMarketPrice": 2.29,
+        "regularMarketTime": 1780034120,
         "fiftyTwoWeekHigh": 2.57,
         "fiftyTwoWeekLow": 2.06,
         "longName": "CapitaLand Integrated Commercial Trust",
@@ -275,12 +275,12 @@
         "fiveYearAvgDividendYield": 0.0472,
         "exDividendDate": 1777248000,
         "payoutRatio": 0.8143,
-        "marketCap": 18202218496,
-        "priceToBook": 1.078935,
+        "marketCap": 18044622848,
+        "priceToBook": 1.0695937,
         "bookValue": 2.141,
-        "trailingPE": 17.769232,
-        "forwardPE": 18.722645,
-        "priceToSalesTrailing12Months": 11.241669,
+        "trailingPE": 17.615385,
+        "forwardPE": 18.560545,
+        "priceToSalesTrailing12Months": 11.144339,
         "beta": 0.499,
         "fiftyTwoWeekHigh": 2.57,
         "fiftyTwoWeekLow": 2.06,
@@ -297,15 +297,15 @@
     {
       "ticker": "A17U",
       "name": "CapitaLand Ascendas REIT",
-      "fetched_at": "2026-05-29T04:54:01.373Z",
+      "fetched_at": "2026-05-29T06:05:27.425Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/A17U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/A17U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 2.52,
-        "regularMarketTime": 1780027199,
+        "regularMarketPrice": 2.53,
+        "regularMarketTime": 1780034107,
         "fiftyTwoWeekHigh": 2.92,
         "fiftyTwoWeekLow": 2.42,
         "longName": "CapitaLand Ascendas REIT",
@@ -563,12 +563,12 @@
         "fiveYearAvgDividendYield": 0.041100000000000005,
         "exDividendDate": 1774915200,
         "payoutRatio": 0.89419997,
-        "marketCap": 12578229248,
-        "priceToBook": 1.1224945,
+        "marketCap": 12628143104,
+        "priceToBook": 1.1269488,
         "bookValue": 2.245,
-        "trailingPE": 14.823529,
-        "forwardPE": 15.651202,
-        "priceToSalesTrailing12Months": 13.603836,
+        "trailingPE": 14.882353,
+        "forwardPE": 15.71331,
+        "priceToSalesTrailing12Months": 13.65782,
         "beta": 0.359,
         "fiftyTwoWeekHigh": 2.92,
         "fiftyTwoWeekLow": 2.42,
@@ -585,15 +585,15 @@
     {
       "ticker": "HMN",
       "name": "CapitaLand Ascott Trust",
-      "fetched_at": "2026-05-29T04:54:01.375Z",
+      "fetched_at": "2026-05-29T06:05:27.426Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/HMN.SI",
         "quote_summary": "https://finance.yahoo.com/quote/HMN.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 0.9,
-        "regularMarketTime": 1780027149,
+        "regularMarketPrice": 0.895,
+        "regularMarketTime": 1780034110,
         "fiftyTwoWeekHigh": 0.99,
         "fiftyTwoWeekLow": 0.85,
         "longName": "CapitaLand Ascott Trust",
@@ -851,12 +851,12 @@
         "fiveYearAvgDividendYield": 0.0533,
         "exDividendDate": 1770249600,
         "payoutRatio": 0.7529,
-        "marketCap": 3461720576,
-        "priceToBook": 0.7705479,
+        "marketCap": 3442488832,
+        "priceToBook": 0.7662671,
         "bookValue": 1.168,
-        "trailingPE": 11.25,
-        "forwardPE": 17.747978,
-        "priceToSalesTrailing12Months": 4.132983,
+        "trailingPE": 11.1875,
+        "forwardPE": 17.649378,
+        "priceToSalesTrailing12Months": 4.110022,
         "beta": 0.557,
         "fiftyTwoWeekHigh": 0.99,
         "fiftyTwoWeekLow": 0.85,
@@ -873,7 +873,7 @@
     {
       "ticker": "AU8U",
       "name": "CapitaLand China Trust",
-      "fetched_at": "2026-05-29T04:54:01.376Z",
+      "fetched_at": "2026-05-29T06:05:27.427Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/AU8U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/AU8U.SI/"
@@ -881,7 +881,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.645,
-        "regularMarketTime": 1780027056,
+        "regularMarketTime": 1780033928,
         "fiftyTwoWeekHigh": 0.825,
         "fiftyTwoWeekLow": 0.62,
         "longName": "CapitaLand China Trust",
@@ -1162,15 +1162,15 @@
     {
       "ticker": "CY6U",
       "name": "CapitaLand India Trust",
-      "fetched_at": "2026-05-29T04:54:01.517Z",
+      "fetched_at": "2026-05-29T06:05:28.984Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/CY6U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/CY6U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 1.03,
-        "regularMarketTime": 1780027184,
+        "regularMarketPrice": 1.02,
+        "regularMarketTime": 1780034110,
         "fiftyTwoWeekHigh": 1.32,
         "fiftyTwoWeekLow": 0.965,
         "longName": "CapitaLand India Trust",
@@ -1428,12 +1428,12 @@
         "fiveYearAvgDividendYield": 0.06559999999999999,
         "exDividendDate": 1772496000,
         "payoutRatio": 0.2988,
-        "marketCap": 1531523968,
-        "priceToBook": 0.9458218,
+        "marketCap": 1516654720,
+        "priceToBook": 0.93663913,
         "bookValue": 1.089,
-        "trailingPE": 4.2916665,
-        "forwardPE": 11.910268,
-        "priceToSalesTrailing12Months": 7.7525105,
+        "trailingPE": 4.25,
+        "forwardPE": 11.794635,
+        "priceToSalesTrailing12Months": 7.677243,
         "beta": 0.647,
         "fiftyTwoWeekHigh": 1.32,
         "fiftyTwoWeekLow": 0.965,
@@ -1450,15 +1450,15 @@
     {
       "ticker": "M44U",
       "name": "Mapletree Logistics Trust",
-      "fetched_at": "2026-05-29T04:54:01.520Z",
+      "fetched_at": "2026-05-29T06:05:29.306Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/M44U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/M44U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 1.2,
-        "regularMarketTime": 1780027193,
+        "regularMarketPrice": 1.19,
+        "regularMarketTime": 1780033905,
         "fiftyTwoWeekHigh": 1.37,
         "fiftyTwoWeekLow": 1.08,
         "longName": "Mapletree Logistics Trust",
@@ -1716,12 +1716,12 @@
         "fiveYearAvgDividendYield": 0.0546,
         "exDividendDate": 1778198400,
         "payoutRatio": 1.4914999,
-        "marketCap": 6143876096,
-        "priceToBook": 0.94786733,
+        "marketCap": 6092677120,
+        "priceToBook": 0.9399684,
         "bookValue": 1.266,
-        "trailingPE": 24,
-        "forwardPE": 19.147919,
-        "priceToSalesTrailing12Months": 8.674435,
+        "trailingPE": 23.800001,
+        "forwardPE": 18.988352,
+        "priceToSalesTrailing12Months": 8.602147,
         "beta": 0.603,
         "fiftyTwoWeekHigh": 1.37,
         "fiftyTwoWeekLow": 1.08,
@@ -1738,7 +1738,7 @@
     {
       "ticker": "ME8U",
       "name": "Mapletree Industrial Trust",
-      "fetched_at": "2026-05-29T04:54:01.520Z",
+      "fetched_at": "2026-05-29T06:05:29.497Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/ME8U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/ME8U.SI/"
@@ -1746,7 +1746,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 1.95,
-        "regularMarketTime": 1780027198,
+        "regularMarketTime": 1780034083,
         "fiftyTwoWeekHigh": 2.23,
         "fiftyTwoWeekLow": 1.9,
         "longName": "Mapletree Industrial Trust",
@@ -2026,7 +2026,7 @@
     {
       "ticker": "N2IU",
       "name": "Mapletree Pan Asia Commercial Trust",
-      "fetched_at": "2026-05-29T04:54:01.537Z",
+      "fetched_at": "2026-05-29T06:05:29.500Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/N2IU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/N2IU.SI/"
@@ -2034,7 +2034,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 1.28,
-        "regularMarketTime": 1780027191,
+        "regularMarketTime": 1780033907,
         "fiftyTwoWeekHigh": 1.5,
         "fiftyTwoWeekLow": 1.16,
         "longName": "Mapletree Pan Asia Commercial Trust",
@@ -2314,15 +2314,15 @@
     {
       "ticker": "K71U",
       "name": "Keppel REIT",
-      "fetched_at": "2026-05-29T04:54:01.616Z",
+      "fetched_at": "2026-05-29T06:05:29.519Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/K71U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/K71U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 0.865,
-        "regularMarketTime": 1780027193,
+        "regularMarketPrice": 0.86,
+        "regularMarketTime": 1780034105,
         "fiftyTwoWeekHigh": 1.08,
         "fiftyTwoWeekLow": 0.85,
         "longName": "Keppel REIT",
@@ -2580,12 +2580,12 @@
         "fiveYearAvgDividendYield": 0.056100000000000004,
         "exDividendDate": 1770768000,
         "payoutRatio": 0.6287,
-        "marketCap": 4296752128,
-        "priceToBook": 0.67789966,
+        "marketCap": 4271915520,
+        "priceToBook": 0.6739812,
         "bookValue": 1.276,
-        "trailingPE": 7.8636365,
-        "forwardPE": 21.400297,
-        "priceToSalesTrailing12Months": 10.76578,
+        "trailingPE": 7.818182,
+        "forwardPE": 21.276596,
+        "priceToSalesTrailing12Months": 10.70355,
         "beta": 0.362,
         "fiftyTwoWeekHigh": 1.08,
         "fiftyTwoWeekLow": 0.85,
@@ -2602,7 +2602,7 @@
     {
       "ticker": "AJBU",
       "name": "Keppel DC REIT",
-      "fetched_at": "2026-05-29T04:54:01.640Z",
+      "fetched_at": "2026-05-29T06:05:29.622Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/AJBU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/AJBU.SI/"
@@ -2610,7 +2610,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 2.31,
-        "regularMarketTime": 1780027194,
+        "regularMarketTime": 1780034119,
         "fiftyTwoWeekHigh": 2.44,
         "fiftyTwoWeekLow": 2.15,
         "longName": "Keppel DC REIT",
@@ -2890,7 +2890,7 @@
     {
       "ticker": "CMOU",
       "name": "KORE US REIT",
-      "fetched_at": "2026-05-29T04:54:01.654Z",
+      "fetched_at": "2026-05-29T06:05:29.806Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/CMOU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/CMOU.SI/"
@@ -3178,15 +3178,15 @@
     {
       "ticker": "J69U",
       "name": "Frasers Centrepoint Trust",
-      "fetched_at": "2026-05-29T04:54:01.656Z",
+      "fetched_at": "2026-05-29T06:05:29.812Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/J69U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/J69U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 2.27,
-        "regularMarketTime": 1780027179,
+        "regularMarketPrice": 2.26,
+        "regularMarketTime": 1780034113,
         "fiftyTwoWeekHigh": 2.47,
         "fiftyTwoWeekLow": 2.13,
         "longName": "Frasers Centrepoint Trust",
@@ -3444,12 +3444,12 @@
         "fiveYearAvgDividendYield": 0.0525,
         "exDividendDate": 1777852800,
         "payoutRatio": 0.5427,
-        "marketCap": 4625860608,
-        "priceToBook": 1.0088888,
+        "marketCap": 4605482496,
+        "priceToBook": 1.0044445,
         "bookValue": 2.25,
-        "trailingPE": 20.636364,
-        "forwardPE": 17.738533,
-        "priceToSalesTrailing12Months": 9.273124,
+        "trailingPE": 20.545454,
+        "forwardPE": 17.660389,
+        "priceToSalesTrailing12Months": 9.232273,
         "beta": 0.342,
         "fiftyTwoWeekHigh": 2.47,
         "fiftyTwoWeekLow": 2.13,
@@ -3466,7 +3466,7 @@
     {
       "ticker": "BUOU",
       "name": "Frasers Logistics & Commercial Trust",
-      "fetched_at": "2026-05-29T04:54:01.720Z",
+      "fetched_at": "2026-05-29T06:05:29.829Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/BUOU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/BUOU.SI/"
@@ -3474,7 +3474,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 1,
-        "regularMarketTime": 1780027193,
+        "regularMarketTime": 1780034125,
         "fiftyTwoWeekHigh": 1.05,
         "fiftyTwoWeekLow": 0.78,
         "longName": "Frasers Logistics & Commercial Trust",
@@ -3736,7 +3736,7 @@
         "priceToBook": 0.89285713,
         "bookValue": 1.12,
         "trailingPE": 16.666668,
-        "forwardPE": 17.892496,
+        "forwardPE": 17.971312,
         "priceToSalesTrailing12Months": 7.9512987,
         "beta": 0.625,
         "fiftyTwoWeekHigh": 1.05,
@@ -3754,7 +3754,7 @@
     {
       "ticker": "T82U",
       "name": "Suntec REIT",
-      "fetched_at": "2026-05-29T04:54:01.733Z",
+      "fetched_at": "2026-05-29T06:05:29.927Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/T82U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/T82U.SI/"
@@ -3762,7 +3762,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 1.46,
-        "regularMarketTime": 1780027127,
+        "regularMarketTime": 1780034063,
         "fiftyTwoWeekHigh": 1.55,
         "fiftyTwoWeekLow": 1.1,
         "longName": "Suntec Real Estate Investment Trust",
@@ -4042,15 +4042,15 @@
     {
       "ticker": "C2PU",
       "name": "Parkway Life REIT",
-      "fetched_at": "2026-05-29T04:54:01.743Z",
+      "fetched_at": "2026-05-29T06:05:30.118Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/C2PU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/C2PU.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 3.99,
-        "regularMarketTime": 1780027192,
+        "regularMarketPrice": 4,
+        "regularMarketTime": 1780033980,
         "fiftyTwoWeekHigh": 4.44,
         "fiftyTwoWeekLow": 3.92,
         "longName": "Parkway Life Real Estate Investment Trust",
@@ -4308,12 +4308,12 @@
         "fiveYearAvgDividendYield": 0.035,
         "exDividendDate": 1770595200,
         "payoutRatio": 0.42830002,
-        "marketCap": 2604086016,
-        "priceToBook": 1.5776987,
+        "marketCap": 2610612480,
+        "priceToBook": 1.5816528,
         "bookValue": 2.529,
-        "trailingPE": 17.347826,
-        "forwardPE": 21.479328,
-        "priceToSalesTrailing12Months": 16.749765,
+        "trailingPE": 17.391304,
+        "forwardPE": 21.533161,
+        "priceToSalesTrailing12Months": 16.791744,
         "beta": 0.348,
         "fiftyTwoWeekHigh": 4.44,
         "fiftyTwoWeekLow": 3.92,
@@ -4330,7 +4330,7 @@
     {
       "ticker": "SEB",
       "name": "Stoneweg Europe Stapled Trust",
-      "fetched_at": "2026-05-29T04:54:01.759Z",
+      "fetched_at": "2026-05-29T06:05:30.120Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/SEB.SI",
         "quote_summary": "https://finance.yahoo.com/quote/SEB.SI/"
@@ -4338,7 +4338,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 2.35,
-        "regularMarketTime": 1780019472,
+        "regularMarketTime": 1780031539,
         "fiftyTwoWeekHigh": 2.6,
         "fiftyTwoWeekLow": 2.19,
         "longName": "Stoneweg Europe Stapled Trust",
@@ -4597,8 +4597,8 @@
         "exDividendDate": 1772582400,
         "payoutRatio": 1.0106,
         "marketCap": 1320468608,
-        "priceToBook": 0.7749562,
-        "bookValue": 3.0324292,
+        "priceToBook": 0.7712649,
+        "bookValue": 3.0469425,
         "trailingPE": 11.749999,
         "forwardPE": null,
         "priceToSalesTrailing12Months": 6.152675,
@@ -4618,15 +4618,15 @@
     {
       "ticker": "TS0U",
       "name": "OUE REIT",
-      "fetched_at": "2026-05-29T04:54:01.813Z",
+      "fetched_at": "2026-05-29T06:05:30.126Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/TS0U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/TS0U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 0.36,
-        "regularMarketTime": 1780027193,
+        "regularMarketPrice": 0.355,
+        "regularMarketTime": 1780034096,
         "fiftyTwoWeekHigh": 0.38,
         "fiftyTwoWeekLow": 0.275,
         "longName": "OUE Real Estate Investment Trust",
@@ -4884,12 +4884,12 @@
         "fiveYearAvgDividendYield": 0.0681,
         "exDividendDate": 1769990400,
         "payoutRatio": null,
-        "marketCap": 1990798720,
-        "priceToBook": 0.6428572,
+        "marketCap": 1963148672,
+        "priceToBook": 0.63392854,
         "bookValue": 0.56,
         "trailingPE": null,
-        "forwardPE": 16.589863,
-        "priceToSalesTrailing12Months": 7.109767,
+        "forwardPE": 16.359446,
+        "priceToSalesTrailing12Months": 7.01102,
         "beta": 0.62,
         "fiftyTwoWeekHigh": 0.38,
         "fiftyTwoWeekLow": 0.275,
@@ -4907,15 +4907,15 @@
     {
       "ticker": "P40U",
       "name": "Starhill Global REIT",
-      "fetched_at": "2026-05-29T04:54:01.840Z",
+      "fetched_at": "2026-05-29T06:05:30.252Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/P40U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/P40U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 0.545,
-        "regularMarketTime": 1780027162,
+        "regularMarketPrice": 0.54,
+        "regularMarketTime": 1780034103,
         "fiftyTwoWeekHigh": 0.6,
         "fiftyTwoWeekLow": 0.495,
         "longName": "Starhill Global Real Estate Investment Trust",
@@ -5173,12 +5173,12 @@
         "fiveYearAvgDividendYield": 0.0689,
         "exDividendDate": 1770249600,
         "payoutRatio": 0.62520003,
-        "marketCap": 1264951552,
-        "priceToBook": 0.7527625,
+        "marketCap": 1253346560,
+        "priceToBook": 0.7458564,
         "bookValue": 0.724,
-        "trailingPE": 9.083334,
-        "forwardPE": 12.712853,
-        "priceToSalesTrailing12Months": 6.584003,
+        "trailingPE": 9.000001,
+        "forwardPE": 12.596222,
+        "priceToSalesTrailing12Months": 6.5235996,
         "beta": 0.453,
         "fiftyTwoWeekHigh": 0.6,
         "fiftyTwoWeekLow": 0.495,
@@ -5195,7 +5195,7 @@
     {
       "ticker": "JYEU",
       "name": "Lendlease Global Commercial REIT",
-      "fetched_at": "2026-05-29T04:54:01.845Z",
+      "fetched_at": "2026-05-29T06:05:30.421Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/JYEU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/JYEU.SI/"
@@ -5203,7 +5203,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.565,
-        "regularMarketTime": 1780027181,
+        "regularMarketTime": 1780034106,
         "fiftyTwoWeekHigh": 0.66,
         "fiftyTwoWeekLow": 0.465,
         "longName": "Lendlease Global Commercial REIT",
@@ -5483,7 +5483,7 @@
     {
       "ticker": "9A4U",
       "name": "ESR REIT",
-      "fetched_at": "2026-05-29T04:54:01.862Z",
+      "fetched_at": "2026-05-29T06:05:30.431Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/9A4U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/9A4U.SI/"
@@ -5491,7 +5491,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 2.39,
-        "regularMarketTime": 1780027021,
+        "regularMarketTime": 1780033834,
         "fiftyTwoWeekHigh": 2.92,
         "fiftyTwoWeekLow": 2.21,
         "shortName": "ESR REIT",
@@ -5757,8 +5757,8 @@
         "beta": 0.59,
         "fiftyTwoWeekHigh": 2.92,
         "fiftyTwoWeekLow": 2.21,
-        "fiftyDayAverage": 2.391,
-        "twoHundredDayAverage": 2.6403,
+        "fiftyDayAverage": 2.3906,
+        "twoHundredDayAverage": 2.64495,
         "sharesOutstanding": 805035067,
         "floatShares": 609951277,
         "currency": "SGD",
@@ -5771,15 +5771,15 @@
     {
       "ticker": "O5RU",
       "name": "AIMS APAC REIT",
-      "fetched_at": "2026-05-29T04:54:01.905Z",
+      "fetched_at": "2026-05-29T06:05:30.432Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/O5RU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/O5RU.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 1.57,
-        "regularMarketTime": 1780027174,
+        "regularMarketPrice": 1.58,
+        "regularMarketTime": 1780034025,
         "fiftyTwoWeekHigh": 1.6,
         "fiftyTwoWeekLow": 1.28,
         "longName": "AIMS APAC REIT",
@@ -6037,12 +6037,12 @@
         "fiveYearAvgDividendYield": 0.0677,
         "exDividendDate": 1778803200,
         "payoutRatio": 0.7409,
-        "marketCap": 1285271936,
-        "priceToBook": 1.2837285,
+        "marketCap": 1293458304,
+        "priceToBook": 1.2919052,
         "bookValue": 1.223,
-        "trailingPE": 12.076924,
-        "forwardPE": 13.248945,
-        "priceToSalesTrailing12Months": 6.740996,
+        "trailingPE": 12.153847,
+        "forwardPE": 13.333334,
+        "priceToSalesTrailing12Months": 6.7839317,
         "beta": 0.367,
         "fiftyTwoWeekHigh": 1.6,
         "fiftyTwoWeekLow": 1.28,
@@ -6059,7 +6059,7 @@
     {
       "ticker": "J85",
       "name": "CDL Hospitality Trusts",
-      "fetched_at": "2026-05-29T04:54:01.943Z",
+      "fetched_at": "2026-05-29T06:05:30.579Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/J85.SI",
         "quote_summary": "https://finance.yahoo.com/quote/J85.SI/"
@@ -6067,7 +6067,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.77,
-        "regularMarketTime": 1780026791,
+        "regularMarketTime": 1780034069,
         "fiftyTwoWeekHigh": 0.885,
         "fiftyTwoWeekLow": 0.75,
         "longName": "CDL Hospitality Trusts",
@@ -6348,7 +6348,7 @@
     {
       "ticker": "Q5T",
       "name": "Far East Hospitality Trust",
-      "fetched_at": "2026-05-29T04:54:01.960Z",
+      "fetched_at": "2026-05-29T06:05:30.718Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/Q5T.SI",
         "quote_summary": "https://finance.yahoo.com/quote/Q5T.SI/"
@@ -6356,7 +6356,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.57,
-        "regularMarketTime": 1780027181,
+        "regularMarketTime": 1780034123,
         "fiftyTwoWeekHigh": 0.625,
         "fiftyTwoWeekLow": 0.55,
         "longName": "Far East Hospitality Trust",
@@ -6636,15 +6636,15 @@
     {
       "ticker": "CRPU",
       "name": "Sasseur REIT",
-      "fetched_at": "2026-05-29T04:54:01.969Z",
+      "fetched_at": "2026-05-29T06:05:30.750Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/CRPU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/CRPU.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 0.675,
-        "regularMarketTime": 1780027189,
+        "regularMarketPrice": 0.67,
+        "regularMarketTime": 1780034062,
         "fiftyTwoWeekHigh": 0.72,
         "fiftyTwoWeekLow": 0.615,
         "longName": "Sasseur Real Estate Investment Trust",
@@ -6902,21 +6902,21 @@
         "fiveYearAvgDividendYield": 0.0876,
         "exDividendDate": 1773619200,
         "payoutRatio": 1.1880001,
-        "marketCap": null,
-        "priceToBook": 0.8458647,
+        "marketCap": 847353728,
+        "priceToBook": 0.839599,
         "bookValue": 0.798,
-        "trailingPE": 13.5,
-        "forwardPE": 10.297483,
-        "priceToSalesTrailing12Months": null,
+        "trailingPE": 13.400001,
+        "forwardPE": 10.221206,
+        "priceToSalesTrailing12Months": 7.0041966,
         "beta": 0.496,
         "fiftyTwoWeekHigh": 0.72,
         "fiftyTwoWeekLow": 0.615,
         "fiftyDayAverage": 0.6559,
         "twoHundredDayAverage": 0.6774,
-        "sharesOutstanding": null,
+        "sharesOutstanding": 1264707060,
         "floatShares": 570518526,
         "currency": "SGD",
-        "longName": null,
+        "longName": "Sasseur Real Estate Investment Trust",
         "quoteType": "EQUITY"
       },
       "errors": []
@@ -6924,15 +6924,15 @@
     {
       "ticker": "8C8U",
       "name": "Centurion Accommodation REIT",
-      "fetched_at": "2026-05-29T04:54:02.023Z",
+      "fetched_at": "2026-05-29T06:05:30.758Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/8C8U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/8C8U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 1.08,
-        "regularMarketTime": 1780027070,
+        "regularMarketPrice": 1.09,
+        "regularMarketTime": 1780034121,
         "fiftyTwoWeekHigh": 1.2,
         "fiftyTwoWeekLow": 0.95,
         "longName": "Centurion Accommodation REIT",
@@ -7186,12 +7186,12 @@
         "fiveYearAvgDividendYield": null,
         "exDividendDate": 1772409600,
         "payoutRatio": 0,
-        "marketCap": 1862962304,
-        "priceToBook": 1.2399541,
+        "marketCap": 1880211840,
+        "priceToBook": 1.2514352,
         "bookValue": 0.871,
-        "trailingPE": 21.6,
-        "forwardPE": 17.296606,
-        "priceToSalesTrailing12Months": 15.320918,
+        "trailingPE": 21.800001,
+        "forwardPE": 17.456758,
+        "priceToSalesTrailing12Months": 15.462777,
         "beta": null,
         "fiftyTwoWeekHigh": 1.2,
         "fiftyTwoWeekLow": 0.95,
@@ -7208,15 +7208,15 @@
     {
       "ticker": "NTDU",
       "name": "NTT DC REIT",
-      "fetched_at": "2026-05-29T04:54:02.062Z",
+      "fetched_at": "2026-05-29T06:05:30.891Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/NTDU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/NTDU.SI/"
       },
       "chart": {
         "currency": "USD",
-        "regularMarketPrice": 0.975,
-        "regularMarketTime": 1780027198,
+        "regularMarketPrice": 0.97,
+        "regularMarketTime": 1780034124,
         "fiftyTwoWeekHigh": 1.07,
         "fiftyTwoWeekLow": 0.9,
         "shortName": "NTT DC REIT USD",
@@ -7473,12 +7473,12 @@
         "fiveYearAvgDividendYield": null,
         "exDividendDate": 1779148800,
         "payoutRatio": 0,
-        "marketCap": 1008101952,
-        "priceToBook": 0.8744395,
+        "marketCap": 1002932224,
+        "priceToBook": 0.8699552,
         "bookValue": 1.115,
         "trailingPE": null,
-        "forwardPE": 28.948933,
-        "priceToSalesTrailing12Months": 6.499439,
+        "forwardPE": 28.800476,
+        "priceToSalesTrailing12Months": 6.4661083,
         "beta": null,
         "fiftyTwoWeekHigh": 1.07,
         "fiftyTwoWeekLow": 0.9,
@@ -7495,15 +7495,15 @@
     {
       "ticker": "DCRU",
       "name": "Digital Core REIT",
-      "fetched_at": "2026-05-29T04:54:02.067Z",
+      "fetched_at": "2026-05-29T06:05:31.032Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/DCRU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/DCRU.SI/"
       },
       "chart": {
         "currency": "USD",
-        "regularMarketPrice": 0.49,
-        "regularMarketTime": 1780027182,
+        "regularMarketPrice": 0.485,
+        "regularMarketTime": 1780034020,
         "fiftyTwoWeekHigh": 0.575,
         "fiftyTwoWeekLow": 0.46,
         "longName": "Digital Core REIT",
@@ -7761,12 +7761,12 @@
         "fiveYearAvgDividendYield": null,
         "exDividendDate": 1770768000,
         "payoutRatio": 1.0112001,
-        "marketCap": 638964864,
-        "priceToBook": 0.60643566,
+        "marketCap": 632444800,
+        "priceToBook": 0.6002475,
         "bookValue": 0.808,
-        "trailingPE": 12.250001,
-        "forwardPE": 11.279926,
-        "priceToSalesTrailing12Months": 3.2630882,
+        "trailingPE": 12.125001,
+        "forwardPE": 11.164825,
+        "priceToSalesTrailing12Months": 3.2297912,
         "beta": 0.929,
         "fiftyTwoWeekHigh": 0.575,
         "fiftyTwoWeekLow": 0.46,
@@ -7783,7 +7783,7 @@
     {
       "ticker": "DHLU",
       "name": "Daiwa House Logistics Trust",
-      "fetched_at": "2026-05-29T04:54:02.085Z",
+      "fetched_at": "2026-05-29T06:05:31.050Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/DHLU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/DHLU.SI/"
@@ -7791,7 +7791,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.49,
-        "regularMarketTime": 1780026966,
+        "regularMarketTime": 1780033944,
         "fiftyTwoWeekHigh": 0.59,
         "fiftyTwoWeekLow": 0.485,
         "longName": "Daiwa House Logistics Trust",
@@ -8071,7 +8071,7 @@
     {
       "ticker": "UIBU",
       "name": "UI Boustead REIT",
-      "fetched_at": "2026-05-29T04:54:02.104Z",
+      "fetched_at": "2026-05-29T06:05:31.075Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/UIBU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/UIBU.SI/"
@@ -8079,7 +8079,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.795,
-        "regularMarketTime": 1780027194,
+        "regularMarketTime": 1780034125,
         "fiftyTwoWeekHigh": 0.845,
         "fiftyTwoWeekLow": 0.76,
         "shortName": "UIBREIT",
@@ -8334,15 +8334,15 @@
     {
       "ticker": "M1GU",
       "name": "Alpha Integrated REIT",
-      "fetched_at": "2026-05-29T04:54:02.142Z",
+      "fetched_at": "2026-05-29T06:05:31.198Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/M1GU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/M1GU.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 0.48,
-        "regularMarketTime": 1780025008,
+        "regularMarketPrice": 0.485,
+        "regularMarketTime": 1780030856,
         "fiftyTwoWeekHigh": 0.495,
         "fiftyTwoWeekLow": 0.37,
         "longName": "Alpha Integrated Real Estate Investment Trust",
@@ -8600,12 +8600,12 @@
         "fiveYearAvgDividendYield": 0.0742,
         "exDividendDate": 1771891200,
         "payoutRatio": 0.5659,
-        "marketCap": 540026496,
-        "priceToBook": 0.9108159,
+        "marketCap": 545651776,
+        "priceToBook": 0.92030364,
         "bookValue": 0.527,
-        "trailingPE": 8,
-        "forwardPE": 16,
-        "priceToSalesTrailing12Months": 4.4973726,
+        "trailingPE": 8.083334,
+        "forwardPE": 16.166668,
+        "priceToSalesTrailing12Months": 4.54422,
         "beta": 0.191,
         "fiftyTwoWeekHigh": 0.495,
         "fiftyTwoWeekLow": 0.37,
@@ -8622,7 +8622,7 @@
     {
       "ticker": "D5IU",
       "name": "Landmark REIT",
-      "fetched_at": "2026-05-29T04:54:02.148Z",
+      "fetched_at": "2026-05-29T06:05:31.325Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/D5IU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/D5IU.SI/"
@@ -8630,7 +8630,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.008,
-        "regularMarketTime": 1780024902,
+        "regularMarketTime": 1780033083,
         "fiftyTwoWeekHigh": 0.028,
         "fiftyTwoWeekLow": 0.006,
         "longName": "Landmark REIT",
@@ -8910,7 +8910,7 @@
     {
       "ticker": "AW9U",
       "name": "First REIT",
-      "fetched_at": "2026-05-29T04:54:02.172Z",
+      "fetched_at": "2026-05-29T06:05:31.355Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/AW9U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/AW9U.SI/"
@@ -8918,7 +8918,7 @@
       "chart": {
         "currency": "SGD",
         "regularMarketPrice": 0.235,
-        "regularMarketTime": 1780026740,
+        "regularMarketTime": 1780033657,
         "fiftyTwoWeekHigh": 0.29,
         "fiftyTwoWeekLow": 0.23,
         "longName": "First Real Estate Investment Trust",
@@ -9198,7 +9198,7 @@
     {
       "ticker": "BMGU",
       "name": "BHG Retail REIT",
-      "fetched_at": "2026-05-29T04:54:02.184Z",
+      "fetched_at": "2026-05-29T06:05:31.367Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/BMGU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/BMGU.SI/"
@@ -9486,15 +9486,15 @@
     {
       "ticker": "UD1U",
       "name": "IREIT Global",
-      "fetched_at": "2026-05-29T04:54:02.269Z",
+      "fetched_at": "2026-05-29T06:05:31.512Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/UD1U.SI",
         "quote_summary": "https://finance.yahoo.com/quote/UD1U.SI/"
       },
       "chart": {
         "currency": "SGD",
-        "regularMarketPrice": 0.23,
-        "regularMarketTime": 1780025363,
+        "regularMarketPrice": 0.235,
+        "regularMarketTime": 1780034119,
         "fiftyTwoWeekHigh": 0.32,
         "fiftyTwoWeekLow": 0.23,
         "longName": "IREIT Global",
@@ -9752,12 +9752,12 @@
         "fiveYearAvgDividendYield": 0.0779,
         "exDividendDate": 1772668800,
         "payoutRatio": 2.8358,
-        "marketCap": 309312672,
-        "priceToBook": 0.45906684,
+        "marketCap": 316036832,
+        "priceToBook": 0.46904653,
         "bookValue": 0.5010164,
         "trailingPE": null,
-        "forwardPE": 7.739505,
-        "priceToSalesTrailing12Months": 6.133019,
+        "forwardPE": 7.907755,
+        "priceToSalesTrailing12Months": 6.2663445,
         "beta": 0.669,
         "fiftyTwoWeekHigh": 0.32,
         "fiftyTwoWeekLow": 0.23,
@@ -9774,7 +9774,7 @@
     {
       "ticker": "MXNU",
       "name": "Elite UK REIT",
-      "fetched_at": "2026-05-29T04:54:02.271Z",
+      "fetched_at": "2026-05-29T06:05:31.638Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/MXNU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/MXNU.SI/"
@@ -9782,7 +9782,7 @@
       "chart": {
         "currency": "GBP",
         "regularMarketPrice": 0.345,
-        "regularMarketTime": 1780026429,
+        "regularMarketTime": 1780030697,
         "fiftyTwoWeekHigh": 0.37,
         "fiftyTwoWeekLow": 0.295,
         "longName": "Elite UK REIT",
@@ -10062,7 +10062,7 @@
     {
       "ticker": "BTOU",
       "name": "Manulife US REIT",
-      "fetched_at": "2026-05-29T04:54:02.282Z",
+      "fetched_at": "2026-05-29T06:05:31.665Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/BTOU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/BTOU.SI/"
@@ -10070,7 +10070,7 @@
       "chart": {
         "currency": "USD",
         "regularMarketPrice": 0.054,
-        "regularMarketTime": 1780026892,
+        "regularMarketTime": 1780034001,
         "fiftyTwoWeekHigh": 0.089,
         "fiftyTwoWeekLow": 0.054,
         "longName": "Manulife US Real Estate Investment Trust",
@@ -10350,15 +10350,15 @@
     {
       "ticker": "OXMU",
       "name": "Prime US REIT",
-      "fetched_at": "2026-05-29T04:54:02.308Z",
+      "fetched_at": "2026-05-29T06:05:31.711Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/OXMU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/OXMU.SI/"
       },
       "chart": {
         "currency": "USD",
-        "regularMarketPrice": 0.164,
-        "regularMarketTime": 1780022387,
+        "regularMarketPrice": 0.163,
+        "regularMarketTime": 1780034038,
         "fiftyTwoWeekHigh": 0.245,
         "fiftyTwoWeekLow": 0.133,
         "longName": "Prime US REIT",
@@ -10616,12 +10616,12 @@
         "fiveYearAvgDividendYield": 0.1322,
         "exDividendDate": 1771545600,
         "payoutRatio": 0.3102,
-        "marketCap": 235743152,
-        "priceToBook": 0.31238097,
+        "marketCap": 234305680,
+        "priceToBook": 0.3104762,
         "bookValue": 0.525,
-        "trailingPE": 8.200001,
-        "forwardPE": 5.5915446,
-        "priceToSalesTrailing12Months": 1.7684627,
+        "trailingPE": 8.150001,
+        "forwardPE": 5.55745,
+        "priceToSalesTrailing12Months": 1.7576793,
         "beta": 1.659,
         "fiftyTwoWeekHigh": 0.245,
         "fiftyTwoWeekLow": 0.133,
@@ -10638,15 +10638,15 @@
     {
       "ticker": "ODBU",
       "name": "United Hampshire US REIT",
-      "fetched_at": "2026-05-29T04:54:02.365Z",
+      "fetched_at": "2026-05-29T06:05:31.830Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/ODBU.SI",
         "quote_summary": "https://finance.yahoo.com/quote/ODBU.SI/"
       },
       "chart": {
         "currency": "USD",
-        "regularMarketPrice": 0.52,
-        "regularMarketTime": 1779954606,
+        "regularMarketPrice": 0.515,
+        "regularMarketTime": 1780032154,
         "fiftyTwoWeekHigh": 0.57,
         "fiftyTwoWeekLow": 0.435,
         "longName": "United Hampshire US Real Estate Investment Trust",
@@ -10904,12 +10904,12 @@
         "fiveYearAvgDividendYield": 0.0911,
         "exDividendDate": 1772150400,
         "payoutRatio": 1.1965001,
-        "marketCap": 316253824,
-        "priceToBook": 0.7084468,
+        "marketCap": 313212928,
+        "priceToBook": 0.7016348,
         "bookValue": 0.734,
-        "trailingPE": 17.333334,
-        "forwardPE": 11.555554,
-        "priceToSalesTrailing12Months": 4.393757,
+        "trailingPE": 17.166666,
+        "forwardPE": 11.444444,
+        "priceToSalesTrailing12Months": 4.351509,
         "beta": 0.592,
         "fiftyTwoWeekHigh": 0.57,
         "fiftyTwoWeekLow": 0.435,
@@ -10926,7 +10926,7 @@
     {
       "ticker": "XZL",
       "name": "Acrophyte Hospitality Trust",
-      "fetched_at": "2026-05-29T04:54:02.366Z",
+      "fetched_at": "2026-05-29T06:05:31.937Z",
       "sources": {
         "chart": "https://query1.finance.yahoo.com/v8/finance/chart/XZL.SI",
         "quote_summary": "https://finance.yahoo.com/quote/XZL.SI/"
