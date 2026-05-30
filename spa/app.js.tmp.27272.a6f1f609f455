@@ -208,15 +208,10 @@ function loadPrefs() {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) return;
     const p = JSON.parse(raw);
-    // Validate sort keys against known columns; ignore stale/garbage. Supports the new
-    // multi-level sortStack and migrates a legacy single {sort}.
-    const validSortKeys = new Set(ALL_COLUMNS.map(c => c.key));
-    const cleanStack = (arr) => arr.filter(s => s && validSortKeys.has(s.key)).map(s => ({ key: s.key, asc: !!s.asc })).slice(0, 4);
-    if (Array.isArray(p.sortStack) && p.sortStack.length) {
-      const s = cleanStack(p.sortStack);
-      if (s.length) STATE.sortStack = s;
-    } else if (p.sort && typeof p.sort === 'object' && validSortKeys.has(p.sort.key)) {
-      STATE.sortStack = [{ key: p.sort.key, asc: !!p.sort.asc }];
+    // Validate sort.key against known columns + 'quality'; ignore a stale/garbage key.
+    const validSortKeys = new Set([...ALL_COLUMNS.map(c => c.key), 'quality']);
+    if (p.sort && typeof p.sort === 'object' && validSortKeys.has(p.sort.key)) {
+      STATE.sort = { key: p.sort.key, asc: !!p.sort.asc };
     }
     if (typeof p.search === 'string') STATE.search = p.search;
     if (Array.isArray(p.sectors)) STATE.sectors = new Set(p.sectors);
@@ -354,14 +349,28 @@ function activeRangeFilters() {
     });
 }
 
-/** HTML for one dual-range slider (used inside the column popover). */
-function dualSliderHTML(d) {
-  const cur = STATE.ranges[d.key] || d.bound;
-  return `<div class="dual" data-key="${esc(d.key)}">
-      <div class="dual__track"><div class="dual__fill" data-fill-for="${esc(d.key)}"></div></div>
-      <input type="range" class="dual__in dual__in--min" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[0]}" aria-label="${esc(d.label)} minimum" />
-      <input type="range" class="dual__in dual__in--max" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[1]}" aria-label="${esc(d.label)} maximum" />
+function buildRangeFilters() {
+  const wrap = $('#range-filters');
+  if (!wrap) return;
+  // Only show a slider for columns currently visible in the table.
+  const defs = FILTER_DEFS.filter(d => STATE.columns.has(d.key));
+  wrap.innerHTML = defs.map(d => {
+    const cur = STATE.ranges[d.key] || d.bound;
+    const narrowed = !!STATE.ranges[d.key];
+    const valTxt = narrowed ? `${d.fmt(cur[0])}–${d.fmt(cur[1])}` : 'any';
+    return `<div class="rail__group rail__group--range">
+      <div class="rail__heading">
+        <span class="has-tip rail__filterlabel" data-tip="${esc(d.metric || '')}">${esc(d.label)}</span>
+        <span class="range-val" data-val-for="${esc(d.key)}">${esc(valTxt)}</span>
+      </div>
+      <div class="dual" data-key="${esc(d.key)}">
+        <div class="dual__track"><div class="dual__fill" data-fill-for="${esc(d.key)}"></div></div>
+        <input type="range" class="dual__in dual__in--min" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[0]}" aria-label="${esc(d.label)} minimum" />
+        <input type="range" class="dual__in dual__in--max" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[1]}" aria-label="${esc(d.label)} maximum" />
+      </div>
     </div>`;
+  }).join('');
+  defs.forEach(d => updateDualUI(d.key));
 }
 
 function updateDualUI(key) {
@@ -419,17 +428,11 @@ function syncHbar() {
    The whole page scrolls, so the real <thead> scrolls away. This clones the header row into
    a fixed bar that appears once the real header passes the top, mirrors column widths, and
    syncs horizontal position with the table. The real <thead> stays the accessible one. */
-/** Sort by `key` in direction `asc`, making it the PRIMARY level. Any previous sort on other
- *  columns drops one level down (so "sort A then B" ⇒ B primary, A secondary). Pass asc=null
- *  to toggle when this column is already primary. */
-function applySort(key, asc = null) {
-  const cur = STATE.sortStack[0];
-  if (asc == null) asc = (cur && cur.key === key) ? !cur.asc : false;
-  STATE.sortStack = [{ key, asc }, ...STATE.sortStack.filter(s => s.key !== key)].slice(0, 4);
-  savePrefs(); render(); renderColpopSortState(key);
+function applySort(key) {
+  if (STATE.sort.key === key) STATE.sort.asc = !STATE.sort.asc;
+  else { STATE.sort.key = key; STATE.sort.asc = false; }
+  savePrefs(); render();
 }
-function sortEntry(key) { return STATE.sortStack.find(s => s.key === key); }
-function sortRank(key) { const i = STATE.sortStack.findIndex(s => s.key === key); return i < 0 ? null : i; }
 
 /* ===================== COLUMN RESIZE (drag the right edge of a header) ===================== */
 function wireColumnResize() {
@@ -544,8 +547,8 @@ function init() {
     || ('ontouchstart' in window && !window.matchMedia?.('(pointer: fine)').matches);
   const hint = $('#table-hint');
   if (hint) hint.innerHTML = IS_TOUCH
-    ? 'Tap a column name to filter · tap a row for detail · long-press any value for its source'
-    : 'Click a column name to filter · click a row for detail · right-click any value for source';
+    ? 'Tap a row for detail · long-press any value for its source &amp; actions'
+    : 'Click a row for detail · right-click any value for source &amp; actions';
 
   buildFilterDefs();   // compute per-column bounds + apply any persisted ranges
   buildChipFilters();
@@ -562,20 +565,23 @@ function init() {
     }
   });
 
+  // Per-column dual-range filters (delegated input handler)
+  buildRangeFilters();
+  $('#range-filters').addEventListener('input', onDualInput);
   $('#reset-filters').addEventListener('click', resetFilters);
   $('#reset-app').addEventListener('click', () => {
-    if (confirm('Clear all saved settings (filters, sort, columns, hidden REITs, widths) from this browser and reload?')) {
+    if (confirm('Clear all saved settings (filters, columns, hidden REITs) from this browser and reload?')) {
       try { localStorage.removeItem(LS_KEY); } catch {}
       location.reload();
     }
   });
 
-  // Clicking a column header opens its filter+sort popover (ignore clicks on a resize handle).
+  // Sort delegation (real header + floating header clone). Ignore clicks on a resize handle.
   const onHeadClick = (e) => {
     if (e.target.closest('.col-resize')) return;
     const th = e.target.closest('th[data-sort]');
     if (!th) return;
-    openColumnFilter(th.dataset.sort, th);
+    applySort(th.dataset.sort);
   };
   $('#reit-thead').addEventListener('click', onHeadClick);
   $('#float-head').addEventListener('click', onHeadClick);
@@ -583,34 +589,8 @@ function init() {
   $('#reit-thead').addEventListener('keydown', (e) => {
     const th = e.target.closest('th[data-sort]');
     if (!th) return;
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openColumnFilter(th.dataset.sort, th); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applySort(th.dataset.sort); }
   });
-  // Popover: dual-slider inputs + clicks (sort buttons, sector chips, clear, close).
-  const colpop = $('#colpop');
-  colpop.addEventListener('input', onDualInput);
-  colpop.addEventListener('click', (e) => {
-    if (e.target.closest('[data-colpop-close]')) { closeColpop(); return; }
-    const sortBtn = e.target.closest('[data-sort-dir]');
-    if (sortBtn) { applySort(COLPOP_KEY, sortBtn.dataset.sortDir === 'asc'); return; }
-    const chip = e.target.closest('#colpop-sector .chip');
-    if (chip) {
-      const s = chip.dataset.sector;
-      const on = STATE.sectors.has(s);
-      if (on) STATE.sectors.delete(s); else STATE.sectors.add(s);
-      chip.classList.toggle('is-on', !on); chip.setAttribute('aria-pressed', String(!on));
-      savePrefs(); render();
-      return;
-    }
-    if (e.target.closest('[data-colpop-clear]')) {
-      if (COLPOP_KEY === 'sector') STATE.sectors.clear();
-      else delete STATE.ranges[COLPOP_KEY];
-      savePrefs(); render();
-      openColumnFilter(COLPOP_KEY, lastColpopAnchor);  // rebuild popover in cleared state
-      return;
-    }
-  });
-  colpop.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.stopPropagation(); closeColpop(); } });
-  window.addEventListener('scroll', () => { if (!$('#colpop').hidden) positionColpop(lastColpopAnchor); }, { passive: true });
 
   // Floating header: keep it positioned/synced on scroll + resize.
   window.addEventListener('scroll', updateFloatHead, { passive: true });
@@ -658,9 +638,9 @@ function init() {
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
     if (!$('#ctx-menu').hidden) { hideContextMenu(); return; }
-    if (!$('#colpop').hidden) { closeColpop(); return; }
     if (!$('#modal').hidden) { closeModal(); return; }       // modal is above the drawer
     if (!$('#drawer').hidden) { closeDrawer(); return; }
+    if ($('#rail').classList.contains('is-open')) { closeRail(); return; }
   });
   $('#drawer').addEventListener('keydown', trapFocus($('#drawer .drawer__panel')));
   $('#modal').addEventListener('keydown', trapFocus($('#modal .modal__panel')));
@@ -669,15 +649,22 @@ function init() {
   $('#columns-btn').addEventListener('click', (e) => openColumnsModal(e.currentTarget));
   $('#hidden-btn').addEventListener('click', (e) => openHiddenModal(e.currentTarget));
   $('#help-btn').addEventListener('click', (e) => openHelpModal(e.currentTarget));
+  $('#open-methodology').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(e.currentTarget); });
   $('#open-methodology-foot').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(e.currentTarget); });
   $('#open-playbook-foot').addEventListener('click', (e) => { e.preventDefault(); openPlaybookModal(e.currentTarget); });
 
-  // Close context menu / popover on outside click; hide transient layers on scroll/resize.
+  // Mobile rail toggle + scrim
+  $('#rail-toggle').addEventListener('click', () => {
+    const rail = $('#rail');
+    rail.classList.contains('is-open') ? closeRail() : openRail();
+  });
+  $('#rail-scrim').addEventListener('click', closeRail);
+
+  // Close context menu on outside click; hide menu+tooltip on any scroll or resize
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#ctx-menu')) hideContextMenu();
-    if (!e.target.closest('#colpop') && !e.target.closest('th[data-sort]') && !e.target.closest('.pill')) closeColpop();
   });
-  const dismissFloaters = () => { hideContextMenu(); closeColpop(); $('#tooltip').hidden = true; };
+  const dismissFloaters = () => { hideContextMenu(); $('#tooltip').hidden = true; };
   window.addEventListener('scroll', dismissFloaters, true); // capture: catches inner .table-scroll
   window.addEventListener('resize', dismissFloaters);
 
@@ -707,12 +694,10 @@ function init() {
   // Modal content handlers (bound once)
   initModalDelegation();
 
-  // Filter pills: click body → open that filter's popover; click × → remove.
-  $('#filter-pills').addEventListener('click', onPillClick);
-
-  // Restore active currency chips (sector now lives in the column popover)
+  // Restore active chips
+  for (const s of STATE.sectors) $(`#sector-filter .chip[data-sector="${cssEscape(s)}"]`)?.classList.add('is-on');
   for (const c of STATE.currencies) $(`#currency-filter .chip[data-ccy="${cssEscape(c)}"]`)?.classList.add('is-on');
-  $$('#currency-filter .chip.is-on').forEach(c => c.setAttribute('aria-pressed', 'true'));
+  $$('.chip.is-on').forEach(c => c.setAttribute('aria-pressed', 'true'));
 
   updateHiddenCount();
   render();
@@ -730,7 +715,18 @@ function init() {
 function cssEscape(s) { return String(s).replace(/["\\]/g, '\\$&'); }
 
 function buildChipFilters() {
-  // Only currency lives in the top bar now; sector is filtered via its column-header popover.
+  const sectorWrap = $('#sector-filter');
+  const sectors = Array.from(new Set(DATA.reits.map(r => r.sector).filter(Boolean))).sort();
+  sectorWrap.innerHTML = sectors.map(s => `<button type="button" class="chip" data-sector="${esc(s)}" aria-pressed="false">${esc(s)}</button>`).join('');
+  sectorWrap.addEventListener('click', e => {
+    const c = e.target.closest('.chip'); if (!c) return;
+    const s = c.dataset.sector;
+    const on = STATE.sectors.has(s);
+    if (on) STATE.sectors.delete(s); else STATE.sectors.add(s);
+    c.classList.toggle('is-on'); c.setAttribute('aria-pressed', String(!on));
+    savePrefs(); render();
+  });
+
   const ccyWrap = $('#currency-filter');
   const ccys = Array.from(new Set(DATA.reits.map(r => r.trading_currency).filter(Boolean))).sort();
   ccyWrap.innerHTML = ccys.map(c => `<button type="button" class="chip" data-ccy="${esc(c)}" aria-pressed="false">${esc(c)}</button>`).join('');
@@ -771,10 +767,9 @@ function updateHiddenCount() {
 function resetFilters() {
   STATE.search = ''; STATE.sectors.clear(); STATE.currencies.clear();
   STATE.ranges = {};
-  STATE.sortStack = [{ key: 'market_cap', asc: false }];
   $('#search').value = '';
-  $$('#currency-filter .chip.is-on').forEach(c => { c.classList.remove('is-on'); c.setAttribute('aria-pressed', 'false'); });
-  closeColpop();
+  $$('.chip.is-on').forEach(c => { c.classList.remove('is-on'); c.setAttribute('aria-pressed', 'false'); });
+  buildRangeFilters();          // resets every dual slider to its full bounds
   savePrefs(); render();
 }
 
@@ -806,90 +801,41 @@ function getSortVal(r, key) {
   return r[key];
 }
 
-/* ===================== ACTIVE-FILTER PILLS ===================== */
-/** Each active filter becomes a pill: click the body to edit it (reopens the column popover),
- *  click × to remove it. Sector + numeric ranges are column-based; search/currency live in the
- *  always-visible top bar so they aren't duplicated here. */
-function renderPills() {
-  const pills = [];
-  if (STATE.sectors.size) {
-    pills.push({ key: 'sector', label: `Sector: ${[...STATE.sectors].join(', ')}` });
-  }
-  for (const d of FILTER_DEFS) {
-    const r = STATE.ranges[d.key];
-    // Only pill a range that's actually applied (a hidden column's range is suspended).
-    if (r && STATE.columns.has(d.key)) pills.push({ key: d.key, label: `${COL_BY_KEY[d.key]?.label || d.label}: ${d.fmt(r[0])}–${d.fmt(r[1])}` });
-  }
-  const el = $('#filter-pills');
-  el.innerHTML = pills.map(p =>
-    `<li class="pill"><button type="button" class="pill__body" data-pill="${esc(p.key)}">${esc(p.label)}</button>`
-    + `<button type="button" class="pill__x" data-pill-remove="${esc(p.key)}" aria-label="Remove filter ${esc(p.label)}">×</button></li>`
-  ).join('');
-}
-
-function onPillClick(e) {
-  const rm = e.target.closest('[data-pill-remove]');
-  if (rm) {
-    const k = rm.dataset.pillRemove;
-    if (k === 'sector') STATE.sectors.clear(); else delete STATE.ranges[k];
-    if (COLPOP_KEY === k) closeColpop();
-    savePrefs(); render();
-    return;
-  }
-  const body = e.target.closest('[data-pill]');
-  if (body) openColumnFilter(body.dataset.pill, body);
-}
-
 /** Stable tiebreak: larger market cap first, then ticker A→Z. */
 function tieBreak(a, b) {
   return (b.market_cap || 0) - (a.market_cap || 0) || a.ticker.localeCompare(b.ticker);
-}
-
-/** Compare one level. Nulls always last (return ±1 directly, unaffected by asc). */
-function cmpLevel(a, b, level) {
-  const va = getSortVal(a, level.key), vb = getSortVal(b, level.key);
-  const aNull = va == null || (typeof va === 'string' && va === '');
-  const bNull = vb == null || (typeof vb === 'string' && vb === '');
-  if (aNull && bNull) return 0;
-  if (aNull) return 1;
-  if (bNull) return -1;
-  const cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
-  return level.asc ? cmp : -cmp;
 }
 
 function render() {
   buildTableHead();
   const rows = DATA.reits.filter(passesFilters);
   rows.sort((a, b) => {
-    for (const level of STATE.sortStack) {
-      const c = cmpLevel(a, b, level);
-      if (c !== 0) return c;
-    }
-    return tieBreak(a, b);
+    const va = getSortVal(a, STATE.sort.key);
+    const vb = getSortVal(b, STATE.sort.key);
+    // Nulls ALWAYS sort last, regardless of asc/desc — return directly so the desc
+    // negation below doesn't flip them to the top.
+    const aNull = va == null || (typeof va === 'string' && va === '');
+    const bNull = vb == null || (typeof vb === 'string' && vb === '');
+    if (aNull && bNull) return tieBreak(a, b);
+    if (aNull) return 1;
+    if (bNull) return -1;
+    let cmp = typeof va === 'string' ? va.localeCompare(vb) : va - vb;
+    if (cmp === 0) return tieBreak(a, b);
+    return STATE.sort.asc ? cmp : -cmp;
   });
 
-  // Header sort indicators: primary shows the arrow; multi-level columns show their rank (2,3…).
   $$('#reit-thead th').forEach(th => {
     th.classList.remove('is-sorted', 'asc');
     th.setAttribute('aria-sort', 'none');
-    const rank = sortRank(th.dataset.sort);
-    const old = th.querySelector('.sort-rank'); if (old) old.remove();
-    if (rank != null) {
-      const e = STATE.sortStack[rank];
+    if (th.dataset.sort === STATE.sort.key) {
       th.classList.add('is-sorted');
-      if (e.asc) th.classList.add('asc');
-      th.setAttribute('aria-sort', e.asc ? 'ascending' : 'descending');
-      if (STATE.sortStack.length > 1) {
-        const badge = document.createElement('span');
-        badge.className = 'sort-rank'; badge.textContent = rank + 1;
-        th.querySelector('.th-label')?.appendChild(badge);
-      }
+      th.setAttribute('aria-sort', STATE.sort.asc ? 'ascending' : 'descending');
+      if (STATE.sort.asc) th.classList.add('asc');
     }
   });
 
   $('#visible-count').textContent = rows.length;
   updateHiddenCount();
-  renderPills();
 
   // Note when a range filter has dropped REITs *because they don't report that metric*
   // (you can't range-match a blank). Count only REITs that clear the categorical filters
@@ -1012,100 +958,15 @@ function closeModal() {
   }
 }
 
-/* ===================== COLUMN FILTER + SORT POPOVER ===================== */
-
-// Smart asc/desc labels by column semantics.
-function sortLabels(c) {
-  const sizeCols = new Set(['market_cap', 'num_properties']);
-  if (c.key === 'report_date') return { desc: 'Newest first', asc: 'Oldest first' };
-  if (!c.num) return { asc: 'A → Z', desc: 'Z → A' };
-  if (sizeCols.has(c.key)) return { desc: 'Largest first', asc: 'Smallest first' };
-  return { desc: 'Highest first', asc: 'Lowest first' };
+function openRail() {
+  $('#rail').classList.add('is-open');
+  $('#rail-scrim').hidden = false;
+  $('#rail-toggle').setAttribute('aria-expanded', 'true');
 }
-
-let COLPOP_KEY = null;
-let lastColpopAnchor = null;
-
-function openColumnFilter(key, anchorEl) {
-  const c = COL_BY_KEY[key];
-  if (!c) return;
-  const pop = $('#colpop');
-  // Toggle off if re-clicking the same column's header
-  if (COLPOP_KEY === key && !pop.hidden && (anchorEl === lastColpopAnchor)) { closeColpop(); return; }
-  COLPOP_KEY = key;
-  lastColpopAnchor = anchorEl || lastColpopAnchor;
-  const L = sortLabels(c);
-  const def = FILTER_BY_KEY[key];
-  const isSector = key === 'sector';
-
-  let filterHTML = '';
-  if (def) {
-    const cur = STATE.ranges[key] || def.bound;
-    const valTxt = STATE.ranges[key] ? `${def.fmt(cur[0])} – ${def.fmt(cur[1])}` : `any (${def.fmt(def.bound[0])} – ${def.fmt(def.bound[1])})`;
-    filterHTML = `<div class="colpop__sec">
-        <div class="colpop__sublabel">Filter range <span class="colpop__rangeval" data-val-for="${esc(key)}">${esc(valTxt)}</span></div>
-        ${dualSliderHTML(def)}
-      </div>`;
-  } else if (isSector) {
-    const sectors = Array.from(new Set(DATA.reits.map(r => r.sector).filter(Boolean))).sort();
-    filterHTML = `<div class="colpop__sec">
-        <div class="colpop__sublabel">Show sectors</div>
-        <div class="chip-list" id="colpop-sector">${sectors.map(s =>
-          `<button type="button" class="chip ${STATE.sectors.has(s) ? 'is-on' : ''}" data-sector="${esc(s)}" aria-pressed="${STATE.sectors.has(s)}">${esc(s)}</button>`).join('')}</div>
-      </div>`;
-  } else {
-    filterHTML = `<div class="colpop__sec colpop__hint">Filter this text column with the Search box (top-left).</div>`;
-  }
-
-  const m = c.metric ? window.METRICS[c.metric] : null;
-  pop.innerHTML = `
-    <div class="colpop__head">
-      <span class="colpop__title">${esc(c.label)}</span>
-      <button type="button" class="colpop__x" data-colpop-close aria-label="Close">×</button>
-    </div>
-    ${m ? `<div class="colpop__what">${esc(m.what)}</div>` : ''}
-    <div class="colpop__sec">
-      <div class="colpop__sublabel">Sort</div>
-      <div class="colpop__sort" role="group">
-        <button type="button" class="colpop__sortbtn" data-sort-dir="desc">${esc(L.desc)}</button>
-        <button type="button" class="colpop__sortbtn" data-sort-dir="asc">${esc(L.asc)}</button>
-      </div>
-    </div>
-    ${filterHTML}
-    ${(def && STATE.ranges[key]) || (isSector && STATE.sectors.size) ? `<div class="colpop__sec"><button type="button" class="colpop__clear" data-colpop-clear>Clear this filter</button></div>` : ''}
-  `;
-  pop.hidden = false;
-  positionColpop(anchorEl);
-  if (def) updateDualUI(key);
-  renderColpopSortState(key);
-  // Focus first sort button for keyboard users.
-  setTimeout(() => pop.querySelector('.colpop__sortbtn')?.focus(), 20);
-}
-
-function positionColpop(anchorEl) {
-  const pop = $('#colpop');
-  const a = anchorEl?.getBoundingClientRect?.();
-  pop.style.left = '0px'; pop.style.top = '0px';
-  const w = pop.offsetWidth, h = pop.offsetHeight;
-  let left = a ? a.left : 80;
-  let top = a ? a.bottom + 6 : 80;
-  left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
-  if (top + h > window.innerHeight - 8) top = Math.max(8, (a ? a.top : 80) - h - 6);
-  pop.style.left = left + 'px';
-  pop.style.top = top + 'px';
-}
-
-function renderColpopSortState(key) {
-  if (COLPOP_KEY !== key) return;
-  const e = sortEntry(key);
-  const dir = e && STATE.sortStack[0].key === key ? (e.asc ? 'asc' : 'desc') : null;
-  $$('#colpop .colpop__sortbtn').forEach(b => b.classList.toggle('is-active', b.dataset.sortDir === dir));
-}
-
-function closeColpop() {
-  const pop = $('#colpop');
-  if (pop && !pop.hidden) { pop.hidden = true; }
-  COLPOP_KEY = null;
+function closeRail() {
+  $('#rail').classList.remove('is-open');
+  $('#rail-scrim').hidden = true;
+  $('#rail-toggle').setAttribute('aria-expanded', 'false');
 }
 
 function trapFocus(panel) {
@@ -1439,7 +1300,7 @@ function moveColumn(key, dir) {
   if (j < 0 || j >= order.length) return;
   [order[i], order[j]] = [order[j], order[i]];
   STATE.columnOrder = order;
-  savePrefs(); render(); openColumnsModal();
+  savePrefs(); render(); buildRangeFilters(); openColumnsModal();
 }
 
 /** HTML5 drag-and-drop reordering within the Columns modal list. */
@@ -1474,7 +1335,7 @@ function wireColumnReorderDnD() {
     order.splice(to, 0, dragKey);   // insert before the drop target
     STATE.columnOrder = order;
     dragKey = null;
-    savePrefs(); render(); openColumnsModal();
+    savePrefs(); render(); buildRangeFilters(); openColumnsModal();
   });
 }
 
@@ -1508,6 +1369,7 @@ function initModalDelegation() {
       if (STATE.columns.size <= 1) { cb.checked = true; return; } // keep >=1 column
       STATE.columns.delete(cb.dataset.col);
     }
+    buildRangeFilters();   // show/hide the matching range filter with its column
     savePrefs(); render();
   });
   content.addEventListener('click', (e) => {
@@ -1515,6 +1377,7 @@ function initModalDelegation() {
       STATE.columns = new Set(DEFAULT_COLUMNS);
       STATE.columnOrder = [...DEFAULT_ORDER];
       STATE.columnWidths = {};
+      buildRangeFilters();
       savePrefs(); render(); openColumnsModal();
       return;
     }
@@ -1557,7 +1420,7 @@ function openHelpModal() {
   };
   const html = `
     <p class="modal__lead">Every metric on this dashboard, in plain English. The data drives capital-allocation decisions, so each definition includes <strong>why the metric matters</strong> (or doesn't) — not just what it is.</p>
-    <p class="modal__intro"><strong>How to read the screener:</strong> sort by <em>Quality</em> for a triage view, then open a REIT's row for the full detail drawer. ${IS_TOUCH ? 'Long-press' : 'Right-click'} any cell value to jump to the exact source filing. ${IS_TOUCH ? 'Tap' : 'Click'} a column header to filter and sort that column; active filters appear as removable pills above the table. Search and currency are in the top bar. Your filters, sorting and column choices are remembered in this browser.</p>
+    <p class="modal__intro"><strong>How to read the screener:</strong> sort by <em>Quality</em> for a triage view, then open a REIT's row for the full detail drawer. ${IS_TOUCH ? 'Long-press' : 'Right-click'} any cell value to jump to the exact source filing. Use the left-rail filters (sector, currency, gearing, yield, market-cap ranges) to narrow the universe — your filters and column choices are remembered in this browser.</p>
     <p class="modal__intro"><strong>Which metrics are most attractive?</strong> For institutional REIT investors, the most actionable indicators in this environment are: (1) <em>ICR</em> as the leading indicator of DPU sustainability under rising rates; (2) <em>Gearing including perpetuals</em> for true leverage; (3) <em>Distribution yield TTM</em> — but with a twist: the sweet spot is 5.5–7%, anything above 9% is usually distress, not opportunity; (4) <em>Property yield vs WACE spread</em> to see if leverage is value-additive or value-destroying. <em>Price-to-NAV</em> is overrated — appraisals lag spot 6–18 months.</p>
     ${Object.entries(sections).map(([title, keys]) => `
       <h2 class="help-section">${esc(title)}</h2>

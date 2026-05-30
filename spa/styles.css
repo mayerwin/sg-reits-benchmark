@@ -228,12 +228,48 @@ legend { padding: 0; display: block; width: 100%; }
 .rail-toggle:hover span { background: var(--acc); }
 
 /* =====================  LAYOUT  ===================== */
+/* Single-column now — filters live in the top bar + per-column header popovers (no side rail). */
 .grid {
-  display: grid;
-  grid-template-columns: 280px 1fr;
+  display: block;
   min-height: calc(100vh - 180px);
-  gap: 0;
 }
+
+/* ===================== TOP CONTROLS BAR ===================== */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 32px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.controls__field { display: flex; align-items: center; gap: 8px; }
+.controls__field input[type=search] {
+  background: var(--ink-3);
+  border: 1px solid var(--line);
+  color: var(--text-0);
+  padding: 7px 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  width: 320px; max-width: 46vw;
+  outline: none;
+}
+.controls__field input[type=search]:focus { border-color: var(--acc); }
+.controls__field input::placeholder { color: var(--text-3); }
+.controls__label {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-3);
+}
+.controls__reset {
+  margin-left: auto;
+  background: transparent; border: 1px solid var(--line); color: var(--text-2);
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em;
+  text-transform: uppercase; padding: 6px 12px; cursor: pointer;
+  transition: color 80ms, border-color 80ms;
+}
+.controls__reset:hover { color: var(--text-0); border-color: var(--acc); }
+.controls__reset--hard { margin-left: 0; border-style: dashed; }
+.controls__reset--hard:hover { color: var(--q-stress); border-color: var(--q-stress); }
 
 /* =====================  RAIL  =====================
    The rail is pinned (sticky) so it stays in place while the whole PAGE scrolls the table.
@@ -471,11 +507,31 @@ legend { padding: 0; display: block; width: 100%; }
   min-width: 0; /* allow shrink for horizontal scroll */
 }
 .table-meta {
-  display: flex; justify-content: space-between; align-items: baseline;
-  padding: 16px 32px 12px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 32px;
   border-bottom: 1px solid var(--line);
-  flex-wrap: wrap; gap: 8px;
+  flex-wrap: wrap; gap: 8px 16px;
 }
+.table-meta__left { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
+
+/* Active-filter pills */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.pill {
+  display: inline-flex; align-items: stretch;
+  border: 1px solid var(--acc-soft); border-radius: 3px; overflow: hidden;
+  background: var(--acc-deeper);
+}
+.pill__body {
+  background: transparent; border: none; cursor: pointer;
+  color: var(--acc-bright); font-family: var(--font-mono); font-size: 10.5px;
+  padding: 3px 8px; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pill__body:hover { color: var(--text-0); }
+.pill__x {
+  background: transparent; border: none; border-left: 1px solid var(--acc-soft); cursor: pointer;
+  color: var(--acc-bright); font-size: 13px; line-height: 1; padding: 0 7px;
+}
+.pill__x:hover { background: rgba(79,211,184,0.2); color: var(--text-0); }
 .table-meta .count {
   font-family: var(--font-mono);
   font-size: 22px;
@@ -1260,6 +1316,56 @@ body.is-col-resizing * { cursor: col-resize !important; }
   color: var(--text-1);
   padding: 12px;
   overflow-x: auto;
+}
+
+/* ===================== COLUMN FILTER + SORT POPOVER ===================== */
+.colpop {
+  position: fixed;
+  z-index: 190;
+  width: 280px; max-width: 92vw;
+  background: var(--ink-2);
+  border: 1px solid var(--line-2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+  border-radius: 4px;
+  padding: 0 0 12px;
+  font-family: var(--font-mono);
+  animation: pop-in 120ms ease both;
+}
+@keyframes pop-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.colpop__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-bottom: 1px solid var(--line);
+}
+.colpop__title { font-size: 12px; font-weight: 600; color: var(--text-0); text-transform: uppercase; letter-spacing: 0.06em; }
+.colpop__x { background: none; border: none; color: var(--text-2); font-size: 18px; line-height: 1; cursor: pointer; padding: 0 2px; }
+.colpop__x:hover { color: var(--text-0); }
+.colpop__what { padding: 8px 12px 0; font-family: var(--font-sans); font-size: 11px; color: var(--text-3); line-height: 1.4; }
+.colpop__sec { padding: 10px 12px 0; }
+.colpop__sublabel {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 7px;
+}
+.colpop__rangeval { color: var(--acc); text-transform: none; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.colpop__sort { display: flex; gap: 6px; }
+.colpop__sortbtn {
+  flex: 1; background: var(--ink-3); border: 1px solid var(--line); color: var(--text-1);
+  font-family: var(--font-mono); font-size: 11px; padding: 6px 8px; cursor: pointer;
+  transition: color 80ms, border-color 80ms, background 80ms;
+}
+.colpop__sortbtn:hover { color: var(--text-0); border-color: var(--line-2); }
+.colpop__sortbtn.is-active { background: var(--acc-deeper); border-color: var(--acc); color: var(--acc-bright); }
+.colpop__clear {
+  background: none; border: none; color: var(--text-3); cursor: pointer;
+  font-family: var(--font-mono); font-size: 10.5px; text-decoration: underline; padding: 0;
+}
+.colpop__clear:hover { color: var(--q-stress); }
+.colpop__hint { font-family: var(--font-sans); font-size: 11px; color: var(--text-3); line-height: 1.4; }
+.colpop .dual { margin-top: 4px; }
+
+/* Multi-level sort rank badge on a header */
+.sort-rank {
+  display: inline-block; margin-left: 3px;
+  font-size: 8px; vertical-align: super; color: var(--acc); font-weight: 700;
 }
 
 /* =====================  CONTEXT MENU  ===================== */

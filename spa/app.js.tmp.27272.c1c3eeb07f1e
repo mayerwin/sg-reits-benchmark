@@ -669,6 +669,7 @@ function init() {
   $('#columns-btn').addEventListener('click', (e) => openColumnsModal(e.currentTarget));
   $('#hidden-btn').addEventListener('click', (e) => openHiddenModal(e.currentTarget));
   $('#help-btn').addEventListener('click', (e) => openHelpModal(e.currentTarget));
+  $('#open-methodology').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(e.currentTarget); });
   $('#open-methodology-foot').addEventListener('click', (e) => { e.preventDefault(); openMethodologyModal(e.currentTarget); });
   $('#open-playbook-foot').addEventListener('click', (e) => { e.preventDefault(); openPlaybookModal(e.currentTarget); });
 
@@ -817,8 +818,7 @@ function renderPills() {
   }
   for (const d of FILTER_DEFS) {
     const r = STATE.ranges[d.key];
-    // Only pill a range that's actually applied (a hidden column's range is suspended).
-    if (r && STATE.columns.has(d.key)) pills.push({ key: d.key, label: `${COL_BY_KEY[d.key]?.label || d.label}: ${d.fmt(r[0])}–${d.fmt(r[1])}` });
+    if (r) pills.push({ key: d.key, label: `${COL_BY_KEY[d.key]?.label || d.label}: ${d.fmt(r[0])}–${d.fmt(r[1])}` });
   }
   const el = $('#filter-pills');
   el.innerHTML = pills.map(p =>
@@ -1557,7 +1557,7 @@ function openHelpModal() {
   };
   const html = `
     <p class="modal__lead">Every metric on this dashboard, in plain English. The data drives capital-allocation decisions, so each definition includes <strong>why the metric matters</strong> (or doesn't) — not just what it is.</p>
-    <p class="modal__intro"><strong>How to read the screener:</strong> sort by <em>Quality</em> for a triage view, then open a REIT's row for the full detail drawer. ${IS_TOUCH ? 'Long-press' : 'Right-click'} any cell value to jump to the exact source filing. ${IS_TOUCH ? 'Tap' : 'Click'} a column header to filter and sort that column; active filters appear as removable pills above the table. Search and currency are in the top bar. Your filters, sorting and column choices are remembered in this browser.</p>
+    <p class="modal__intro"><strong>How to read the screener:</strong> sort by <em>Quality</em> for a triage view, then open a REIT's row for the full detail drawer. ${IS_TOUCH ? 'Long-press' : 'Right-click'} any cell value to jump to the exact source filing. Use the left-rail filters (sector, currency, gearing, yield, market-cap ranges) to narrow the universe — your filters and column choices are remembered in this browser.</p>
     <p class="modal__intro"><strong>Which metrics are most attractive?</strong> For institutional REIT investors, the most actionable indicators in this environment are: (1) <em>ICR</em> as the leading indicator of DPU sustainability under rising rates; (2) <em>Gearing including perpetuals</em> for true leverage; (3) <em>Distribution yield TTM</em> — but with a twist: the sweet spot is 5.5–7%, anything above 9% is usually distress, not opportunity; (4) <em>Property yield vs WACE spread</em> to see if leverage is value-additive or value-destroying. <em>Price-to-NAV</em> is overrated — appraisals lag spot 6–18 months.</p>
     ${Object.entries(sections).map(([title, keys]) => `
       <h2 class="help-section">${esc(title)}</h2>
