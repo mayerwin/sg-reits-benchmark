@@ -93,7 +93,7 @@ function thresholdBadge(kind, value) {
 
 const LS_KEY = 'sreit-terminal-v2';
 // Default VISIBLE columns (Price hidden by default; WACE shown, placed right after Prop Yield).
-const DEFAULT_COLUMNS = ['ticker', 'name', 'sector', 'geography', 'market_cap', 'distribution_yield_ttm', 'forward_yield_run_rate', 'gearing_pct', 'gearing_pct_incl_perps', 'icr_x', 'wale_years', 'occupancy_pct', 'property_yield_pct', 'wace_pct', 'p_nav', 'quality', 'report_date'];
+const DEFAULT_COLUMNS = ['ticker', 'name', 'sector', 'geography', 'market_cap', 'distribution_yield_ttm', 'gearing_pct', 'gearing_pct_incl_perps', 'icr_x', 'wale_years', 'occupancy_pct', 'property_yield_pct', 'wace_pct', 'p_nav', 'quality', 'report_date'];
 const ALL_COLUMNS = [
   { key: 'ticker', label: 'Ticker', num: true, metric: null },
   { key: 'name', label: 'Name', num: false, metric: null, sticky: true },
@@ -146,6 +146,18 @@ const STATE = {
 function visibleColumns() {
   return STATE.columnOrder.filter(k => STATE.columns.has(k) && COL_BY_KEY[k]).map(k => COL_BY_KEY[k]);
 }
+
+/** Default column width (px) under the fixed table layout. Text columns wider; numbers narrow. */
+function defaultColWidth(c) {
+  const W = {
+    ticker: 66, name: 210, sector: 104, geography: 126, // geography intentionally ~30% narrower
+    market_cap: 96, report_date: 96, quality: 98,
+    forward_yield_guidance: 104, dpu_change_per_100bps_pct: 106, gearing_pct_incl_perps: 100,
+    rental_reversion_pct: 92, property_yield_pct: 92, pct_debt_due_12m: 90,
+  };
+  return W[c.key] || 84;
+}
+function colWidth(c) { return STATE.columnWidths[c.key] || defaultColWidth(c); }
 
 // Per-column numeric filter definitions (bounds computed from data at init).
 let FILTER_DEFS = [];  // [{ key, label, metric, value(r), fmt(v), bound:[min,max], step }]
@@ -415,11 +427,17 @@ function wireColumnResize() {
     const th = handle.closest('th');
     const startX = e.clientX;
     const startW = th.getBoundingClientRect().width;
+    // Minimum = the header label's own width + padding, so a column can't be shrunk so far
+    // that its title is unreadable.
+    const label = th.querySelector('.th-label');
+    const labelW = label ? label.getBoundingClientRect().width : 0;
+    const minW = Math.max(44, Math.ceil(labelW + 28)); // can't shrink below the header text
     document.body.classList.add('is-col-resizing');
     const onMove = (ev) => {
-      const w = Math.max(48, Math.min(600, Math.round(startW + (ev.clientX - startX))));
+      const w = Math.max(minW, Math.min(600, Math.round(startW + (ev.clientX - startX))));
       STATE.columnWidths[key] = w;
-      th.style.width = th.style.minWidth = th.style.maxWidth = w + 'px';
+      th.style.width = w + 'px';
+      applyTableWidth();          // keep table width = Σ column widths so the change sticks
       syncHbar(); updateFloatHead();
     };
     const onUp = () => {
@@ -697,14 +715,21 @@ function buildChipFilters() {
 function buildTableHead() {
   const cols = visibleColumns();
   const ths = cols.map(c => {
-    const w = STATE.columnWidths[c.key];
-    const wStyle = w ? ` style="width:${w}px;min-width:${w}px;max-width:${w}px"` : '';
-    return `<th scope="col" tabindex="0" data-sort="${esc(c.key)}" aria-sort="none" class="${c.num ? 'num' : ''} ${c.sticky ? 'is-sticky' : ''}"${wStyle} ${c.metric ? `data-tip="${esc(c.metric)}"` : ''}>`
+    const w = colWidth(c);   // fixed layout: every column carries an explicit width
+    return `<th scope="col" tabindex="0" data-sort="${esc(c.key)}" aria-sort="none" class="${c.num ? 'num' : ''} ${c.sticky ? 'is-sticky' : ''}" style="width:${w}px" ${c.metric ? `data-tip="${esc(c.metric)}"` : ''}>`
       + `<span class="th-label">${esc(c.label)}</span>`
-      + `<span class="col-resize" data-resize="${esc(c.key)}" title="Drag to resize" aria-hidden="true"></span>`
+      + `<span class="col-resize" data-resize="${esc(c.key)}" title="Drag to resize · double-click to auto-fit" aria-hidden="true"></span>`
       + `</th>`;
   }).join('');
   $('#reit-thead').innerHTML = `<tr>${ths}</tr>`;
+  applyTableWidth(cols);
+}
+
+/** Fixed layout honours per-column widths only if the table's own width = their sum. */
+function applyTableWidth(cols = visibleColumns()) {
+  const total = cols.reduce((s, c) => s + colWidth(c), 0);
+  const tbl = $('#reit-table');
+  if (tbl) tbl.style.width = total + 'px';
 }
 
 function updateHiddenCount() {
@@ -829,8 +854,8 @@ function render() {
 
 const CELL_RENDERERS = {
   ticker: r => `<td class="tick num" data-col="ticker">${esc(r.ticker)}</td>`,
-  name: r => `<td class="name is-sticky" data-col="name">${esc(r.name)}</td>`,
-  sector: r => `<td data-col="sector">${sectorChip(r.sector)}</td>`,
+  name: r => `<td class="name is-sticky" data-col="name" title="${esc(r.name)}">${esc(r.name)}</td>`,
+  sector: r => `<td data-col="sector" title="${esc(r.sub_sector || r.sector || '')}">${sectorChip(r.sector)}</td>`,
   geography: r => `<td class="geo" data-col="geography" title="${esc(r.geography || '')}">${esc(r.geography || '—')}</td>`,
   price: r => `<td class="num" data-col="price">${priceFmt(r.price)}${ccyBadge(r.trading_currency)}</td>`,
   market_cap: r => `<td class="num" data-col="market_cap">${fmt.money(r.market_cap)}${ccyBadge(r.trading_currency)}</td>`,

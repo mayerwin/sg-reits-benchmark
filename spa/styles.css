@@ -555,7 +555,11 @@ legend { padding: 0; display: block; width: 100%; }
 .float-head thead th.is-sticky { z-index: 2; position: relative; background: var(--ink-2); box-shadow: 1px 0 0 var(--line); }
 
 .reit-table {
-  width: 100%;
+  /* Fixed layout: column widths come from the <th> width styles (set by app.js), so columns
+     resize cleanly and cells truncate instead of forcing the column wider than its header.
+     The total table width is set explicitly in JS (= sum of column widths) so the browser
+     honours each width exactly rather than redistributing slack. */
+  table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
   font-family: var(--font-mono);
@@ -581,6 +585,7 @@ legend { padding: 0; display: block; width: 100%; }
   text-overflow: ellipsis;
 }
 .reit-table thead th.num { text-align: right; }
+.th-label { display: inline-block; max-width: calc(100% - 10px); overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
 /* Column resize grip on the right edge of each header. */
 .col-resize {
   position: absolute; top: 0; right: 0; bottom: 0;
@@ -651,6 +656,9 @@ body.is-col-resizing * { cursor: col-resize !important; }
   vertical-align: middle;
   white-space: nowrap;
   border-bottom: 1px solid var(--line);
+  /* Fixed layout: truncate any overflow with an ellipsis rather than overflowing the cell. */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .reit-table tbody td.num {
   text-align: right;
@@ -660,9 +668,6 @@ body.is-col-resizing * { cursor: col-resize !important; }
   font-family: var(--font-sans);
   color: var(--text-0);
   font-size: 12.5px;
-  white-space: normal;
-  min-width: 200px;
-  max-width: 260px;
 }
 .reit-table tbody td.tick {
   font-weight: 700;
