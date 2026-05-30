@@ -829,7 +829,9 @@ function passesFilters(r) {
   if (!passesCategorical(r)) return false;
   for (const f of activeRangeFilters()) {
     const v = f.value(r);
-    if (v == null || v < f.min || v > f.max) return false;
+    // A missing value can't be range-matched, so keep the row rather than hide it — its cell
+    // reads "n/d", so the gap is immediately visible and nothing is silently dropped.
+    if (v != null && (v < f.min || v > f.max)) return false;
   }
   return true;
 }
@@ -933,30 +935,23 @@ function render() {
   updateHiddenCount();
   renderPills();
 
-  // Note when a range filter has dropped REITs *because they don't report that metric*
-  // (you can't range-match a blank). Count only REITs that clear the categorical filters
-  // and fall within every range they DO report, but are missing a value for an active range.
+  // Note when a range filter is KEEPING REITs that don't report that metric (a blank can't be
+  // range-matched, so we show them rather than silently dropping them — the cell reads "n/d").
   const noteEl = $('#filter-note');
   const ranges = activeRangeFilters();
   let note = '';
   if (ranges.length) {
-    let droppedForMissing = 0;
-    const missingMetrics = new Set();   // only the metrics actually absent on dropped REITs
+    let shownMissing = 0;
+    const missingMetrics = new Set();   // only the metrics actually absent on kept REITs
     for (const r of DATA.reits) {
-      if (!passesCategorical(r)) continue;
-      let outOfRange = false;
-      const lacking = [];
-      for (const f of ranges) {
-        const v = f.value(r);
-        if (v == null) lacking.push(f.label);
-        else if (v < f.min || v > f.max) { outOfRange = true; break; }
-      }
-      if (!outOfRange && lacking.length) { droppedForMissing++; lacking.forEach(m => missingMetrics.add(m)); }
+      if (!passesFilters(r)) continue;  // only those actually in the visible set
+      const lacking = ranges.filter(f => f.value(r) == null);
+      if (lacking.length) { shownMissing++; lacking.forEach(f => missingMetrics.add(f.label)); }
     }
-    if (droppedForMissing) {
+    if (shownMissing) {
       const metrics = [...missingMetrics].join(' / ');
-      const one = droppedForMissing === 1;
-      note = `· ${droppedForMissing} REIT${one ? '' : 's'} not shown — ${one ? "doesn't" : "don't"} report ${metrics}, so the range filter can't include ${one ? 'it' : 'them'}`;
+      const one = shownMissing === 1;
+      note = `· ${shownMissing} REIT${one ? '' : 's'} shown without ${metrics} (n/d — kept for review)`;
     }
   } else if (STATE.hiddenReits.size) {
     note = `· ${STATE.hiddenReits.size} hidden`;
