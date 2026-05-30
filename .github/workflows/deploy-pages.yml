@@ -51,6 +51,28 @@ jobs:
           # Disable Jekyll processing
           touch _site/.nojekyll
 
+      - name: Cache-bust static assets (per-file content hash)
+        # GitHub Pages serves everything with Cache-Control: max-age=600 and offers no way to set
+        # per-file headers, so a returning visitor can be served a stale code/CSS file from cache
+        # for up to 10 minutes (a plain refresh won't help — only a hard refresh would). To remove
+        # that entirely, append a CONTENT HASH to each code/CSS reference in index.html. The hash
+        # changes only when that file's bytes change, so:
+        #   • a changed file gets a new URL → the browser is forced to fetch it fresh (no hard
+        #     refresh ever needed), and
+        #   • an unchanged file keeps its URL → it stays cached (no needless re-download).
+        # data.json and the markdown are already fetched with cache:'no-store', so they're exempt.
+        # The source index.html keeps clean, query-free references — this rewrite is build-only.
+        run: |
+          cd _site
+          for f in styles.css metrics-doc.js md.js app.js; do
+            [ -f "$f" ] || { echo "::error::missing asset $f"; exit 1; }
+            h=$(md5sum "$f" | cut -c1-10)
+            esc=$(printf '%s' "$f" | sed 's/\./\\./g')
+            sed -i -E "s#(href|src)=\"${esc}\"#\1=\"${f}?v=${h}\"#g" index.html
+          done
+          echo "Hashed asset references:"
+          grep -oE "(styles\.css|metrics-doc\.js|md\.js|app\.js)\?v=[0-9a-f]+" index.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
