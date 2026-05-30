@@ -130,7 +130,9 @@ const DEFAULT_ORDER = ALL_COLUMNS.map(c => c.key);
 
 const STATE = {
   // Multi-level sort: most-recent first = primary. Sorting by A then B ⇒ [B, A] ⇒ B primary.
-  sortStack: [{ key: 'market_cap', asc: false }],
+  // Starts EMPTY — the default market-cap-desc ordering is the implicit tiebreak (see tieBreak),
+  // so the user's own sorts are the only ones that get rank badges.
+  sortStack: [],
   search: '',
   sectors: new Set(),
   currencies: new Set(),
@@ -169,7 +171,7 @@ function headerFitWidth(c) {
   ctx.font = "500 10.5px 'IBM Plex Mono', Menlo, monospace";
   const txt = String(c.label || '').toUpperCase();
   const letterSpacing = 0.07 * 10.5 * Math.max(0, txt.length - 1);  // matches CSS letter-spacing
-  const w = ctx.measureText(txt).width + letterSpacing + 24 /*cell padding*/ + 16 /*sort caret + buffer*/;
+  const w = ctx.measureText(txt).width + letterSpacing + 24 /*cell padding*/ + 18 /*sort caret + multi-sort rank badge*/;
   return (HEADER_FIT[c.key] = Math.ceil(w));
 }
 
@@ -289,6 +291,13 @@ function fmtFilter(unit, v) {
   }
 }
 
+/** A "lo–hi" range label. Switches to " to " when either bound is negative, so the
+ *  en-dash isn't jammed against a minus sign (e.g. "-20.5%–-1%" → "-20.5% to -1%"). */
+function fmtRangeLabel(d, lo, hi) {
+  const sep = (lo < 0 || hi < 0) ? ' to ' : '–';
+  return `${d.fmt(lo)}${sep}${d.fmt(hi)}`;
+}
+
 // Pick a "nice" step for a given numeric span.
 function niceStep(span, unit) {
   if (unit === 'int') return 1;
@@ -375,7 +384,16 @@ function updateDualUI(key) {
     fill.style.right = ((bMax - cur[1]) / span * 100) + '%';
   }
   const val = $(`[data-val-for="${cssEscape(key)}"]`);
-  if (val) val.textContent = STATE.ranges[key] ? `${d.fmt(cur[0])}–${d.fmt(cur[1])}` : 'any';
+  if (val) val.textContent = STATE.ranges[key] ? fmtRangeLabel(d, cur[0], cur[1]) : 'any';
+}
+
+/** Show/hide the open popover's "Clear this filter" link to match the live filter state
+ *  (the link is baked in at build time, so slider drags / chip toggles must refresh it). */
+function updateColpopClear() {
+  const sec = $('#colpop [data-colpop-clear-sec]');
+  if (!sec) return;
+  const active = COLPOP_KEY === 'sector' ? STATE.sectors.size > 0 : !!STATE.ranges[COLPOP_KEY];
+  sec.hidden = !active;
 }
 
 function onDualInput(e) {
@@ -394,6 +412,7 @@ function onDualInput(e) {
   if (lo <= d.bound[0] && hi >= d.bound[1]) delete STATE.ranges[key];
   else STATE.ranges[key] = [lo, hi];
   updateDualUI(key);
+  updateColpopClear();
   savePrefs();
   render();
 }
@@ -589,7 +608,7 @@ function init() {
   const colpop = $('#colpop');
   colpop.addEventListener('input', onDualInput);
   colpop.addEventListener('click', (e) => {
-    if (e.target.closest('[data-colpop-close]')) { closeColpop(); return; }
+    if (e.target.closest('[data-colpop-close]')) { closeColpop(true); return; }
     const sortBtn = e.target.closest('[data-sort-dir]');
     if (sortBtn) { applySort(COLPOP_KEY, sortBtn.dataset.sortDir === 'asc'); return; }
     const chip = e.target.closest('#colpop-sector .chip');
@@ -598,18 +617,34 @@ function init() {
       const on = STATE.sectors.has(s);
       if (on) STATE.sectors.delete(s); else STATE.sectors.add(s);
       chip.classList.toggle('is-on', !on); chip.setAttribute('aria-pressed', String(!on));
+      updateColpopClear();
       savePrefs(); render();
       return;
     }
     if (e.target.closest('[data-colpop-clear]')) {
-      if (COLPOP_KEY === 'sector') STATE.sectors.clear();
-      else delete STATE.ranges[COLPOP_KEY];
+      // Clear in place — don't rebuild via innerHTML. Rebuilding detaches the clicked node,
+      // and the outside-click handler then sees a target that's no longer inside #colpop and
+      // closes the popover. Resetting the existing controls keeps it open in its cleared state.
+      const key = COLPOP_KEY;
+      if (key === 'sector') {
+        STATE.sectors.clear();
+        $$('#colpop-sector .chip').forEach(ch => { ch.classList.remove('is-on'); ch.setAttribute('aria-pressed', 'false'); });
+      } else {
+        delete STATE.ranges[key];
+        const def = FILTER_BY_KEY[key];
+        if (def) {
+          const mn = $('#colpop .dual__in--min'), mx = $('#colpop .dual__in--max');
+          if (mn) mn.value = def.bound[0];
+          if (mx) mx.value = def.bound[1];
+          updateDualUI(key);
+        }
+      }
+      updateColpopClear();
       savePrefs(); render();
-      openColumnFilter(COLPOP_KEY, lastColpopAnchor);  // rebuild popover in cleared state
       return;
     }
   });
-  colpop.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.stopPropagation(); closeColpop(); } });
+  colpop.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.stopPropagation(); closeColpop(true); } });
   window.addEventListener('scroll', () => { if (!$('#colpop').hidden) positionColpop(lastColpopAnchor); }, { passive: true });
 
   // Floating header: keep it positioned/synced on scroll + resize.
@@ -658,7 +693,7 @@ function init() {
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
     if (!$('#ctx-menu').hidden) { hideContextMenu(); return; }
-    if (!$('#colpop').hidden) { closeColpop(); return; }
+    if (!$('#colpop').hidden) { closeColpop(true); return; }
     if (!$('#modal').hidden) { closeModal(); return; }       // modal is above the drawer
     if (!$('#drawer').hidden) { closeDrawer(); return; }
   });
@@ -748,7 +783,7 @@ function buildTableHead() {
   const cols = visibleColumns();
   const ths = cols.map(c => {
     const w = colWidth(c);   // fixed layout: every column carries an explicit width
-    return `<th scope="col" tabindex="0" data-sort="${esc(c.key)}" aria-sort="none" class="${c.num ? 'num' : ''} ${c.sticky ? 'is-sticky' : ''}" style="width:${w}px" ${c.metric ? `data-tip="${esc(c.metric)}"` : ''}>`
+    return `<th scope="col" tabindex="0" role="button" aria-haspopup="dialog" aria-expanded="false" data-sort="${esc(c.key)}" aria-sort="none" class="${c.num ? 'num' : ''} ${c.sticky ? 'is-sticky' : ''}" style="width:${w}px" ${c.metric ? `data-tip="${esc(c.metric)}"` : ''}>`
       + `<span class="th-label">${esc(c.label)}</span>`
       + `<span class="col-resize" data-resize="${esc(c.key)}" title="Drag to resize · double-click to auto-fit" aria-hidden="true"></span>`
       + `</th>`;
@@ -771,7 +806,7 @@ function updateHiddenCount() {
 function resetFilters() {
   STATE.search = ''; STATE.sectors.clear(); STATE.currencies.clear();
   STATE.ranges = {};
-  STATE.sortStack = [{ key: 'market_cap', asc: false }];
+  STATE.sortStack = [];   // back to the implicit market-cap-desc default
   $('#search').value = '';
   $$('#currency-filter .chip.is-on').forEach(c => { c.classList.remove('is-on'); c.setAttribute('aria-pressed', 'false'); });
   closeColpop();
@@ -818,7 +853,7 @@ function renderPills() {
   for (const d of FILTER_DEFS) {
     const r = STATE.ranges[d.key];
     // Only pill a range that's actually applied (a hidden column's range is suspended).
-    if (r && STATE.columns.has(d.key)) pills.push({ key: d.key, label: `${COL_BY_KEY[d.key]?.label || d.label}: ${d.fmt(r[0])}–${d.fmt(r[1])}` });
+    if (r && STATE.columns.has(d.key)) pills.push({ key: d.key, label: `${COL_BY_KEY[d.key]?.label || d.label}: ${fmtRangeLabel(d, r[0], r[1])}` });
   }
   const el = $('#filter-pills');
   el.innerHTML = pills.map(p =>
@@ -868,12 +903,15 @@ function render() {
     return tieBreak(a, b);
   });
 
-  // Header sort indicators: primary shows the arrow; multi-level columns show their rank (2,3…).
+  // Header sort indicators: each user-sorted column shows the arrow; with >1 level each shows
+  // its rank (1,2,3…). When the user hasn't sorted anything, show a faint default arrow on
+  // Market cap (the implicit default order) without a rank badge.
+  const defaultSort = STATE.sortStack.length === 0;
   $$('#reit-thead th').forEach(th => {
-    th.classList.remove('is-sorted', 'asc');
+    th.classList.remove('is-sorted', 'asc', 'is-default-sort');
     th.setAttribute('aria-sort', 'none');
-    const rank = sortRank(th.dataset.sort);
     const old = th.querySelector('.sort-rank'); if (old) old.remove();
+    const rank = sortRank(th.dataset.sort);
     if (rank != null) {
       const e = STATE.sortStack[rank];
       th.classList.add('is-sorted');
@@ -881,9 +919,13 @@ function render() {
       th.setAttribute('aria-sort', e.asc ? 'ascending' : 'descending');
       if (STATE.sortStack.length > 1) {
         const badge = document.createElement('span');
-        badge.className = 'sort-rank'; badge.textContent = rank + 1;
+        badge.className = 'sort-rank';
+        badge.innerHTML = `<span class="sr-only">sort priority </span>${rank + 1}`;
         th.querySelector('.th-label')?.appendChild(badge);
       }
+    } else if (defaultSort && th.dataset.sort === 'market_cap') {
+      th.classList.add('is-sorted', 'is-default-sort');
+      th.setAttribute('aria-sort', 'descending');
     }
   });
 
@@ -1049,8 +1091,8 @@ function openColumnFilter(key, anchorEl) {
   } else if (isSector) {
     const sectors = Array.from(new Set(DATA.reits.map(r => r.sector).filter(Boolean))).sort();
     filterHTML = `<div class="colpop__sec">
-        <div class="colpop__sublabel">Show sectors</div>
-        <div class="chip-list" id="colpop-sector">${sectors.map(s =>
+        <div class="colpop__sublabel" id="colpop-seclabel">Show sectors</div>
+        <div class="chip-list" id="colpop-sector" role="group" aria-labelledby="colpop-seclabel">${sectors.map(s =>
           `<button type="button" class="chip ${STATE.sectors.has(s) ? 'is-on' : ''}" data-sector="${esc(s)}" aria-pressed="${STATE.sectors.has(s)}">${esc(s)}</button>`).join('')}</div>
       </div>`;
   } else {
@@ -1065,19 +1107,21 @@ function openColumnFilter(key, anchorEl) {
     </div>
     ${m ? `<div class="colpop__what">${esc(m.what)}</div>` : ''}
     <div class="colpop__sec">
-      <div class="colpop__sublabel">Sort</div>
-      <div class="colpop__sort" role="group">
+      <div class="colpop__sublabel" id="colpop-sortlabel">Sort</div>
+      <div class="colpop__sort" role="group" aria-labelledby="colpop-sortlabel">
         <button type="button" class="colpop__sortbtn" data-sort-dir="desc">${esc(L.desc)}</button>
         <button type="button" class="colpop__sortbtn" data-sort-dir="asc">${esc(L.asc)}</button>
       </div>
     </div>
     ${filterHTML}
-    ${(def && STATE.ranges[key]) || (isSector && STATE.sectors.size) ? `<div class="colpop__sec"><button type="button" class="colpop__clear" data-colpop-clear>Clear this filter</button></div>` : ''}
+    <div class="colpop__sec" data-colpop-clear-sec ${(def && STATE.ranges[key]) || (isSector && STATE.sectors.size) ? '' : 'hidden'}><button type="button" class="colpop__clear" data-colpop-clear>Clear this filter</button></div>
   `;
   pop.hidden = false;
   positionColpop(anchorEl);
   if (def) updateDualUI(key);
   renderColpopSortState(key);
+  // Reflect open state on the originating header (if it is one) for AT.
+  if (anchorEl?.matches?.('th[data-sort]')) anchorEl.setAttribute('aria-expanded', 'true');
   // Focus first sort button for keyboard users.
   setTimeout(() => pop.querySelector('.colpop__sortbtn')?.focus(), 20);
 }
@@ -1102,9 +1146,19 @@ function renderColpopSortState(key) {
   $$('#colpop .colpop__sortbtn').forEach(b => b.classList.toggle('is-active', b.dataset.sortDir === dir));
 }
 
-function closeColpop() {
+function closeColpop(restoreFocus = false) {
   const pop = $('#colpop');
-  if (pop && !pop.hidden) { pop.hidden = true; }
+  if (pop && !pop.hidden) {
+    pop.hidden = true;
+    $$('#reit-thead th[aria-expanded="true"]').forEach(th => th.setAttribute('aria-expanded', 'false'));
+    // On a keyboard-driven close (Esc / ×) return focus to the header so the user isn't
+    // dumped to <body>. On outside-click / scroll we leave focus where the user put it.
+    if (restoreFocus && COLPOP_KEY) {
+      const target = (lastColpopAnchor && document.contains(lastColpopAnchor) && lastColpopAnchor)
+        || $(`#reit-thead th[data-sort="${cssEscape(COLPOP_KEY)}"]`);
+      target?.focus?.();
+    }
+  }
   COLPOP_KEY = null;
 }
 

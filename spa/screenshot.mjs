@@ -25,7 +25,7 @@ if (await firstRow.count()) {
   await page.waitForTimeout(200);
 }
 
-// Scrolled view (verify whole-page scroll + sticky rail + sticky hbar)
+// Scrolled view (verify whole-page scroll + floating header clone + sticky hbar)
 await page.evaluate(() => window.scrollTo(0, 420));
 await page.waitForTimeout(300);
 await page.screenshot({ path: 'screenshot_scrolled.png', fullPage: false });
@@ -53,9 +53,10 @@ await pageM.goto(SERVER + '/index.html', { waitUntil: 'networkidle' });
 await pageM.waitForTimeout(600);
 await pageM.screenshot({ path: 'screenshot_mobile.png', fullPage: false });
 console.log('mobile shot saved');
-await pageM.locator('#rail-toggle').click();
+// Mobile: open a column filter popover (tap a header) for a screenshot
+await pageM.locator('#reit-thead th[data-sort="gearing_pct"]').click().catch(() => {});
 await pageM.waitForTimeout(250);
-await pageM.screenshot({ path: 'screenshot_mobile_rail.png', fullPage: false });
-console.log('mobile-rail shot saved');
+await pageM.screenshot({ path: 'screenshot_mobile_popover.png', fullPage: false });
+console.log('mobile-popover shot saved');
 
 await browser.close();
