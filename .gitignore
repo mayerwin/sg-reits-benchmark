@@ -29,3 +29,6 @@ yarn-debug.log*
 
 # Agent scratch
 tmp_extracts/
+
+# Editor atomic-write temp files
+*.tmp.*
