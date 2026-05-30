@@ -157,7 +157,7 @@ function defaultColWidth(c) {
     name: 210, sector: 110, geography: 126,   // geography ~30% narrower than its content
     market_cap: 96, report_date: 108, quality: 120,
   };
-  return W[c.key] || 84;
+  return W[c.key] || 68;
 }
 
 /** Rendered width (px) of a header label, measured with the actual header font (uppercase +
@@ -171,7 +171,7 @@ function headerFitWidth(c) {
   ctx.font = "500 10.5px 'IBM Plex Mono', Menlo, monospace";
   const txt = String(c.label || '').toUpperCase();
   const letterSpacing = 0.07 * 10.5 * Math.max(0, txt.length - 1);  // matches CSS letter-spacing
-  const w = ctx.measureText(txt).width + letterSpacing + 24 /*cell padding*/ + 18 /*sort caret + multi-sort rank badge*/;
+  const w = ctx.measureText(txt).width + letterSpacing + 16 /*cell padding (8px each side)*/ + 18 /*sort caret + multi-sort rank badge*/;
   return (HEADER_FIT[c.key] = Math.ceil(w));
 }
 
@@ -649,7 +649,7 @@ function init() {
 
   // Floating header: keep it positioned/synced on scroll + resize.
   window.addEventListener('scroll', updateFloatHead, { passive: true });
-  window.addEventListener('resize', () => { buildFloatHead(); updateFloatHead(); });
+  window.addEventListener('resize', () => { applyTableWidth(); buildFloatHead(); updateFloatHead(); });
   $('#table-scroll').addEventListener('scroll', () => { syncFloatHeadX(); }, { passive: true });
 
   // Row open + right-click context menu (event delegation on tbody)
@@ -788,15 +788,27 @@ function buildTableHead() {
       + `<span class="col-resize" data-resize="${esc(c.key)}" title="Drag to resize · double-click to auto-fit" aria-hidden="true"></span>`
       + `</th>`;
   }).join('');
-  $('#reit-thead').innerHTML = `<tr>${ths}</tr>`;
+  // Trailing filler th (no width) absorbs leftover space so the header bar spans edge-to-edge.
+  $('#reit-thead').innerHTML = `<tr>${ths}<th class="th-filler" aria-hidden="true"></th></tr>`;
   applyTableWidth(cols);
 }
 
-/** Fixed layout honours per-column widths only if the table's own width = their sum. */
+/** Fixed layout honours per-column widths only if the table's own width = the sum of EVERY
+ *  column's explicit width (when the table is wider than that sum, CSS distributes the surplus
+ *  across all columns and they stretch — which we don't want). So we give the trailing filler an
+ *  explicit width = the leftover viewport space and size the table to total+filler: the real
+ *  columns keep their exact widths, the filler soaks up the slack so the header/rows reach the
+ *  right edge, and when the real columns overflow the viewport the filler is just 0. */
 function applyTableWidth(cols = visibleColumns()) {
   const total = cols.reduce((s, c) => s + colWidth(c), 0);
   const tbl = $('#reit-table');
-  if (tbl) tbl.style.width = total + 'px';
+  if (!tbl) return;
+  const scroll = $('#table-scroll');
+  const containerW = scroll ? scroll.clientWidth : 0;
+  const fillerW = Math.max(0, containerW - total);
+  const fillerTh = $('#reit-thead .th-filler');
+  if (fillerTh) fillerTh.style.width = fillerW + 'px';
+  tbl.style.width = (total + fillerW) + 'px';
 }
 
 function updateHiddenCount() {
@@ -960,15 +972,17 @@ function render() {
 
   const tbody = $('#reit-rows');
   if (!rows.length) {
-    const cols = visibleColumns().length;
+    const cols = visibleColumns().length + 1;   // +1 for the trailing filler column
     tbody.innerHTML = `<tr><td colspan="${cols}" class="empty">no REITs match these filters</td></tr>`;
-    syncHbar(); buildFloatHead(); updateFloatHead();
+    applyTableWidth(); syncHbar(); buildFloatHead(); updateFloatHead();
     return;
   }
   tbody.innerHTML = rows.map(r => rowHTML(r)).join('');
-  // Defer header-clone measurement to next frame so column widths are final.
+  // Defer header-clone measurement to next frame so column widths are final. Re-run
+  // applyTableWidth here too: the synchronous call in buildTableHead can read a not-yet-settled
+  // table-scroll width on first paint, so this post-layout pass locks in the correct filler size.
   syncHbar();
-  requestAnimationFrame(() => { buildFloatHead(); updateFloatHead(); });
+  requestAnimationFrame(() => { applyTableWidth(); buildFloatHead(); updateFloatHead(); });
 }
 
 const CELL_RENDERERS = {
@@ -1005,7 +1019,8 @@ const CELL_RENDERERS = {
 
 function rowHTML(r) {
   const cells = visibleColumns().map(c => CELL_RENDERERS[c.key](r)).join('');
-  return `<tr data-ticker="${esc(r.ticker)}" tabindex="0" role="button" aria-label="Open detail for ${esc(r.name)}">${cells}</tr>`;
+  // Trailing filler td pairs with the header's filler th so row stripes reach the right edge.
+  return `<tr data-ticker="${esc(r.ticker)}" tabindex="0" role="button" aria-label="Open detail for ${esc(r.name)}">${cells}<td class="td-filler" aria-hidden="true"></td></tr>`;
 }
 
 /* =====================  DRAWER  ===================== */

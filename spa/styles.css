@@ -457,7 +457,7 @@ legend { padding: 0; display: block; width: 100%; }
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-size: 10.5px;
-  padding: 10px 12px;
+  padding: 10px 8px;     /* tight horizontal padding so more columns fit; stays legible */
   border-bottom: 1px solid var(--line-2);
   text-align: left;
   cursor: pointer;
@@ -534,7 +534,7 @@ body.is-col-resizing * { cursor: col-resize !important; }
 .reit-table tbody tr:focus-visible { background: var(--ink-3); outline: 2px solid var(--acc); outline-offset: -2px; }
 
 .reit-table tbody td {
-  padding: 9px 12px;
+  padding: 9px 8px;      /* matches the header's tight horizontal padding */
   vertical-align: middle;
   white-space: nowrap;
   border-bottom: 1px solid var(--line);
@@ -563,6 +563,15 @@ body.is-col-resizing * { cursor: col-resize !important; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Flexible filler column: an empty trailing column that soaks up leftover horizontal space so
+   the header underline and row backgrounds run edge-to-edge when the real columns don't fill the
+   viewport. It carries no inline width, so table-layout:fixed hands it all the slack; once the
+   real columns overflow the viewport it collapses to zero. It inherits the header/body cell
+   background + bottom border, so the head bar and row stripes simply extend into it. */
+.reit-table thead th.th-filler { cursor: default; padding: 0; }
+.reit-table thead th.th-filler:hover { color: var(--text-2); }
+.reit-table tbody td.td-filler { padding: 0; }
+
 .muted { color: var(--text-3); }
 .miss { color: var(--text-4); font-style: italic; }
 
