@@ -298,6 +298,17 @@ function fmtRangeLabel(d, lo, hi) {
   return `${d.fmt(lo)}${sep}${d.fmt(hi)}`;
 }
 
+/** Label for a stored range [lo,hi] where a null bound means "open" (no constraint on that side).
+ *  So dragging only the max thumb reads "≤ X" — not "<floor> – X", which falsely implies the user
+ *  set a minimum. */
+function rangeLabel(d, stored) {
+  const lo = stored ? stored[0] : null, hi = stored ? stored[1] : null;
+  if (lo == null && hi == null) return 'any';
+  if (lo == null) return `≤ ${d.fmt(hi)}`;
+  if (hi == null) return `≥ ${d.fmt(lo)}`;
+  return fmtRangeLabel(d, lo, hi);
+}
+
 // Pick a "nice" step for a given numeric span.
 function niceStep(span, unit) {
   if (unit === 'int') return 1;
@@ -340,12 +351,17 @@ function buildFilterDefs() {
     for (const [k, v] of Object.entries(_pendingRanges)) {
       const d = FILTER_BY_KEY[k];
       if (!d || !Array.isArray(v) || v.length !== 2) continue;
-      let [a, b] = v.map(Number);
-      if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
-      a = Math.max(d.bound[0], Math.min(a, d.bound[1]));
-      b = Math.max(d.bound[0], Math.min(b, d.bound[1]));
-      if (a > b) [a, b] = [b, a];
-      if (a > d.bound[0] || b < d.bound[1]) STATE.ranges[k] = [a, b];
+      // A bound may be null (open). Keep null as null; clamp finite numbers into range.
+      let a = v[0] == null ? null : Number(v[0]);
+      let b = v[1] == null ? null : Number(v[1]);
+      if ((a != null && !Number.isFinite(a)) || (b != null && !Number.isFinite(b))) continue;
+      if (a != null) a = Math.max(d.bound[0], Math.min(a, d.bound[1]));
+      if (b != null) b = Math.max(d.bound[0], Math.min(b, d.bound[1]));
+      if (a != null && b != null && a > b) [a, b] = [b, a];
+      // A bound resting at the data floor/ceiling isn't a real constraint — store it as null
+      // (open) so it never imposes a phantom min/max (incl. legacy numeric saves at the edge).
+      const loOpen = a == null || a <= d.bound[0], hiOpen = b == null || b >= d.bound[1];
+      if (!loOpen || !hiOpen) STATE.ranges[k] = [loOpen ? null : a, hiOpen ? null : b];
     }
     _pendingRanges = null;
   }
@@ -358,33 +374,39 @@ function activeRangeFilters() {
   return FILTER_DEFS
     .filter(d => STATE.ranges[d.key] && STATE.columns.has(d.key))
     .map(d => {
-      const [lo, hi] = STATE.ranges[d.key];
-      return { label: d.label, value: d.value, min: lo, max: hi };
+      const [lo, hi] = STATE.ranges[d.key];   // null = open on that side
+      return { label: d.label, value: d.value, min: lo == null ? -Infinity : lo, max: hi == null ? Infinity : hi };
     });
 }
 
 /** HTML for one dual-range slider (used inside the column popover). */
 function dualSliderHTML(d) {
-  const cur = STATE.ranges[d.key] || d.bound;
+  const [lo, hi] = sliderThumbs(d);   // an open (null) bound parks its thumb at the rail end
   return `<div class="dual" data-key="${esc(d.key)}">
       <div class="dual__track"><div class="dual__fill" data-fill-for="${esc(d.key)}"></div></div>
-      <input type="range" class="dual__in dual__in--min" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[0]}" aria-label="${esc(d.label)} minimum" />
-      <input type="range" class="dual__in dual__in--max" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${cur[1]}" aria-label="${esc(d.label)} maximum" />
+      <input type="range" class="dual__in dual__in--min" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${lo}" aria-label="${esc(d.label)} minimum" />
+      <input type="range" class="dual__in dual__in--max" data-key="${esc(d.key)}" min="${d.bound[0]}" max="${d.bound[1]}" step="${d.step}" value="${hi}" aria-label="${esc(d.label)} maximum" />
     </div>`;
+}
+
+/** Thumb positions for a slider: a stored null bound (open) sits at the corresponding rail end. */
+function sliderThumbs(d) {
+  const r = STATE.ranges[d.key];
+  return [r && r[0] != null ? r[0] : d.bound[0], r && r[1] != null ? r[1] : d.bound[1]];
 }
 
 function updateDualUI(key) {
   const d = FILTER_BY_KEY[key];
-  const cur = STATE.ranges[key] || d.bound;
+  const [lo, hi] = sliderThumbs(d);   // null bounds map to the rail ends for fill geometry
   const [bMin, bMax] = d.bound;
   const span = (bMax - bMin) || 1;
   const fill = $(`[data-fill-for="${cssEscape(key)}"]`);
   if (fill) {
-    fill.style.left = ((cur[0] - bMin) / span * 100) + '%';
-    fill.style.right = ((bMax - cur[1]) / span * 100) + '%';
+    fill.style.left = ((lo - bMin) / span * 100) + '%';
+    fill.style.right = ((bMax - hi) / span * 100) + '%';
   }
   const val = $(`[data-val-for="${cssEscape(key)}"]`);
-  if (val) val.textContent = STATE.ranges[key] ? fmtRangeLabel(d, cur[0], cur[1]) : 'any';
+  if (val) val.textContent = rangeLabel(d, STATE.ranges[key]);   // "any" / "≤ X" / "≥ Y" / "Y–X"
 }
 
 /** Show/hide the open popover's "Clear this filter" link to match the live filter state
@@ -408,9 +430,11 @@ function onDualInput(e) {
   // Clamp so the thumbs can't cross.
   if (isMin && lo > hi) { lo = hi; minEl.value = lo; }
   if (!isMin && hi < lo) { hi = lo; maxEl.value = hi; }
-  // Store only when narrowed from the full bounds; otherwise clear the filter.
-  if (lo <= d.bound[0] && hi >= d.bound[1]) delete STATE.ranges[key];
-  else STATE.ranges[key] = [lo, hi];
+  // A thumb at the rail end is "open" (no constraint) — store null there, not the floor/ceiling
+  // value, so dragging only the max doesn't fabricate a minimum. Both open ⇒ no filter.
+  const openMin = lo <= d.bound[0], openMax = hi >= d.bound[1];
+  if (openMin && openMax) delete STATE.ranges[key];
+  else STATE.ranges[key] = [openMin ? null : lo, openMax ? null : hi];
   updateDualUI(key);
   updateColpopClear();
   savePrefs();
@@ -749,7 +773,7 @@ function init() {
   for (const c of STATE.currencies) $(`#currency-filter .chip[data-ccy="${cssEscape(c)}"]`)?.classList.add('is-on');
   $$('#currency-filter .chip.is-on').forEach(c => c.setAttribute('aria-pressed', 'true'));
 
-  updateHiddenCount();
+  updateActionBadges();
   render();
 
   // Header-fit widths are first measured with the fallback font; once IBM Plex Mono loads,
@@ -811,8 +835,10 @@ function applyTableWidth(cols = visibleColumns()) {
   tbl.style.width = (total + fillerW) + 'px';
 }
 
-function updateHiddenCount() {
+function updateActionBadges() {
   $('#hidden-count').textContent = String(STATE.hiddenReits.size);
+  // shown / total available — shows at a glance that more columns can be added.
+  $('#columns-count').textContent = `${STATE.columns.size}/${ALL_COLUMNS.length}`;
 }
 
 function resetFilters() {
@@ -867,7 +893,7 @@ function renderPills() {
   for (const d of FILTER_DEFS) {
     const r = STATE.ranges[d.key];
     // Only pill a range that's actually applied (a hidden column's range is suspended).
-    if (r && STATE.columns.has(d.key)) pills.push({ key: d.key, label: `${COL_BY_KEY[d.key]?.label || d.label}: ${fmtRangeLabel(d, r[0], r[1])}` });
+    if (r && STATE.columns.has(d.key)) pills.push({ key: d.key, label: `${COL_BY_KEY[d.key]?.label || d.label}: ${rangeLabel(d, r)}` });
   }
   const el = $('#filter-pills');
   el.innerHTML = pills.map(p =>
@@ -944,7 +970,7 @@ function render() {
   });
 
   $('#visible-count').textContent = rows.length;
-  updateHiddenCount();
+  updateActionBadges();
   renderPills();
 
   // Note when a range filter is KEEPING REITs that don't report that metric (a blank can't be
@@ -1092,8 +1118,7 @@ function openColumnFilter(key, anchorEl) {
 
   let filterHTML = '';
   if (def) {
-    const cur = STATE.ranges[key] || def.bound;
-    const valTxt = STATE.ranges[key] ? `${def.fmt(cur[0])} – ${def.fmt(cur[1])}` : `any (${def.fmt(def.bound[0])} – ${def.fmt(def.bound[1])})`;
+    const valTxt = STATE.ranges[key] ? rangeLabel(def, STATE.ranges[key]) : `any (${def.fmt(def.bound[0])}–${def.fmt(def.bound[1])})`;
     filterHTML = `<div class="colpop__sec">
         <div class="colpop__sublabel">Filter range <span class="colpop__rangeval" data-val-for="${esc(key)}">${esc(valTxt)}</span></div>
         ${dualSliderHTML(def)}
