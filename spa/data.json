@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "generated_at": "2026-05-29T12:02:04.222Z",
+    "generated_at": "2026-05-29T13:54:13.665Z",
     "master_validated": "2026-05-27",
-    "yahoo_generated_at": "2026-05-29T12:00:06.161Z",
+    "yahoo_generated_at": "2026-05-29T13:54:11.001Z",
     "facts_groups_present": [
       "reit_facts_group1.json",
       "reit_facts_group2.json",
@@ -420,7 +420,7 @@
         "composite": 85
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:06.162Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.002Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -830,7 +830,7 @@
         "composite": 80
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:06.163Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.002Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -1232,7 +1232,7 @@
         "composite": 82
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:06.164Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.003Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -1646,7 +1646,7 @@
         "composite": 74
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:06.165Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.004Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -2060,7 +2060,7 @@
         "composite": 77
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:06.524Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.212Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -2465,7 +2465,7 @@
         "composite": 69
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:06.851Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.285Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -2874,7 +2874,7 @@
         "composite": 75
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.009Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.322Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -3282,7 +3282,7 @@
         "composite": 66
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.017Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.332Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -3692,7 +3692,7 @@
         "composite": 82
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.169Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.509Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -4107,7 +4107,7 @@
         "composite": 82
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.328Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.518Z",
       "facts_fetched_at": "2026-05-28T10:00:00+08:00"
     },
     {
@@ -4521,7 +4521,7 @@
         "composite": 52
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.330Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.541Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -4934,7 +4934,7 @@
         "composite": 76
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.490Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.715Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -5352,7 +5352,7 @@
         "composite": 79
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.524Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.740Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -5768,7 +5768,7 @@
         "composite": 61
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.633Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.807Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -6184,7 +6184,7 @@
         "composite": 90
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.634Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.882Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -6451,7 +6451,7 @@
       ],
       "quote_time": 1780045186,
       "beta": 0.479,
-      "distribution_yield_ttm": 0.08546612875536483,
+      "distribution_yield_ttm": 0.08544314163090129,
       "yahoo_dividend_yield": 0.0853,
       "dpu_ttm_cents": 13.39,
       "dpu_last_period_cents": 3.423,
@@ -6460,9 +6460,9 @@
       "ex_dividend_date": 1772582400,
       "five_year_avg_div_yield": null,
       "forward_dpu_guidance": "FY 2026 DPS expected to be broadly in line with FY 2025 DPS of 13.39 Euro cents (barring unforeseen circumstances). Implies ~8.6% distribution yield at €1.55 security price. Target data centre exposure 15-25% by FY 2028. Net gearing policy 35-40%.",
-      "yield_gap_yahoo_vs_manager": -0.00016612875536482774,
-      "forward_yield_run_rate": 0.0873937442060086,
-      "forward_yield_guidance": 0.08546612875536483,
+      "yield_gap_yahoo_vs_manager": -0.00014314163090128895,
+      "forward_yield_run_rate": 0.08737023862660945,
+      "forward_yield_guidance": 0.08544314163090129,
       "dpu_ttm_is_stub": false,
       "distribution_frequency": 4,
       "forecast_dpu_cents": 13.39,
@@ -6602,7 +6602,7 @@
         "composite": 74
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.803Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.982Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -7017,7 +7017,7 @@
         "composite": 78
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.829Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:11.986Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -7434,7 +7434,7 @@
         "composite": 85
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.945Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.059Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -7843,7 +7843,7 @@
         "composite": 71
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:07.954Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.152Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -8256,7 +8256,7 @@
         "composite": 62
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.104Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.242Z",
       "facts_fetched_at": "2026-05-28T11:45:00Z"
     },
     {
@@ -8667,7 +8667,7 @@
         "composite": 78
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.147Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.243Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -9062,7 +9062,7 @@
         "composite": 78
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.254Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.251Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -9467,7 +9467,7 @@
         "composite": 71
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.260Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.356Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -9874,7 +9874,7 @@
         "composite": 76
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.415Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.495Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -10276,7 +10276,7 @@
         "composite": 92
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.461Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.510Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -10551,7 +10551,7 @@
       "forward_dpu_guidance": null,
       "yield_gap_yahoo_vs_manager": null,
       "forward_yield_run_rate": null,
-      "forward_yield_guidance": 0.07653061224489796,
+      "forward_yield_guidance": 0.07653061224489795,
       "dpu_ttm_is_stub": true,
       "distribution_frequency": 2,
       "forecast_dpu_cents": 7.5,
@@ -10688,7 +10688,7 @@
         "composite": 79
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.572Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.523Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -11095,7 +11095,7 @@
         "composite": 75
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.574Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.589Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -11506,7 +11506,7 @@
         "composite": 75
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.712Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.679Z",
       "facts_fetched_at": "2026-05-28T14:45:00+08:00"
     },
     {
@@ -11878,7 +11878,7 @@
         "composite": 78
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.752Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.709Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -12279,7 +12279,7 @@
         "composite": 67
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.866Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.746Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -12683,7 +12683,7 @@
         "composite": 58
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:08.868Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.803Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -13086,7 +13086,7 @@
         "composite": 64
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.008Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.891Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -13487,7 +13487,7 @@
         "composite": 50
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.051Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.913Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     },
     {
@@ -13754,7 +13754,7 @@
       ],
       "quote_time": 1780045481,
       "beta": 0.669,
-      "distribution_yield_ttm": 0.06898076595744682,
+      "distribution_yield_ttm": 0.06896221276595745,
       "yahoo_dividend_yield": 0.0692,
       "dpu_ttm_cents": 1.09,
       "dpu_last_period_cents": 0.38,
@@ -13763,8 +13763,8 @@
       "ex_dividend_date": 1772668800,
       "five_year_avg_div_yield": 0.0779,
       "forward_dpu_guidance": "Finance costs projected to increase with refinancing exercises and drawdown of more borrowings for Berlin Campus repositioning. Manager assessing strategic and funding options. No quantitative DPU guidance.",
-      "yield_gap_yahoo_vs_manager": 0.0002192340425531819,
-      "forward_yield_run_rate": 0.04809668085106383,
+      "yield_gap_yahoo_vs_manager": 0.00023778723404255242,
+      "forward_yield_run_rate": 0.04808374468085106,
       "forward_yield_guidance": null,
       "dpu_ttm_is_stub": false,
       "distribution_frequency": 2,
@@ -13899,7 +13899,7 @@
         "composite": 66
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.171Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:12.925Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -14318,7 +14318,7 @@
         "composite": 79
       },
       "passes_user_screen": true,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.176Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:13.064Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -14726,7 +14726,7 @@
         "composite": 48
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.329Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:13.105Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -15144,7 +15144,7 @@
         "composite": 57
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.351Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:13.122Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -15551,7 +15551,7 @@
         "composite": 67
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.472Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:13.127Z",
       "facts_fetched_at": "2026-05-28T21:25:00Z"
     },
     {
@@ -15815,7 +15815,7 @@
       ],
       "quote_time": 1780039948,
       "beta": 0.73,
-      "distribution_yield_ttm": 0.04250000000000001,
+      "distribution_yield_ttm": 0.0425,
       "yahoo_dividend_yield": 0.039100002,
       "dpu_ttm_cents": 0.85,
       "dpu_last_period_cents": 0.418,
@@ -15824,8 +15824,8 @@
       "ex_dividend_date": 1772668800,
       "five_year_avg_div_yield": null,
       "forward_dpu_guidance": "No explicit DPU guidance. Manager flagged ~US$100m capex requirement FY2025-FY2027 for brand-mandated renovations (7 hotels completed in 2025, 5 more started in 4Q 2025, remainder in 2026/2027). 2 hotels completed renovations during 3Q 2025 (Courtyard San Antonio at The Rim, Residence Inn San Antonio at The Rim). Strategic review with DBS Bank ongoing (Sep 2025 update). Trade and immigration policy headwinds and US federal shutdown in 4Q 2025 weighed on demand.",
-      "yield_gap_yahoo_vs_manager": -0.0033999980000000082,
-      "forward_yield_run_rate": 0.041800000000000004,
+      "yield_gap_yahoo_vs_manager": -0.0033999980000000013,
+      "forward_yield_run_rate": 0.0418,
       "forward_yield_guidance": null,
       "dpu_ttm_is_stub": false,
       "distribution_frequency": 2,
@@ -15946,7 +15946,7 @@
         "composite": 38
       },
       "passes_user_screen": false,
-      "yahoo_fetched_at": "2026-05-29T12:00:09.486Z",
+      "yahoo_fetched_at": "2026-05-29T13:54:13.361Z",
       "facts_fetched_at": "2026-05-28T00:00:00Z"
     }
   ]
