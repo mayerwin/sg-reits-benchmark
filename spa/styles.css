@@ -581,8 +581,7 @@ legend { padding: 0; display: block; width: 100%; }
   white-space: nowrap;
   user-select: none;
   z-index: 10;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: hidden;   /* the .th-label handles the ellipsis (avoids a double "… …") */
 }
 .reit-table thead th.num { text-align: right; }
 .th-label { display: inline-block; max-width: calc(100% - 10px); overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }

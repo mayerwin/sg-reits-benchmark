@@ -147,17 +147,35 @@ function visibleColumns() {
   return STATE.columnOrder.filter(k => STATE.columns.has(k) && COL_BY_KEY[k]).map(k => COL_BY_KEY[k]);
 }
 
-/** Default column width (px) under the fixed table layout. Text columns wider; numbers narrow. */
+/** Baseline default width (px). Tuned for typical CELL content; the header-fit floor below
+ *  guarantees the header text itself is never clipped. Geography is intentionally narrow. */
 function defaultColWidth(c) {
   const W = {
-    ticker: 66, name: 210, sector: 104, geography: 126, // geography intentionally ~30% narrower
-    market_cap: 96, report_date: 96, quality: 98,
-    forward_yield_guidance: 104, dpu_change_per_100bps_pct: 106, gearing_pct_incl_perps: 100,
-    rental_reversion_pct: 92, property_yield_pct: 92, pct_debt_due_12m: 90,
+    name: 210, sector: 110, geography: 126,   // geography ~30% narrower than its content
+    market_cap: 96, report_date: 108, quality: 120,
   };
   return W[c.key] || 84;
 }
-function colWidth(c) { return STATE.columnWidths[c.key] || defaultColWidth(c); }
+
+/** Rendered width (px) of a header label, measured with the actual header font (uppercase +
+ *  letter-spacing), so a column default never truncates its own title. Cached; recomputed when
+ *  webfonts finish loading. */
+const HEADER_FIT = {};
+function headerFitWidth(c) {
+  if (HEADER_FIT[c.key] != null) return HEADER_FIT[c.key];
+  const cv = headerFitWidth._cv || (headerFitWidth._cv = document.createElement('canvas'));
+  const ctx = cv.getContext('2d');
+  ctx.font = "500 10.5px 'IBM Plex Mono', Menlo, monospace";
+  const txt = String(c.label || '').toUpperCase();
+  const letterSpacing = 0.07 * 10.5 * Math.max(0, txt.length - 1);  // matches CSS letter-spacing
+  const w = ctx.measureText(txt).width + letterSpacing + 24 /*cell padding*/ + 16 /*sort caret + buffer*/;
+  return (HEADER_FIT[c.key] = Math.ceil(w));
+}
+
+/** Effective width: a user override wins; otherwise max(content default, header-fit floor). */
+function colWidth(c) {
+  return STATE.columnWidths[c.key] || Math.max(defaultColWidth(c), headerFitWidth(c));
+}
 
 // Per-column numeric filter definitions (bounds computed from data at init).
 let FILTER_DEFS = [];  // [{ key, label, metric, value(r), fmt(v), bound:[min,max], step }]
@@ -682,6 +700,15 @@ function init() {
 
   updateHiddenCount();
   render();
+
+  // Header-fit widths are first measured with the fallback font; once IBM Plex Mono loads,
+  // clear the cache and re-render so default widths match the real metrics.
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => {
+      for (const k of Object.keys(HEADER_FIT)) delete HEADER_FIT[k];
+      render();
+    });
+  }
 }
 
 function cssEscape(s) { return String(s).replace(/["\\]/g, '\\$&'); }
