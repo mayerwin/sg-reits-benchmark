@@ -92,7 +92,8 @@ function thresholdBadge(kind, value) {
 /* =====================  STATE & PERSISTENCE  ===================== */
 
 const LS_KEY = 'sreit-terminal-v2';
-const DEFAULT_COLUMNS = ['ticker', 'name', 'sector', 'geography', 'price', 'market_cap', 'distribution_yield_ttm', 'forward_yield_run_rate', 'gearing_pct', 'gearing_pct_incl_perps', 'icr_x', 'wale_years', 'occupancy_pct', 'property_yield_pct', 'p_nav', 'quality', 'report_date'];
+// Default VISIBLE columns (Price hidden by default; WACE shown, placed right after Prop Yield).
+const DEFAULT_COLUMNS = ['ticker', 'name', 'sector', 'geography', 'market_cap', 'distribution_yield_ttm', 'forward_yield_run_rate', 'gearing_pct', 'gearing_pct_incl_perps', 'icr_x', 'wale_years', 'occupancy_pct', 'property_yield_pct', 'wace_pct', 'p_nav', 'quality', 'report_date'];
 const ALL_COLUMNS = [
   { key: 'ticker', label: 'Ticker', num: true, metric: null },
   { key: 'name', label: 'Name', num: false, metric: null, sticky: true },
@@ -110,12 +111,12 @@ const ALL_COLUMNS = [
   { key: 'icr_x', label: 'ICR', num: true, metric: 'icr_x' },
   { key: 'pct_debt_due_12m', label: 'Debt ≤1y', num: true, metric: 'pct_debt_due_12m' },
   { key: 'dpu_change_per_100bps_pct', label: 'ΔDPU/+100bp', num: true, metric: 'dpu_change_per_100bps_pct' },
-  { key: 'wace_pct', label: 'WACE', num: true, metric: 'wace_pct' },
   { key: 'pct_fixed_debt', label: '% Fixed', num: true, metric: 'pct_fixed_debt' },
   { key: 'wadm_years', label: 'WADM', num: true, metric: 'wadm_years' },
   { key: 'wale_years', label: 'WALE', num: true, metric: 'wale_years' },
   { key: 'occupancy_pct', label: 'Occ.', num: true, metric: 'occupancy_pct' },
   { key: 'property_yield_pct', label: 'Prop Yield', num: true, metric: 'property_yield_pct' },
+  { key: 'wace_pct', label: 'WACE', num: true, metric: 'wace_pct' },
   { key: 'num_properties', label: '# Props', num: true, metric: 'num_properties' },
   { key: 'top10_tenant_pct', label: 'Top-10', num: true, metric: 'top10_tenant_pct' },
   { key: 'nav_per_unit', label: 'NAV', num: true, metric: 'nav_per_unit' },
@@ -124,6 +125,8 @@ const ALL_COLUMNS = [
   { key: 'quality', label: 'Quality', num: true, metric: 'quality_composite' },
   { key: 'report_date', label: 'As of', num: true, metric: 'report_date' },
 ];
+const COL_BY_KEY = Object.fromEntries(ALL_COLUMNS.map(c => [c.key, c]));
+const DEFAULT_ORDER = ALL_COLUMNS.map(c => c.key);
 
 const STATE = {
   sort: { key: 'market_cap', asc: false },
@@ -132,10 +135,17 @@ const STATE = {
   currencies: new Set(),
   ranges: {},                 // { columnKey: [lo, hi] } in display units; only present when narrowed
   columns: new Set(DEFAULT_COLUMNS),
+  columnOrder: [...DEFAULT_ORDER], // display order (includes hidden); visibility from `columns`
+  columnWidths: {},           // { columnKey: px } — user-resized widths
   hiddenReits: new Set(),
   lastFocusBeforeDrawer: null,
   lastModalTrigger: null,
 };
+
+/** Columns to render, in user order, visible only. */
+function visibleColumns() {
+  return STATE.columnOrder.filter(k => STATE.columns.has(k) && COL_BY_KEY[k]).map(k => COL_BY_KEY[k]);
+}
 
 // Per-column numeric filter definitions (bounds computed from data at init).
 let FILTER_DEFS = [];  // [{ key, label, metric, value(r), fmt(v), bound:[min,max], step }]
@@ -151,6 +161,8 @@ function savePrefs() {
       ranges: STATE.ranges,
       // Never persist an empty column set — fall back to default so a reload can't load blank.
       columns: STATE.columns.size ? [...STATE.columns] : [...DEFAULT_COLUMNS],
+      columnOrder: STATE.columnOrder,
+      columnWidths: STATE.columnWidths,
       hiddenReits: [...STATE.hiddenReits],
     };
     localStorage.setItem(LS_KEY, JSON.stringify(p));
@@ -176,8 +188,20 @@ function loadPrefs() {
     if (p.ranges && typeof p.ranges === 'object') _pendingRanges = p.ranges;
     // Only restore columns that still exist in ALL_COLUMNS; ignore empty/garbage.
     if (Array.isArray(p.columns)) {
-      const valid = p.columns.filter(c => ALL_COLUMNS.some(ac => ac.key === c));
+      const valid = p.columns.filter(c => COL_BY_KEY[c]);
       if (valid.length) STATE.columns = new Set(valid);
+    }
+    // Column order: keep valid persisted keys in their saved order, then append any columns
+    // added since (e.g. a new metric) so they're never lost.
+    if (Array.isArray(p.columnOrder)) {
+      const valid = p.columnOrder.filter(c => COL_BY_KEY[c]);
+      const missing = DEFAULT_ORDER.filter(c => !valid.includes(c));
+      STATE.columnOrder = [...valid, ...missing];
+    }
+    if (p.columnWidths && typeof p.columnWidths === 'object') {
+      for (const [k, w] of Object.entries(p.columnWidths)) {
+        if (COL_BY_KEY[k] && Number.isFinite(w) && w >= 40 && w <= 600) STATE.columnWidths[k] = w;
+      }
     }
     if (Array.isArray(p.hiddenReits)) STATE.hiddenReits = new Set(p.hiddenReits);
   } catch {}
@@ -379,12 +403,53 @@ function applySort(key) {
   savePrefs(); render();
 }
 
+/* ===================== COLUMN RESIZE (drag the right edge of a header) ===================== */
+function wireColumnResize() {
+  const thead = $('#reit-thead');
+  if (!thead) return;
+  thead.addEventListener('pointerdown', (e) => {
+    const handle = e.target.closest('.col-resize');
+    if (!handle) return;
+    e.preventDefault(); e.stopPropagation();
+    const key = handle.dataset.resize;
+    const th = handle.closest('th');
+    const startX = e.clientX;
+    const startW = th.getBoundingClientRect().width;
+    document.body.classList.add('is-col-resizing');
+    const onMove = (ev) => {
+      const w = Math.max(48, Math.min(600, Math.round(startW + (ev.clientX - startX))));
+      STATE.columnWidths[key] = w;
+      th.style.width = th.style.minWidth = th.style.maxWidth = w + 'px';
+      syncHbar(); updateFloatHead();
+    };
+    const onUp = () => {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      document.body.classList.remove('is-col-resizing');
+      savePrefs();
+      buildFloatHead(); updateFloatHead();
+    };
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+  });
+  // Double-click a handle resets that column to auto width.
+  thead.addEventListener('dblclick', (e) => {
+    const handle = e.target.closest('.col-resize');
+    if (!handle) return;
+    e.preventDefault(); e.stopPropagation();
+    delete STATE.columnWidths[handle.dataset.resize];
+    savePrefs(); render();
+  });
+}
+
 function buildFloatHead() {
   const realThead = $('#reit-thead'), ft = $('#float-head-thead'), table = $('#reit-table'), ftable = $('#float-head-table');
   if (!realThead || !ft || !table || !ftable) return;
   ft.innerHTML = realThead.innerHTML;
   // Clones must not be focusable (the bar is aria-hidden; real header carries a11y).
   $$('#float-head-thead th').forEach(th => th.setAttribute('tabindex', '-1'));
+  // The clone is display-only — strip the (non-functional) resize grips.
+  $$('#float-head-thead .col-resize').forEach(el => el.remove());
   // Mirror each column's rendered width so the clone aligns pixel-for-pixel with the table.
   const realThs = $$('#reit-thead th'), cloneThs = $$('#float-head-thead th');
   realThs.forEach((th, i) => {
@@ -474,14 +539,16 @@ function init() {
     }
   });
 
-  // Sort delegation (real header + floating header clone)
+  // Sort delegation (real header + floating header clone). Ignore clicks on a resize handle.
   const onHeadClick = (e) => {
+    if (e.target.closest('.col-resize')) return;
     const th = e.target.closest('th[data-sort]');
     if (!th) return;
     applySort(th.dataset.sort);
   };
   $('#reit-thead').addEventListener('click', onHeadClick);
   $('#float-head').addEventListener('click', onHeadClick);
+  wireColumnResize();
   $('#reit-thead').addEventListener('keydown', (e) => {
     const th = e.target.closest('th[data-sort]');
     if (!th) return;
@@ -628,11 +695,14 @@ function buildChipFilters() {
 }
 
 function buildTableHead() {
-  const cols = ALL_COLUMNS.filter(c => STATE.columns.has(c.key));
+  const cols = visibleColumns();
   const ths = cols.map(c => {
-    const m = c.metric ? window.METRICS[c.metric] : null;
-    const tipId = m ? `tip-col-${c.key}` : '';
-    return `<th scope="col" tabindex="0" data-sort="${esc(c.key)}" aria-sort="none" class="${c.num ? 'num' : ''} ${c.sticky ? 'is-sticky' : ''}" ${m ? `data-tip="${esc(c.metric)}"` : ''}>${esc(c.label)}</th>`;
+    const w = STATE.columnWidths[c.key];
+    const wStyle = w ? ` style="width:${w}px;min-width:${w}px;max-width:${w}px"` : '';
+    return `<th scope="col" tabindex="0" data-sort="${esc(c.key)}" aria-sort="none" class="${c.num ? 'num' : ''} ${c.sticky ? 'is-sticky' : ''}"${wStyle} ${c.metric ? `data-tip="${esc(c.metric)}"` : ''}>`
+      + `<span class="th-label">${esc(c.label)}</span>`
+      + `<span class="col-resize" data-resize="${esc(c.key)}" title="Drag to resize" aria-hidden="true"></span>`
+      + `</th>`;
   }).join('');
   $('#reit-thead').innerHTML = `<tr>${ths}</tr>`;
 }
@@ -746,7 +816,7 @@ function render() {
 
   const tbody = $('#reit-rows');
   if (!rows.length) {
-    const cols = ALL_COLUMNS.filter(c => STATE.columns.has(c.key)).length;
+    const cols = visibleColumns().length;
     tbody.innerHTML = `<tr><td colspan="${cols}" class="empty">no REITs match these filters</td></tr>`;
     syncHbar(); buildFloatHead(); updateFloatHead();
     return;
@@ -790,7 +860,7 @@ const CELL_RENDERERS = {
 };
 
 function rowHTML(r) {
-  const cells = ALL_COLUMNS.filter(c => STATE.columns.has(c.key)).map(c => CELL_RENDERERS[c.key](r)).join('');
+  const cells = visibleColumns().map(c => CELL_RENDERERS[c.key](r)).join('');
   return `<tr data-ticker="${esc(r.ticker)}" tabindex="0" role="button" aria-label="Open detail for ${esc(r.name)}">${cells}</tr>`;
 }
 
@@ -1143,23 +1213,77 @@ function openModal(title, html, trigger = null) {
 }
 
 function openColumnsModal(trigger) {
-  const items = ALL_COLUMNS.map(c => {
+  // Rows in the current display order; drag the ⠿ handle (or use ↑/↓) to reorder.
+  const items = STATE.columnOrder.filter(k => COL_BY_KEY[k]).map((k, i) => {
+    const c = COL_BY_KEY[k];
     const m = c.metric ? window.METRICS[c.metric] : null;
-    // Short, ≤2-line description; the full definition is one hover (data-tip) or the Help page away.
     const hint = m ? esc(m.what) : '';
-    return `<label class="col-toggle"${c.metric ? ` data-tip="${esc(c.metric)}"` : ''}>
-      <input type="checkbox" data-col="${esc(c.key)}" ${STATE.columns.has(c.key) ? 'checked' : ''} />
-      <span class="col-toggle__name">${esc(c.label)}</span>
+    return `<div class="col-toggle" draggable="true" data-colrow="${esc(c.key)}"${c.metric ? ` data-tip="${esc(c.metric)}"` : ''}>
+      <span class="col-grip" aria-hidden="true" title="Drag to reorder">⠿</span>
+      <input type="checkbox" id="colcb-${esc(c.key)}" data-col="${esc(c.key)}" ${STATE.columns.has(c.key) ? 'checked' : ''} />
+      <label class="col-toggle__name" for="colcb-${esc(c.key)}">${esc(c.label)}</label>
+      <span class="col-move">
+        <button type="button" class="col-move__btn" data-move-up="${esc(c.key)}" title="Move up" aria-label="Move ${esc(c.label)} up"${i === 0 ? ' disabled' : ''}>↑</button>
+        <button type="button" class="col-move__btn" data-move-down="${esc(c.key)}" title="Move down" aria-label="Move ${esc(c.label)} down">↓</button>
+      </span>
       ${hint ? `<small class="col-toggle__hint">${hint}</small>` : ''}
-    </label>`;
+    </div>`;
   }).join('');
-  openModal('Columns', `<p class="modal__lead">Toggle which columns appear in the table — saved to your browser. Hover (or long-press) a row for the full definition, or open the <button type="button" class="link-btn" id="cols-to-help">Help page</button> for all terminology.</p>
-    <div class="col-toggle-list">${items}</div>
+  openModal('Columns', `<p class="modal__lead">Toggle, reorder (drag the ⠿ handle or use ↑/↓), and resize columns. Resize by dragging a column's right edge in the table (double-click the edge to auto-fit). All saved to your browser. Hover/long-press a row for the definition, or open the <button type="button" class="link-btn" id="cols-to-help">Help page</button>.</p>
+    <div class="col-toggle-list" id="col-toggle-list">${items}</div>
     <div class="modal__actions">
-      <button type="button" id="cols-reset">Reset to default</button>
+      <button type="button" id="cols-reset">Reset columns (show, order &amp; width)</button>
     </div>`, trigger);
-  // Handlers are bound ONCE at init via delegation (see initModalDelegation) — not here,
-  // to avoid stacking listeners on the persistent #modal-content node across re-opens.
+  wireColumnReorderDnD();
+  // Toggle / button handlers are bound ONCE at init via delegation (initModalDelegation).
+}
+
+/** Move a column key before/after in STATE.columnOrder, then re-render. */
+function moveColumn(key, dir) {
+  const order = STATE.columnOrder.filter(k => COL_BY_KEY[k]);
+  const i = order.indexOf(key);
+  if (i < 0) return;
+  const j = dir === 'up' ? i - 1 : i + 1;
+  if (j < 0 || j >= order.length) return;
+  [order[i], order[j]] = [order[j], order[i]];
+  STATE.columnOrder = order;
+  savePrefs(); render(); buildRangeFilters(); openColumnsModal();
+}
+
+/** HTML5 drag-and-drop reordering within the Columns modal list. */
+function wireColumnReorderDnD() {
+  const list = $('#col-toggle-list');
+  if (!list) return;
+  let dragKey = null;
+  list.addEventListener('dragstart', (e) => {
+    const row = e.target.closest('[data-colrow]'); if (!row) return;
+    dragKey = row.dataset.colrow; row.classList.add('is-dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  list.addEventListener('dragend', (e) => {
+    e.target.closest('[data-colrow]')?.classList.remove('is-dragging');
+    $$('.col-toggle.is-dragover', list).forEach(el => el.classList.remove('is-dragover'));
+  });
+  list.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const row = e.target.closest('[data-colrow]');
+    $$('.col-toggle.is-dragover', list).forEach(el => el.classList.remove('is-dragover'));
+    if (row && row.dataset.colrow !== dragKey) row.classList.add('is-dragover');
+  });
+  list.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const row = e.target.closest('[data-colrow]');
+    if (!row || !dragKey || row.dataset.colrow === dragKey) return;
+    const targetKey = row.dataset.colrow;
+    const order = STATE.columnOrder.filter(k => COL_BY_KEY[k]);
+    const from = order.indexOf(dragKey);
+    order.splice(from, 1);
+    const to = order.indexOf(targetKey);
+    order.splice(to, 0, dragKey);   // insert before the drop target
+    STATE.columnOrder = order;
+    dragKey = null;
+    savePrefs(); render(); buildRangeFilters(); openColumnsModal();
+  });
 }
 
 function openHiddenModal(trigger) {
@@ -1198,10 +1322,16 @@ function initModalDelegation() {
   content.addEventListener('click', (e) => {
     if (e.target.closest('#cols-reset')) {
       STATE.columns = new Set(DEFAULT_COLUMNS);
+      STATE.columnOrder = [...DEFAULT_ORDER];
+      STATE.columnWidths = {};
       buildRangeFilters();
       savePrefs(); render(); openColumnsModal();
       return;
     }
+    const up = e.target.closest('[data-move-up]');
+    if (up) { moveColumn(up.dataset.moveUp, 'up'); return; }
+    const down = e.target.closest('[data-move-down]');
+    if (down) { moveColumn(down.dataset.moveDown, 'down'); return; }
     if (e.target.closest('#cols-to-help')) { openHelpModal(); return; }
     const unhide = e.target.closest('[data-unhide]');
     if (unhide) { toggleHidden(unhide.dataset.unhide); openHiddenModal(); return; }
