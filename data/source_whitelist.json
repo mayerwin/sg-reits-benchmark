@@ -8,9 +8,12 @@
       "If you add a host here, document the reason in the `notes` array for future maintainers."
     ]
   },
-  "allow": [],
+  "allow": [
+    "cdn.sanity.io/files/rgu3ktoj/"
+  ],
   "notes": [
     "listedcompany.com and q4cdn.com are recognised as authoritative directly in merge.mjs (built-in), not here, because they are issuer-IR hosting platforms (SGX/Investis and Q4 Inc respectively) that only ever host the issuer's own filings.",
-    "capitaland.com and frasersproperty.com are recognised as built-in authoritative because they are the manager/sponsor corporate domains hosting the REITs' own newsroom PDFs."
+    "capitaland.com and frasersproperty.com are recognised as built-in authoritative because they are the manager/sponsor corporate domains hosting the REITs' own newsroom PDFs.",
+    "cdn.sanity.io/files/rgu3ktoj/ (added 2026-10-26) is Acrophyte Hospitality Trust's own document store: its official site www.acrophytetrust.com serves its results PDFs from this Sanity project. The path is scoped to that project ID, not the whole Sanity CDN."
   ]
 }
