@@ -28,6 +28,7 @@
       "wadm_note": "Weighted average debt maturity as at 30 June 2026 (4.2 years at listing per prospectus); excludes Consumption Tax Debt Facilities (to be repaid upon refund of Japan consumption tax, expected by PY2027)",
       "wadm_source": "https://ir.uibreit.com/newsroom/20260727_172347_UIBU_EHV4GFL417LWHLPV.1.pdf",
       "dpu_ttm_cents": null,
+      "dpu_ttm_is_stub": true,
       "dpu_ttm_source": null,
       "dpu_ttm_note": "No distribution declared or paid yet: REIT listed 12 Mar 2026 and its first financial period runs 3 Jul 2025 to 30 Sep 2026; results (and maiden distribution) are due 27 Oct 2026 (announcement 6 Oct 2026). No SGXNet distribution/record-date notices found on the IR newsroom since listing. TTM not derivable",
       "dpu_last_period_cents": null,

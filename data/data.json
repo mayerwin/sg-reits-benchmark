@@ -1,8 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-26T05:07:02.778Z",
+    "generated_at": "2026-10-26T05:17:48.825Z",
     "master_validated": "2026-10-26",
     "yahoo_generated_at": "2026-10-26T04:37:13.684Z",
+    "fx": {
+      "SGD": 1,
+      "USD": 1.2782,
+      "EUR": 1.4341,
+      "GBP": 1.7098
+    },
     "facts_groups_present": [
       "reit_facts_group1.json",
       "reit_facts_group2.json",
@@ -302,8 +308,9 @@
       "wace_pct": 2.9,
       "pct_fixed_debt": 78,
       "wadm_years": 4.1,
-      "property_yield_pct": 5.28,
+      "property_yield_pct": 4.78,
       "nav_per_unit": 2.15,
+      "nav_currency": "SGD",
       "p_nav": 1.069767441860465,
       "p_nav_source": "manager_nav",
       "trailing_pe": 14.375,
@@ -404,9 +411,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 73,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": 65,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -417,7 +424,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 85
+        "composite": 90
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:13.685Z",
@@ -713,6 +720,7 @@
       "wadm_years": 2.5,
       "property_yield_pct": 5.83,
       "nav_per_unit": 2.27,
+      "nav_currency": "SGD",
       "p_nav": 0.9867841409691631,
       "p_nav_source": "manager_nav",
       "trailing_pe": 14,
@@ -815,9 +823,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 88,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -828,7 +836,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 72
+        "composite": 74
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:13.686Z",
@@ -1124,6 +1132,7 @@
       "wadm_years": 3.5,
       "property_yield_pct": 4.68,
       "nav_per_unit": 1.15,
+      "nav_currency": "SGD",
       "p_nav": 0.717391304347826,
       "p_nav_source": "manager_nav",
       "trailing_pe": 11.785714,
@@ -1220,9 +1229,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -1233,7 +1242,7 @@
           "n_inputs": 1,
           "max_inputs": 1
         },
-        "composite": 80
+        "composite": 82
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:13.687Z",
@@ -1529,6 +1538,7 @@
       "wadm_years": 2.7,
       "property_yield_pct": 4.72,
       "nav_per_unit": 1.04,
+      "nav_currency": "SGD",
       "p_nav": 0.5817307692307692,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -1634,10 +1644,10 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": null,
-          "n_inputs": 1,
+          "sustainScore": 95,
+          "n_inputs": 2,
           "max_inputs": 2
         },
         "operations": {
@@ -1647,7 +1657,7 @@
           "n_inputs": 1,
           "max_inputs": 2
         },
-        "composite": 72
+        "composite": 74
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:13.688Z",
@@ -1943,6 +1953,7 @@
       "wadm_years": 2.6,
       "property_yield_pct": 6.25,
       "nav_per_unit": 1.23,
+      "nav_currency": "SGD",
       "p_nav": 0.7032520325203252,
       "p_nav_source": "manager_nav",
       "trailing_pe": 4.1190476,
@@ -2048,9 +2059,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 68,
+          "score": 75,
           "yieldScore": 55,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -2061,7 +2072,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 71
+        "composite": 74
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:13.889Z",
@@ -2357,6 +2368,7 @@
       "wadm_years": 3.5,
       "property_yield_pct": 4.68,
       "nav_per_unit": 1.26,
+      "nav_currency": "SGD",
       "p_nav": 0.8730158730158731,
       "p_nav_source": "manager_nav",
       "trailing_pe": 22,
@@ -2463,9 +2475,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 60,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -2476,7 +2488,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 68
+        "composite": 79
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:14.072Z",
@@ -2772,6 +2784,7 @@
       "wadm_years": 3.4,
       "property_yield_pct": 5.89,
       "nav_per_unit": 1.63,
+      "nav_currency": "SGD",
       "p_nav": 1.098159509202454,
       "p_nav_source": "manager_nav",
       "trailing_pe": 25.571428,
@@ -2872,9 +2885,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 53,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -2885,7 +2898,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 68
+        "composite": 78
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.160Z",
@@ -3179,8 +3192,9 @@
       "wace_pct": 2.94,
       "pct_fixed_debt": 77.4,
       "wadm_years": 3.3,
-      "property_yield_pct": 3.22,
+      "property_yield_pct": 4.28,
       "nav_per_unit": 1.73,
+      "nav_currency": "SGD",
       "p_nav": 0.6705202312138728,
       "p_nav_source": "manager_nav",
       "trailing_pe": 23.199999,
@@ -3280,9 +3294,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 60,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -3293,7 +3307,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 66
+        "composite": 76
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.194Z",
@@ -3589,6 +3603,7 @@
       "wadm_years": 2.5,
       "property_yield_pct": 4.1,
       "nav_per_unit": 1.24,
+      "nav_currency": "SGD",
       "p_nav": 0.6612903225806451,
       "p_nav_source": "manager_nav",
       "trailing_pe": 7.4545455,
@@ -3690,9 +3705,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 88,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -3703,7 +3718,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 80
+        "composite": 82
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:14.251Z",
@@ -3999,12 +4014,13 @@
       "wadm_years": 3.1,
       "property_yield_pct": 6.65,
       "nav_per_unit": 1.73,
+      "nav_currency": "SGD",
       "p_nav": 1.2254335260115607,
       "p_nav_source": "manager_nav",
       "trailing_pe": 11.777777,
       "occupancy_pct": 93,
-      "wale_years": 6.5,
-      "wale_basis": "by lettable area (WALE by rental income is 4.3 years); incl. Tokyo DC 4 & 5: 6.6y by lettable area, 4.8y by rental income",
+      "wale_years": 4.3,
+      "wale_basis": "GRI (by rental income; 6.5y by lettable area); incl. Tokyo DC 4 & 5: 4.8y by rental income, 6.6y by lettable area",
       "num_properties": 27,
       "aum_total": "S$7.6B",
       "top10_tenant_pct": null,
@@ -4106,20 +4122,20 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
         "operations": {
-          "score": 85,
+          "score": 73,
           "occScore": 85,
-          "waleScore": 85,
+          "waleScore": 60,
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 82
+        "composite": 81
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.346Z",
@@ -4415,6 +4431,7 @@
       "wadm_years": 1.7,
       "property_yield_pct": 6.27,
       "nav_per_unit": 0.7,
+      "nav_currency": "USD",
       "p_nav": 0.20857142857142857,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -4520,9 +4537,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 73,
+          "score": 80,
           "yieldScore": 65,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -4533,7 +4550,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 58
+        "composite": 61
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:14.404Z",
@@ -4829,6 +4846,7 @@
       "wadm_years": 3.41,
       "property_yield_pct": 4.17,
       "nav_per_unit": 2.32,
+      "nav_currency": "SGD",
       "p_nav": 0.935344827586207,
       "p_nav_source": "manager_nav",
       "trailing_pe": 12.055555,
@@ -4933,9 +4951,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 88,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -4946,7 +4964,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 82
+        "composite": 84
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.423Z",
@@ -5242,6 +5260,7 @@
       "wadm_years": 3,
       "property_yield_pct": 4.7,
       "nav_per_unit": 1.12,
+      "nav_currency": "SGD",
       "p_nav": 0.8080357142857142,
       "p_nav_source": "manager_nav",
       "trailing_pe": 15.083333,
@@ -5351,9 +5370,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 70,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 45,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -5364,7 +5383,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 77
+        "composite": 85
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.435Z",
@@ -5649,7 +5668,7 @@
       "forecast_dpu_basis": "Qualitative outlook only",
       "rental_reversion_pct": 7.3,
       "pct_debt_due_12m": null,
-      "dpu_change_per_100bps_pct": -22,
+      "dpu_change_per_100bps_pct": -9.5,
       "dpu_yoy_pct": 13.4,
       "gearing_pct": 43,
       "gearing_pct_incl_perps": 45.5,
@@ -5658,8 +5677,9 @@
       "wace_pct": 3.57,
       "pct_fixed_debt": 57,
       "wadm_years": 2.07,
-      "property_yield_pct": 2.91,
+      "property_yield_pct": 4.04,
       "nav_per_unit": 2.04,
+      "nav_currency": "SGD",
       "p_nav": 0.6813725490196078,
       "p_nav_source": "manager_nav",
       "trailing_pe": 13.9,
@@ -5767,9 +5787,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 88,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -5780,7 +5800,7 @@
           "n_inputs": 1,
           "max_inputs": 2
         },
-        "composite": 69
+        "composite": 71
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:14.523Z",
@@ -6076,6 +6096,7 @@
       "wadm_years": 2.8,
       "property_yield_pct": 5.65,
       "nav_per_unit": 2.57,
+      "nav_currency": "SGD",
       "p_nav": 1.5719844357976656,
       "p_nav_source": "manager_nav",
       "trailing_pe": 16.16,
@@ -6183,9 +6204,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 73,
+          "score": 80,
           "yieldScore": 65,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -6196,7 +6217,7 @@
           "n_inputs": 1,
           "max_inputs": 2
         },
-        "composite": 88
+        "composite": 90
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.576Z",
@@ -6495,7 +6516,8 @@
       "wadm_years": 5,
       "property_yield_pct": 5.98,
       "nav_per_unit": 2.02,
-      "p_nav": 1.0297029702970297,
+      "nav_currency": "EUR",
+      "p_nav": 0.7180133674757896,
       "p_nav_source": "manager_nav",
       "trailing_pe": 13,
       "occupancy_pct": 93.7,
@@ -6604,9 +6626,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 40,
+          "score": 65,
           "yieldScore": 55,
-          "sustainScore": 25,
+          "sustainScore": 75,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -6617,7 +6639,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 68
+        "composite": 75
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:14.603Z",
@@ -6913,6 +6935,7 @@
       "wadm_years": 2.9,
       "property_yield_pct": 3.91,
       "nav_per_unit": 0.55,
+      "nav_currency": "SGD",
       "p_nav": 0.6181818181818182,
       "p_nav_source": "manager_nav",
       "trailing_pe": 34,
@@ -7019,10 +7042,10 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": null,
-          "n_inputs": 1,
+          "sustainScore": 95,
+          "n_inputs": 2,
           "max_inputs": 2
         },
         "operations": {
@@ -7032,7 +7055,7 @@
           "n_inputs": 1,
           "max_inputs": 2
         },
-        "composite": 72
+        "composite": 74
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:14.607Z",
@@ -7328,6 +7351,7 @@
       "wadm_years": 3.3,
       "property_yield_pct": 5.5,
       "nav_per_unit": 0.71,
+      "nav_currency": "SGD",
       "p_nav": 0.7112676056338029,
       "p_nav_source": "manager_nav",
       "trailing_pe": 25.25,
@@ -7436,9 +7460,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 53,
+          "score": 78,
           "yieldScore": 80,
-          "sustainScore": 25,
+          "sustainScore": 75,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -7449,7 +7473,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 75
+        "composite": 82
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.736Z",
@@ -7745,6 +7769,7 @@
       "wadm_years": 2.8,
       "property_yield_pct": 3.62,
       "nav_per_unit": 0.7,
+      "nav_currency": "SGD",
       "p_nav": 0.7785714285714287,
       "p_nav_source": "manager_nav",
       "trailing_pe": 13.625001,
@@ -7851,9 +7876,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 65,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -7864,7 +7889,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 73
+        "composite": 77
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.753Z",
@@ -8160,6 +8185,7 @@
       "wadm_years": 2.1,
       "property_yield_pct": 5.82,
       "nav_per_unit": 2.5,
+      "nav_currency": "SGD",
       "p_nav": 0.796,
       "p_nav_source": "manager_nav",
       "trailing_pe": 99.5,
@@ -8267,10 +8293,10 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 55,
+          "score": 75,
           "yieldScore": 55,
-          "sustainScore": null,
-          "n_inputs": 1,
+          "sustainScore": 95,
+          "n_inputs": 2,
           "max_inputs": 2
         },
         "operations": {
@@ -8280,7 +8306,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 64
+        "composite": 70
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:14.777Z",
@@ -8576,6 +8602,7 @@
       "wadm_years": 3.8,
       "property_yield_pct": 6.47,
       "nav_per_unit": 1.28,
+      "nav_currency": "SGD",
       "p_nav": 1.0859375,
       "p_nav_source": "manager_nav",
       "trailing_pe": 9.928572,
@@ -8678,9 +8705,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -8691,7 +8718,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 74
+        "composite": 76
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.915Z",
@@ -8976,7 +9003,7 @@
       "forecast_dpu_basis": null,
       "rental_reversion_pct": null,
       "pct_debt_due_12m": 20.3,
-      "dpu_change_per_100bps_pct": -18.3,
+      "dpu_change_per_100bps_pct": -4.8,
       "dpu_yoy_pct": 8.6,
       "gearing_pct": 35.3,
       "gearing_pct_incl_perps": 42.9,
@@ -8987,6 +9014,7 @@
       "wadm_years": 2.2,
       "property_yield_pct": null,
       "nav_per_unit": 1.37,
+      "nav_currency": "SGD",
       "p_nav": 0.5145985401459854,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -9082,10 +9110,10 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": null,
-          "n_inputs": 1,
+          "sustainScore": 95,
+          "n_inputs": 2,
           "max_inputs": 2
         },
         "operations": {
@@ -9095,7 +9123,7 @@
           "n_inputs": 1,
           "max_inputs": 1
         },
-        "composite": 66
+        "composite": 68
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.935Z",
@@ -9391,6 +9419,7 @@
       "wadm_years": 3.5,
       "property_yield_pct": 3.77,
       "nav_per_unit": 0.8753,
+      "nav_currency": "SGD",
       "p_nav": 0.5826573746144179,
       "p_nav_source": "manager_nav",
       "trailing_pe": 25.5,
@@ -9487,9 +9516,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 60,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -9500,7 +9529,7 @@
           "n_inputs": 1,
           "max_inputs": 1
         },
-        "composite": 72
+        "composite": 83
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:14.955Z",
@@ -9796,6 +9825,7 @@
       "wadm_years": 4.8,
       "property_yield_pct": null,
       "nav_per_unit": 0.82,
+      "nav_currency": "SGD",
       "p_nav": 0.7317073170731707,
       "p_nav_source": "manager_nav",
       "trailing_pe": 15.000001,
@@ -9897,9 +9927,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 40,
+          "score": 65,
           "yieldScore": 55,
-          "sustainScore": 25,
+          "sustainScore": 75,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -9910,7 +9940,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 73
+        "composite": 81
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:15.064Z",
@@ -10206,6 +10236,7 @@
       "wadm_years": 3.7,
       "property_yield_pct": 7.1,
       "nav_per_unit": 0.87,
+      "nav_currency": "SGD",
       "p_nav": 1.206896551724138,
       "p_nav_source": "manager_nav",
       "trailing_pe": 20.999998,
@@ -10612,6 +10643,7 @@
       "wadm_years": 2,
       "property_yield_pct": 6.69,
       "nav_per_unit": 1.14,
+      "nav_currency": "USD",
       "p_nav": 0.7412280701754387,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -11024,6 +11056,7 @@
       "wadm_years": 3.3,
       "property_yield_pct": 4.53,
       "nav_per_unit": 0.79,
+      "nav_currency": "USD",
       "p_nav": 0.5569620253164557,
       "p_nav_source": "manager_nav",
       "trailing_pe": 14.666667,
@@ -11125,9 +11158,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 53,
+          "score": 88,
           "yieldScore": 80,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -11138,7 +11171,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 70
+        "composite": 80
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:15.162Z",
@@ -11434,6 +11467,7 @@
       "wadm_years": 2.4,
       "property_yield_pct": 5.08,
       "nav_per_unit": 0.63,
+      "nav_currency": "SGD",
       "p_nav": 0.634920634920635,
       "p_nav_source": "manager_nav",
       "trailing_pe": 8,
@@ -11536,9 +11570,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 68,
+          "score": 75,
           "yieldScore": 55,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -11549,7 +11583,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 70
+        "composite": 72
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.240Z",
@@ -11816,7 +11850,7 @@
       ],
       "quote_time": 1792987177,
       "beta": null,
-      "distribution_yield_ttm": 0,
+      "distribution_yield_ttm": null,
       "yahoo_dividend_yield": 0,
       "dpu_ttm_cents": null,
       "dpu_last_period_cents": null,
@@ -11828,7 +11862,7 @@
       "yield_gap_yahoo_vs_manager": null,
       "forward_yield_run_rate": null,
       "forward_yield_guidance": 0.08717948717948719,
-      "dpu_ttm_is_stub": false,
+      "dpu_ttm_is_stub": true,
       "distribution_frequency": 2,
       "forecast_dpu_cents": 6.8,
       "forecast_dpu_basis": "Projection Year 2027 (12 months, 1 Apr 2026 to 31 Mar 2027) forecast DPU of S$0.068/unit (6.8 cents), 100% payout; projection distribution yield 7.8% at IPO price S$0.88. Forecast Period 2026 stub (2 months, 1 Feb to 31 Mar 2026) DPU 1.1 cents, yield 7.4%; DPU growth +4.8% FP2026 (annualised) to PY2027",
@@ -11845,6 +11879,7 @@
       "wadm_years": 3.9,
       "property_yield_pct": 5.41,
       "nav_per_unit": 0.85,
+      "nav_currency": "SGD",
       "p_nav": 0.9176470588235295,
       "p_nav_source": "manager_nav",
       "trailing_pe": 15.599999,
@@ -11938,10 +11973,10 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 50,
-          "yieldScore": 50,
+          "score": null,
+          "yieldScore": null,
           "sustainScore": null,
-          "n_inputs": 1,
+          "n_inputs": 0,
           "max_inputs": 2
         },
         "operations": {
@@ -11951,7 +11986,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 77
+        "composite": 89
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:15.302Z",
@@ -12247,6 +12282,7 @@
       "wadm_years": 2.2,
       "property_yield_pct": 6.96,
       "nav_per_unit": 0.53,
+      "nav_currency": "SGD",
       "p_nav": 0.8962264150943395,
       "p_nav_source": "manager_nav",
       "trailing_pe": 6.785714,
@@ -12342,9 +12378,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 80,
+          "score": 78,
           "yieldScore": 80,
-          "sustainScore": 80,
+          "sustainScore": 75,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -12651,6 +12687,7 @@
       "wadm_years": 5.61,
       "property_yield_pct": 9.17,
       "nav_per_unit": 0.025,
+      "nav_currency": "SGD",
       "p_nav": 0.32,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -12746,10 +12783,10 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 50,
-          "yieldScore": 50,
-          "sustainScore": null,
-          "n_inputs": 1,
+          "score": 0,
+          "yieldScore": 0,
+          "sustainScore": 0,
+          "n_inputs": 2,
           "max_inputs": 2
         },
         "operations": {
@@ -12759,7 +12796,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 58
+        "composite": 43
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.394Z",
@@ -13055,6 +13092,7 @@
       "wadm_years": 1.5,
       "property_yield_pct": 9.13,
       "nav_per_unit": 0.23,
+      "nav_currency": "SGD",
       "p_nav": 0.7695652173913042,
       "p_nav_source": "manager_nav",
       "trailing_pe": 17.7,
@@ -13149,9 +13187,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 40,
+          "score": 75,
           "yieldScore": 55,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -13162,7 +13200,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 60
+        "composite": 71
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.418Z",
@@ -13458,6 +13496,7 @@
       "wadm_years": 1.8,
       "property_yield_pct": 3.15,
       "nav_per_unit": 0.73,
+      "nav_currency": "SGD",
       "p_nav": 0.6301369863013699,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -13550,9 +13589,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 38,
+          "score": 73,
           "yieldScore": 50,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -13563,7 +13602,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 47
+        "composite": 58
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.473Z",
@@ -13862,6 +13901,7 @@
       "wadm_years": 2.2,
       "property_yield_pct": 4.03,
       "nav_per_unit": 0.46,
+      "nav_currency": "SGD",
       "p_nav": 0.35434782608695653,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -13962,9 +14002,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 60,
+          "score": 95,
           "yieldScore": 95,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -13975,7 +14015,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 65
+        "composite": 75
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.545Z",
@@ -14263,7 +14303,7 @@
       "forecast_dpu_basis": "No numeric forecast. Guidance upgraded from 'broadly in line with FY2025' (3.03 pence) to 'FY2026 DPU expected to rise steadily'; 1H 2026 DPU 1.555 pence. A number cannot be derived without guessing.",
       "rental_reversion_pct": null,
       "pct_debt_due_12m": null,
-      "dpu_change_per_100bps_pct": -5.7,
+      "dpu_change_per_100bps_pct": -0.6,
       "dpu_yoy_pct": 0.6,
       "gearing_pct": 34.8,
       "gearing_pct_incl_perps": null,
@@ -14274,6 +14314,7 @@
       "wadm_years": null,
       "property_yield_pct": 7.38,
       "nav_per_unit": 0.44,
+      "nav_currency": "GBP",
       "p_nav": 0.6931818181818181,
       "p_nav_source": "manager_nav",
       "trailing_pe": 3.3888888,
@@ -14381,9 +14422,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 68,
+          "score": 75,
           "yieldScore": 55,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -14394,7 +14435,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 86
+        "composite": 89
       },
       "passes_user_screen": true,
       "yahoo_fetched_at": "2026-10-26T04:37:15.602Z",
@@ -14690,6 +14731,7 @@
       "wadm_years": 2,
       "property_yield_pct": 5.59,
       "nav_per_unit": 0.19,
+      "nav_currency": "USD",
       "p_nav": 0.16842105263157894,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
@@ -14796,9 +14838,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 58,
-          "yieldScore": 50,
-          "sustainScore": 65,
+          "score": 0,
+          "yieldScore": 0,
+          "sustainScore": 0,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -14809,7 +14851,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 49
+        "composite": 32
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.603Z",
@@ -15105,7 +15147,8 @@
       "wadm_years": null,
       "property_yield_pct": 4.77,
       "nav_per_unit": 0.53,
-      "p_nav": 0.20188679245283017,
+      "nav_currency": "USD",
+      "p_nav": 0.2018867924528302,
       "p_nav_source": "manager_nav",
       "trailing_pe": 10.700001,
       "occupancy_pct": 84.1,
@@ -15214,9 +15257,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 68,
+          "score": 75,
           "yieldScore": 55,
-          "sustainScore": 80,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -15227,7 +15270,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 56
+        "composite": 58
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.641Z",
@@ -15523,7 +15566,8 @@
       "wadm_years": 2.9,
       "property_yield_pct": 6.24,
       "nav_per_unit": 0.73,
-      "p_nav": 0.5821917808219178,
+      "nav_currency": "USD",
+      "p_nav": 0.5821917808219179,
       "p_nav_source": "manager_nav",
       "trailing_pe": 10.625001,
       "occupancy_pct": 97.6,
@@ -15621,9 +15665,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 50,
+          "score": 75,
           "yieldScore": 55,
-          "sustainScore": 45,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -15634,7 +15678,7 @@
           "n_inputs": 2,
           "max_inputs": 2
         },
-        "composite": 64
+        "composite": 72
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.752Z",
@@ -15930,7 +15974,8 @@
       "wadm_years": 0.8,
       "property_yield_pct": 5.1,
       "nav_per_unit": 0.68,
-      "p_nav": 0.33088235294117646,
+      "nav_currency": "USD",
+      "p_nav": 0.3308823529411764,
       "p_nav_source": "manager_nav",
       "trailing_pe": null,
       "occupancy_pct": 67.9,
@@ -16019,9 +16064,9 @@
           "max_inputs": 4
         },
         "distribution": {
-          "score": 38,
+          "score": 73,
           "yieldScore": 50,
-          "sustainScore": 25,
+          "sustainScore": 95,
           "n_inputs": 2,
           "max_inputs": 2
         },
@@ -16032,7 +16077,7 @@
           "n_inputs": 1,
           "max_inputs": 1
         },
-        "composite": 36
+        "composite": 47
       },
       "passes_user_screen": false,
       "yahoo_fetched_at": "2026-10-26T04:37:15.775Z",

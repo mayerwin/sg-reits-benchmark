@@ -47,8 +47,12 @@ const main = async () => {
         add('M', t, `market_cap (${r.market_cap.toExponential(2)}) ≠ price×shares (${(r.price * r.shares_outstanding).toExponential(2)}) >5%`);
     }
     if (r.p_nav != null && r.price != null && r.nav_per_unit != null && r.nav_per_unit > 0 && r.p_nav_source === 'manager_nav') {
-      if (!approx(r.p_nav, r.price / r.nav_per_unit, 0.02))
-        add('M', t, `p_nav (${r.p_nav}) ≠ price/nav (${(r.price / r.nav_per_unit).toFixed(3)})`);
+      // NAV may be stated in another currency than the price (e.g. SEB: SGD price, EUR NAV).
+      const fx = data._meta?.fx || {};
+      const navCcy = r.nav_currency || r.trading_currency;
+      const px = (fx[r.trading_currency] && fx[navCcy]) ? r.price * fx[r.trading_currency] / fx[navCcy] : r.price;
+      if (!approx(r.p_nav, px / r.nav_per_unit, 0.02))
+        add('M', t, `p_nav (${r.p_nav}) ≠ price/nav (${(px / r.nav_per_unit).toFixed(3)})`);
     }
     // Skip suspended payers (DPU ~0) — 0 vs 0 is consistent, not a discrepancy.
     if (r.distribution_yield_ttm != null && r.dpu_ttm_cents != null && r.dpu_ttm_cents > 0 && r.price != null && r.price > 0

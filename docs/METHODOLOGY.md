@@ -152,6 +152,8 @@ This dashboard now exposes `property_yield_pct` per REIT, sourced from each mana
 
 **Note on yield scoring:** Yields above ~9% in S-REITs are almost always a signal of distress (gearing/refi risk, falling DPU, value trap) rather than opportunity. The scoring peaks in the 5.5–7% band and decays both above and below, mirroring institutional practice. Manulife US REIT and Lippo Malls Indonesia Retail Trust (now Landmark) historically traded at 12%+ TTM yields when distributions were about to be cut or suspended.
 
+**Suspended distributions** (a 0% manager-disclosed yield) score 0 on both yield and sustainability — not as a "low yield". **Sustainability** compares the manager-DPU yield with Yahoo's headline yield (manager/Yahoo ≥ 0.98 → 95, ≥ 0.90 → 75, ≥ 0.80 → 55, else 35); Yahoo's IFRS payout ratio is only a fallback when manager DPU is missing. Recent IPOs with a stub trailing period (`dpu_ttm_is_stub`) have no distribution score, so their composite rests on leverage and operations only — read it with that in mind.
+
 ## 7. Composite Quality Score (as applied in this dashboard)
 
 The composite quality score is the **weighted average of sub-scores that are actually available** for a REIT. Weights:
