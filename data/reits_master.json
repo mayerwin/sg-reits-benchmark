@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Canonical master list of all Singapore-listed REITs and Stapled Property Trusts. All tickers VALIDATED against Yahoo Finance (chart API) on 2026-05-27.",
+    "description": "Canonical master list of all Singapore-listed REITs and Stapled Property Trusts. All tickers VALIDATED against Yahoo Finance (chart API) on 2026-10-26.",
     "primary_source": "REITAS (https://www.reitas.sg/singapore-reits/s-reit-sectors/)",
     "secondary_sources": [
       "SGinvestors.io REIT listing (https://sginvestors.io/sgx/reit-listing/alpha)",
@@ -8,7 +8,7 @@
       "Individual REIT IR pages",
       "Yahoo Finance chart API"
     ],
-    "last_validated": "2026-05-27",
+    "last_validated": "2026-10-26",
     "count": 39,
     "exclusions": [
       "Eagle Hospitality Trust (LIW) — trading suspended",
@@ -19,7 +19,8 @@
     "notes": [
       "Each REIT listed by its PRIMARY counter only. Dual-currency lines (Elite UK MENU/MXNU, IREIT 8U7U/UD1U, Stoneweg SEB/SET) are noted but only the most-liquid counter is the primary entry.",
       "Recent name changes: ESR REIT (was ESR-LOGOS REIT, ticker 9A4U); KORE US REIT (was Keppel Pacific Oak US REIT, CMOU unchanged); Landmark REIT (was Lippo Malls Indonesia Retail Trust, D5IU unchanged, mandate now broader Asia); Alpha Integrated REIT (was Sabana Industrial REIT, M1GU unchanged).",
-      "Recent IPOs: NTT DC REIT (14 Jul 2025); Centurion Accommodation REIT (25 Sep 2025); UI Boustead REIT (12 Mar 2026)."
+      "Recent IPOs: NTT DC REIT (14 Jul 2025); Centurion Accommodation REIT (25 Sep 2025); UI Boustead REIT (12 Mar 2026).",
+      "2026-10-26 re-validation: REITAS S-REIT sectors page (market caps as at 30 Jun 2026, SGX Chartbook Q2 2026) lists the same 39 REITs; all 39 tickers return live quotes on Yahoo; no SGX REIT listing, delisting or rename found Jul-Oct 2026. Pending pipeline (not listed): JD.com / Partners Group / EZA Hill industrial REIT."
     ]
   },
   "reits": [
