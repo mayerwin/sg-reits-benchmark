@@ -6,7 +6,7 @@ A re-runnable Singapore REIT screener and data pipeline. Built for investors mak
 
 ## What you get
 
-- **39 SGX-listed REITs and stapled property trusts** validated against REITAS / SGX / SGinvestors (May 2026).
+- **39 SGX-listed REITs and stapled property trusts** validated against REITAS / SGX / Yahoo (Oct 2026).
 - **Node.js pipeline** that pulls live market data from Yahoo Finance + REIT-disclosed metrics from manager IR filings only (no aggregators).
 - **A single-page web UI** with sortable filterable table, sticky-headed dense layout, sparklines, right-click context menu to jump to source, full Help page with terminology + analysis guidance, column show/hide + filter persistence + hide-REITs in localStorage.
 - **Two perspective gearing metrics:** the manager-disclosed gearing (which usually excludes perpetual securities) AND a gearing-incl-perpetuals view for real leverage.

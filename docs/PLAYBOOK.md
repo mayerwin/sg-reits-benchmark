@@ -86,7 +86,7 @@ The canonical universe of SGX-listed S-REITs and stapled property trusts lives i
    A blank line means the ticker is dead — investigate (renamed? delisted? suspended?).
 5. Update `_meta.last_validated` to today's date (ISO).
 
-The current `reits_master.json` was validated **2026-05-27** against all four sources, with 39 active REITs.
+The current `reits_master.json` was validated **2026-10-26** against all four sources, with 39 active REITs.
 
 ---
 

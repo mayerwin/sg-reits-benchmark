@@ -228,7 +228,8 @@ function scoreDistribution({ distribution_yield_ttm, payoutRatio, dpu_ttm_cents,
   let yieldScore = null;
   if (distribution_yield_ttm != null) {
     const y = distribution_yield_ttm * 100;
-    if (y >= 12) yieldScore = 35;       // extreme — almost certainly distressed
+    if (y <= 0) yieldScore = 0;         // distributions suspended — not a "low yield"
+    else if (y >= 12) yieldScore = 35;  // extreme — almost certainly distressed
     else if (y >= 9) yieldScore = 55;    // very high — strong yield-trap risk
     else if (y >= 7) yieldScore = 80;
     else if (y >= 5.5) yieldScore = 95;  // sweet spot
@@ -240,7 +241,9 @@ function scoreDistribution({ distribution_yield_ttm, payoutRatio, dpu_ttm_cents,
   // headline yield, that's a sign Yahoo is counting capital distributions / one-off top-ups
   // that the recurring distributable income can't sustain.
   let sustainScore = null;
-  if (distribution_yield_ttm != null && yahoo_dividend_yield != null && dpu_ttm_cents != null) {
+  if (distribution_yield_ttm === 0) {
+    sustainScore = 0; // nothing being paid — Yahoo's payoutRatio would score this as healthy
+  } else if (distribution_yield_ttm != null && yahoo_dividend_yield != null && dpu_ttm_cents != null) {
     const ratio = distribution_yield_ttm / yahoo_dividend_yield;
     if (ratio >= 0.98) sustainScore = 95;
     else if (ratio >= 0.90) sustainScore = 75;
@@ -360,10 +363,16 @@ async function main() {
     // P/NAV from manager-disclosed NAV when available, else Yahoo's price-to-book as fallback.
     // We tag the source so the SPA can warn the user when the fallback is used (priceToBook is
     // not strictly P/NAV for SG-listed instruments — different share-count conventions).
+    // NAV can be stated in a different currency from the price (Stoneweg trades in SGD, reports
+    // NAV in EUR), so convert the price into the NAV currency first.
     const navPerUnit = f.nav_per_unit;
+    const navCurrency = f.nav_per_unit_currency || currency;
+    const priceInNavCcy = (price != null && FX[currency] && FX[navCurrency])
+      ? price * FX[currency] / FX[navCurrency]
+      : price;
     let pNav = null, pNavSource = null;
-    if (navPerUnit != null && price != null && navPerUnit > 0) {
-      pNav = price / navPerUnit;
+    if (navPerUnit != null && priceInNavCcy != null && navPerUnit > 0) {
+      pNav = priceInNavCcy / navPerUnit;
       pNavSource = 'manager_nav';
     } else if (y.summary?.priceToBook != null) {
       pNav = y.summary.priceToBook;
@@ -385,6 +394,8 @@ async function main() {
     const distScore = scoreDistribution({
       distribution_yield_ttm: distYield,
       payoutRatio: y.summary?.payoutRatio,
+      dpu_ttm_cents: isStub ? null : f.dpu_ttm_cents,
+      yahoo_dividend_yield: yahooYield,
     });
     const valScore = null; // P/NAV scoring requires 5y history we don't have — left null for now
     const composite = compositeQualityScore({
@@ -471,6 +482,7 @@ async function main() {
 
       // Valuation
       nav_per_unit: navPerUnit ?? null,
+      nav_currency: navPerUnit != null ? navCurrency : null,
       p_nav: pNav,
       p_nav_source: pNavSource,
       trailing_pe: y.summary?.trailingPE,
@@ -543,6 +555,7 @@ async function main() {
       generated_at: new Date().toISOString(),
       master_validated: master._meta.last_validated,
       yahoo_generated_at: yahoo._meta.generated_at,
+      fx: FX,
       facts_groups_present: Object.keys(factsMeta),
       reit_count: records.length,
       doc: 'Per-field provenance lives in each record\'s .sources sub-object. See docs/METHODOLOGY.md for metric definitions.',
