@@ -73,6 +73,22 @@ jobs:
           echo "Hashed asset references:"
           grep -oE "(styles\.css|metrics-doc\.js|md\.js|app\.js)\?v=[0-9a-f]+" index.html
 
+      - name: Inject analytics script
+        if: vars.TIDESIGHT_URL != '' && vars.TIDESIGHT_SITE_ID != ''
+        env:
+          ANALYTICS_URL: ${{ vars.TIDESIGHT_URL }}
+          ANALYTICS_SITE: ${{ vars.TIDESIGHT_SITE_ID }}
+        run: |
+          python3 -c '
+          import os, pathlib
+          url, site = os.environ["ANALYTICS_URL"], os.environ["ANALYTICS_SITE"]
+          tag = f"  <script async src=\"{url}\" data-site=\"{site}\"></script>\n"
+          p = pathlib.Path("_site/index.html")
+          html = p.read_text(encoding="utf-8")
+          if url not in html:
+              p.write_text(html.replace("</head>", tag + "</head>", 1), encoding="utf-8")
+          '
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
